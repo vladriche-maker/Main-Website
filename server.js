@@ -31,10 +31,11 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
+    const smtpPort = parseInt(process.env.SMTP_PORT) || 587;
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.hostinger.com',
-      port: parseInt(process.env.SMTP_PORT) || 465,
-      secure: true,
+      port: smtpPort,
+      secure: smtpPort === 465,   // true for SSL on 465, false (STARTTLS) for 587
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
