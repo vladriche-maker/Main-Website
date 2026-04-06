@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book — The Partner-Ready Edit™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2C4669;
+      --orange: #FF7924;
+      --blue:   #2974B0;
+      --white:  #FFFFFF;
+      --off:    #F8F7F5;
+      --ink:    #1A1A1A;
+      --muted:  #6B6B6B;
+      --border: #E4E0D8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: var(--orange);
+    }
+
+    h1, h2, h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--navy);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .topbar-brand span { color: var(--orange); }
+
+    .topbar-back {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+      cursor: pointer;
+    }
+
+    .topbar-back:hover { color: var(--white); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy);
+      padding: 64px 48px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(41,116,176,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 20%, rgba(255,121,36,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.6);
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    /* ── Main layout ── */
+    .main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 72px 48px 100px;
+    }
+
+    /* ── Pricing cards ── */
+    .pricing-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .pricing-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--blue);
+      padding: 40px 36px 36px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .card.featured {
+      border-top-color: var(--orange);
+      background: var(--navy);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: -1px;
+      right: 28px;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+    }
+
+    .card-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+    }
+
+    .card.featured .card-label {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .card.featured .card-name { color: var(--white); }
+
+    .card-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .card.featured .card-price { color: var(--orange); }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 32px;
+      flex-grow: 1;
+    }
+
+    .card.featured .card-desc { color: rgba(255,255,255,0.55); }
+
+    .card-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 24px;
+    }
+
+    .card.featured .card-divider { background: rgba(255,255,255,0.12); }
+
+    .card-includes {
+      margin-bottom: 32px;
+    }
+
+    .card-includes-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .card.featured .card-includes-label { color: rgba(255,255,255,0.35); }
+
+    .card-include {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .card.featured .card-include { color: rgba(255,255,255,0.75); }
+
+    .card-include-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--orange);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .card.featured .card-include-dot { background: var(--orange); }
+
+    .btn-book {
+      display: block;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--white);
+      background: var(--orange);
+      border: none;
+      padding: 18px;
+      cursor: pointer;
+      transition: background 0.25s ease, transform 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-book:hover {
+      background: #e86a18;
+      transform: translateY(-1px);
+    }
+
+    .btn-book-outline {
+      display: block;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--navy);
+      background: transparent;
+      border: 1px solid var(--navy);
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-book-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .stripe-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .stripe-note svg {
+      width: 14px;
+      height: 14px;
+      color: #635BFF;
+    }
+
+    /* ── Divider ── */
+    .section-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      margin: 72px auto;
+    }
+
+    /* ── Testimonial ── */
+    .testimonial-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .client-photo {
+      aspect-ratio: 3/4;
+      background: var(--navy);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .client-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    .client-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.15);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px;
+      font-style: italic;
+    }
+
+    .client-photo-tag {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .testimonial-content {}
+
+    .stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 24px;
+    }
+
+    .star {
+      width: 16px;
+      height: 16px;
+      color: var(--orange);
+    }
+
+    .testimonial-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .topbar { padding: 16px 24px; }
+      .hero { padding: 48px 24px 64px; }
+      .main { padding: 48px 24px 72px; }
+      .cards { grid-template-columns: 1fr; }
+      .testimonial-section { grid-template-columns: 1fr; }
+      .client-photo { max-width: 320px; margin: 0 auto; }
+      footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-brand">Vladimir <span>Riché</span></div>
+    <a href="/" class="topbar-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to site
+    </a>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-eyebrow">One session. One outfit. A permanent reference.</p>
+    <h1>The Partner-Ready Edit™</h1>
+    <p class="hero-sub">Choose the option that works best for you.</p>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Pricing Cards -->
+    <p class="pricing-section-label">Investment</p>
+    <h2 class="pricing-heading">Two options. One outcome.</h2>
+
+    <div class="cards">
+
+      <!-- $500 card -->
+      <div class="card">
+        <p class="card-label">Standard</p>
+        <p class="card-name">Partner-Ready Edit</p>
+        <p class="card-price">$500</p>
+        <p class="card-desc">The full session — wardrobe analysis, a complete outfit built for your next high-stakes moment, direct shopping links, and a full recording you keep forever.</p>
+        <div class="card-divider"></div>
+        <div class="card-includes">
+          <p class="card-includes-label">What's included</p>
+          <div class="card-include"><div class="card-include-dot"></div><span>GPT-powered wardrobe analyzer (before the call)</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>Live wardrobe audit — what stays, what goes</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>One complete outfit with direct shopping links</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>Full session recording + written summary</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>TidyCal booking confirmation after payment</span></div>
+        </div>
+        <a href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o" class="btn-book-outline">
+          Select — $500
+        </a>
+      </div>
+
+      <!-- $1000 card -->
+      <div class="card featured">
+        <div class="card-badge">Most Private</div>
+        <p class="card-label">Confidential</p>
+        <p class="card-name">Private Edit</p>
+        <p class="card-price">$1,000</p>
+        <p class="card-desc">Everything in the standard Edit — with one key difference. No recording is made or used for any educational content. What happens in the session stays in the session.</p>
+        <div class="card-divider"></div>
+        <div class="card-includes">
+          <p class="card-includes-label">What's included</p>
+          <div class="card-include"><div class="card-include-dot"></div><span>Everything in the Partner-Ready Edit</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>Zero recording — complete session privacy</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>Written summary delivered privately via email</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>For partners who require full discretion</span></div>
+          <div class="card-include"><div class="card-include-dot"></div><span>TidyCal booking confirmation after payment</span></div>
+        </div>
+        <a href="https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l" class="btn-book">
+          Select — $1,000
+        </a>
+      </div>
+
+    </div>
+
+    <p class="stripe-note">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+      All payments are processed securely via Stripe
+    </p>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Testimonial -->
+    <div class="testimonial-section">
+      <div class="client-photo">
+        <img src="jahlon.reid 2026.JPEG" alt="Jahlon R." />
+        <div class="client-photo-tag">A Partner-Ready Edit client</div>
+      </div>
+      <div class="testimonial-content">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="testimonial-text">"It's wild how much money I was wasting on clothes that didn't work together. One session fixed that. Now every piece in my closet has a purpose."</p>
+        <p class="testimonial-name">Jahlon R.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">Vladimir <span>Riché</span></div>
+    <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

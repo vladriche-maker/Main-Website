@@ -73,6 +73,68 @@ app.post('/contact', async (req, res) => {
   }
 });
 
+// ── Page routes (clean URLs for single-page app) ──
+// These serve index.html; the JS reads the path and shows the right section
+['/about', '/contact', '/resources'].forEach(route => {
+  app.get(route, (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  });
+});
+
+// /edit shows the Edit section of the main site
+app.get('/edit', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Dedicated sub-pages
+app.get('/book', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'book.html'));
+});
+
+app.get('/5signals', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', '5signals.html'));
+});
+
+// ── MailerLite subscribe endpoint ──────────────────
+// Add MAILERLITE_API_KEY to your Hostinger environment variables
+app.post('/subscribe', async (req, res) => {
+  const { name, email, groupId } = req.body;
+
+  if (!email || !groupId) {
+    return res.status(400).json({ success: false, message: 'Email is required.' });
+  }
+
+  try {
+    const payload = {
+      email,
+      groups: [groupId]
+    };
+    if (name) payload.fields = { name };
+
+    const response = await fetch('https://connect.mailerlite.com/api/subscribers', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (response.ok || response.status === 200 || response.status === 201) {
+      res.json({ success: true });
+    } else {
+      console.error('MailerLite error:', data);
+      res.status(400).json({ success: false, message: 'Could not subscribe. Please try again.' });
+    }
+  } catch (error) {
+    console.error('Subscribe error:', error);
+    res.status(500).json({ success: false, message: 'Something went wrong.' });
+  }
+});
+
 // Catch-all: serve index.html for any unmatched route
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

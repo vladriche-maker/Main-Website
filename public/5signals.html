@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5 Associate Tells — Vladimir Riché</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2C4669;
+      --orange: #FF7924;
+      --blue:   #2974B0;
+      --white:  #FFFFFF;
+      --off:    #F8F7F5;
+      --ink:    #1A1A1A;
+      --muted:  #6B6B6B;
+      --border: #E4E0D8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Orange accent bar at very top */
+    body::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: var(--orange);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--navy);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .topbar-brand span { color: var(--orange); }
+
+    .topbar-back {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+    .topbar-back:hover { color: var(--white); }
+
+    /* ── Two-column layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 68px);
+    }
+
+    /* ── Left: navy with cover image ── */
+    .left {
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .left::before {
+      content: '';
+      position: absolute;
+      bottom: -120px;
+      right: -120px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255, 121, 36, 0.06);
+      pointer-events: none;
+    }
+
+    .left::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(41, 116, 176, 0.08);
+      pointer-events: none;
+    }
+
+    .cover-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .cover-image-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 340px;
+      margin: 0 auto;
+    }
+
+    .cover-image-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.45), 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .cover-caption {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    /* ── Right: white with form ── */
+    .right {
+      background: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px 64px 64px 56px;
+    }
+
+    .right-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .right-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(30px, 3.5vw, 46px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .right-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 1.8vw, 22px);
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 32px;
+      line-height: 1.4;
+    }
+
+    .inside-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .inside-list {
+      list-style: none;
+      margin-bottom: 36px;
+    }
+
+    .inside-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 9px;
+      line-height: 1.5;
+    }
+
+    .inside-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--orange);
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .form-rule {
+      width: 40px;
+      height: 2px;
+      background: var(--border);
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-top: 2px solid var(--border);
+      padding: 13px 16px;
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
+    }
+
+    .form-input::placeholder { color: #B8B3AA; }
+
+    .form-input:focus {
+      background: var(--white);
+      border-color: var(--navy);
+      border-top-color: var(--orange);
+    }
+
+    .form-submit {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      border: none;
+      padding: 18px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.25s;
+    }
+
+    .form-submit:hover { background: #e86a18; }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-privacy {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 12px;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+
+    .form-message {
+      display: none;
+      padding: 14px 18px;
+      font-size: 13px;
+      margin-top: 14px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .form-message.success {
+      display: block;
+      background: #EFF6EE;
+      border: 1px solid #C3DFC0;
+      color: #2D6A27;
+    }
+
+    .form-message.error {
+      display: block;
+      background: #FEF2F0;
+      border: 1px solid #F7C5BB;
+      color: #A83228;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    .footer-copy {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 780px) {
+      .topbar { padding: 18px 24px; }
+      .layout { grid-template-columns: 1fr; min-height: auto; }
+      .left { padding: 48px 32px; }
+      .cover-image-wrap { max-width: 260px; }
+      .right { padding: 48px 32px 56px; }
+      footer { padding: 20px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .left { padding: 40px 24px; }
+      .right { padding: 40px 24px 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Orange accent bar rendered via body::before -->
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-brand">Vladimir <span>Riché</span></div>
+    <a href="/" class="topbar-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to site
+    </a>
+  </div>
+
+  <div class="layout">
+
+    <!-- Left: cover image -->
+    <div class="left">
+      <p class="cover-eyebrow">Free Guide</p>
+      <div class="cover-image-wrap">
+        <img src="5 Associate Tells Cover.png" alt="5 Associate Tells — Free Guide" />
+      </div>
+      <p class="cover-caption">Instant download — no wait, no fluff</p>
+    </div>
+
+    <!-- Right: headline + form -->
+    <div class="right">
+      <p class="right-eyebrow">You made partner</p>
+      <h1 class="right-heading">5 Associate<br>Tells</h1>
+      <p class="right-sub">Your wardrobe might not know it yet.</p>
+
+      <p class="inside-label">What's inside</p>
+      <ul class="inside-list">
+        <li>Your suit speaks before you do</li>
+        <li>The shoe mistake that gives you away</li>
+        <li>What your tie is broadcasting</li>
+        <li>Why the right pieces still fail</li>
+        <li>The one fix that changes everything</li>
+      </ul>
+
+      <div class="form-rule"></div>
+
+      <form id="signals-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="sig-name">First Name</label>
+          <input class="form-input" type="text" id="sig-name" name="name" placeholder="Vladimir" autocomplete="given-name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="sig-email">Email Address</label>
+          <input class="form-input" type="email" id="sig-email" name="email" placeholder="you@firm.com" required autocomplete="email" />
+        </div>
+        <button type="submit" class="form-submit" id="sig-submit">Send Me The Guide</button>
+        <p class="form-privacy">We respect your privacy. Unsubscribe at any time.</p>
+        <div class="form-message" id="sig-message"></div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">Vladimir <span>Riché</span></div>
+    <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('signals-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('sig-submit');
+      const msg = document.getElementById('sig-message');
+      const email = document.getElementById('sig-email').value.trim();
+      const name  = document.getElementById('sig-name').value.trim();
+
+      if (!email) {
+        msg.className = 'form-message error';
+        msg.textContent = 'Please enter your email address.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      msg.className = 'form-message';
+
+      try {
+        const res = await fetch('/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            name,
+            groupId: '182792861833495840'
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          msg.className = 'form-message success';
+          msg.textContent = 'Check your inbox. The guide is on its way.';
+          document.getElementById('signals-form').reset();
+        } else {
+          throw new Error(data.message || 'Something went wrong.');
+        }
+      } catch (err) {
+        msg.className = 'form-message error';
+        msg.textContent = err.message || 'Something went wrong. Please try again.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Me The Guide';
+      }
+    });
+  </script>
+
+</body>
+</html>
