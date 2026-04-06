@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're In: The Partner-Ready Edit™</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2C4669;
+      --orange: #FF7924;
+      --blue:   #2974B0;
+      --white:  #FFFFFF;
+      --off:    #F8F7F5;
+      --ink:    #1A1A1A;
+      --muted:  #6B6B6B;
+      --border: #E4E0D8;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 4px;
+      background: var(--orange);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--navy);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .topbar-brand span { color: var(--orange); }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--navy);
+      padding: 64px 48px 72px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(41,116,176,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 20%, rgba(255,121,36,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.55);
+      position: relative;
+    }
+
+    /* ── Main ── */
+    .main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 48px 100px;
+    }
+
+    /* ── Step blocks ── */
+    .step {
+      margin-bottom: 88px;
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 4px;
+    }
+
+    .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.15;
+    }
+
+    .step-divider {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Step 1: two-column ── */
+    .step-grid {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* ── Vimeo embed ── */
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      background: var(--navy);
+    }
+
+    .video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Instructions column ── */
+    .instructions-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .instructions-intro {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .gpt-link-block {
+      background: var(--off);
+      border-left: 3px solid var(--orange);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .gpt-link-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .gpt-link-block a {
+      font-size: 14px;
+      color: var(--blue);
+      font-weight: 400;
+      word-break: break-all;
+    }
+
+    .gpt-link-block a:hover {
+      text-decoration: underline;
+    }
+
+    .tell-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .tell-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+
+    .tell-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .tell-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--orange);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .instructions-close {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.75;
+      font-style: italic;
+    }
+
+    /* ── Section divider ── */
+    .section-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      margin: 0 0 88px;
+    }
+
+    /* ── Step 2: booking ── */
+    .booking-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      margin-bottom: 48px;
+      align-items: start;
+    }
+
+    .booking-text p {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .booking-text p:last-child { margin-bottom: 0; }
+
+    .call-list {
+      list-style: none;
+    }
+
+    .call-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .call-list li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--orange);
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .booking-note {
+      background: var(--off);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--navy);
+      padding: 24px 28px;
+    }
+
+    .booking-note-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .booking-note p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* TidyCal embed container */
+    .tidycal-container {
+      margin-top: 16px;
+    }
+
+    /* ── Step 3: closing ── */
+    .closing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .closing-text-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .closing-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .closing-body p {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .closing-body p:last-child { margin-bottom: 0; }
+
+    .closing-outcomes {
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .closing-outcome {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--navy);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.4;
+    }
+
+    .closing-image {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .closing-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--navy);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .topbar { padding: 16px 24px; }
+      .hero { padding: 48px 24px 56px; }
+      .main { padding: 56px 24px 72px; }
+      .step-grid,
+      .booking-intro,
+      .closing-grid { grid-template-columns: 1fr; gap: 36px; }
+      .step-divider { display: none; }
+      footer { padding: 24px; flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Orange accent via body::before -->
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-brand">Vladimir <span>Riché</span></div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <p class="hero-eyebrow">Payment confirmed</p>
+    <h1>Welcome to<br>The Partner-Ready Edit™</h1>
+    <p class="hero-sub">Three steps to make the most of your session.</p>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- ── Step 1 ── -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-number">1</div>
+        <div>
+          <p class="step-label">Before the call</p>
+          <h2 class="step-title">Get Your First Draft Ready</h2>
+        </div>
+        <div class="step-divider"></div>
+      </div>
+
+      <div class="step-grid">
+
+        <!-- Video -->
+        <div class="video-wrap">
+          <iframe
+            src="https://player.vimeo.com/video/1140274219"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowfullscreen
+            title="Partner-Ready Edit Instructions">
+          </iframe>
+        </div>
+
+        <!-- Instructions -->
+        <div>
+          <p class="instructions-eyebrow">Your prep exercise</p>
+          <p class="instructions-intro">Before our call, I want you to complete a simple prep exercise so I can give you the most accurate guidance.</p>
+
+          <div class="gpt-link-block">
+            <p class="gpt-link-label">Visit my Capsule Wardrobe Guide GPT</p>
+            <a href="https://vladimirriche.com/capsule-guide" target="_blank" rel="noopener">vladimirriche.com/capsule-guide</a>
+          </div>
+
+          <p class="tell-label">Inside the GPT, tell it three things</p>
+          <ul class="tell-list">
+            <li>Your dress code at work</li>
+            <li>Your location or climate</li>
+            <li>The pieces you currently have in your wardrobe</li>
+          </ul>
+
+          <p class="instructions-close">This gives you your first rough draft of what your wardrobe looks like today. Bring that draft to our call. We'll clean it up together and turn it into a real plan.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ── Step 2 ── -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-number">2</div>
+        <div>
+          <p class="step-label">Lock in your time</p>
+          <h2 class="step-title">Book Your Edit Call</h2>
+        </div>
+        <div class="step-divider"></div>
+      </div>
+
+      <div class="booking-intro">
+        <div class="booking-text">
+          <p>On the call, we will:</p>
+          <ul class="call-list">
+            <li>Define your personal style direction</li>
+            <li>Review the pieces you already own</li>
+            <li>Identify what to keep, what to replace, and what to add</li>
+            <li>Build the high-level blueprint for your new wardrobe</li>
+          </ul>
+          <p style="margin-top: 20px;">You will walk away with clarity. You will know exactly what your wardrobe needs next and the direction we are building toward.</p>
+        </div>
+
+        <div class="booking-note">
+          <p class="booking-note-label">Before you finalize</p>
+          <p>You'll answer five quick questions inside the calendar. These help me understand where you are with your style right now so I can guide you through the session properly.</p>
+          <p style="margin-top: 10px;">Your answers shape your direction. Take a minute and answer them honestly. This helps us move faster and gives you a clearer result.</p>
+        </div>
+      </div>
+
+      <div class="tidycal-container">
+        <div class="tidycal-embed" data-path="vladriche/professional-wardrobe-audit"></div>
+        <script src="https://asset-tidycal.b-cdn.net/js/embed.js" async></script>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ── Step 3 ── -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-number">3</div>
+        <div>
+          <p class="step-label">On the day</p>
+          <h2 class="step-title">Get Ready for Your Transformation</h2>
+        </div>
+        <div class="step-divider"></div>
+      </div>
+
+      <div class="closing-grid">
+        <div>
+          <p class="closing-text-label">What to expect</p>
+          <h3 class="closing-heading">This is where the real work begins.</h3>
+          <div class="closing-body">
+            <p>Come to the call with your GPT draft, an open wardrobe, and an honest eye. We move fast and we don't waste time.</p>
+            <p>By the end of the session, you will have one complete outfit built specifically for your next high-stakes moment, with direct shopping links for anything you need to add.</p>
+          </div>
+          <div class="closing-outcomes">
+            <p class="closing-outcome">You will walk away with clarity.</p>
+            <p class="closing-outcome">You will know exactly what your wardrobe needs next.</p>
+            <p class="closing-outcome">You will know the direction we are building toward.</p>
+          </div>
+        </div>
+
+        <div class="closing-image">
+          <img src="Vladimir.jpg" alt="Vladimir Riché" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">Vladimir <span>Riché</span></div>
+    <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>

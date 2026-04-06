@@ -96,6 +96,14 @@ app.get('/5signals', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '5signals.html'));
 });
 
+app.get('/edit/confirmed', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'edit-confirmed.html'));
+});
+
+app.get('/capsule-guide', (req, res) => {
+  res.redirect(301, 'https://chatgpt.com/g/g-691dcf33abb88191b28a7f683790512b-capsule-wardrobe-guide');
+});
+
 // ── MailerLite subscribe endpoint ──────────────────
 // Add MAILERLITE_API_KEY to your Hostinger environment variables
 app.post('/subscribe', async (req, res) => {
