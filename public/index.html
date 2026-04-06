@@ -247,7 +247,7 @@
     }
 
     .hero-sub {
-      font-size: 16px;
+      font-size: 19px;
       font-weight: 300;
       color: rgba(255,255,255,0.65);
       max-width: 480px;
@@ -349,7 +349,7 @@
     }
 
     .home-intro p {
-      font-size: 15px;
+      font-size: 17px;
       color: var(--muted);
       line-height: 1.85;
       margin-bottom: 16px;
@@ -416,7 +416,7 @@
     }
 
     .home-offer p {
-      font-size: 16px;
+      font-size: 18px;
       color: var(--muted);
       line-height: 1.85;
       margin-bottom: 40px;
@@ -489,7 +489,7 @@
     }
 
     .about-content p {
-      font-size: 15px;
+      font-size: 17px;
       color: var(--muted);
       line-height: 1.9;
       margin-bottom: 20px;
@@ -538,7 +538,7 @@
     }
 
     .pillar p {
-      font-size: 14px;
+      font-size: 16px;
       color: var(--muted);
       line-height: 1.7;
       margin: 0;
@@ -586,15 +586,15 @@
 
     .edit-lead {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(22px, 3vw, 30px);
+      font-size: clamp(26px, 2.5vw, 36px) !important;
       color: var(--navy);
-      line-height: 1.6;
+      line-height: 1.5;
       margin-bottom: 48px;
       font-style: italic;
     }
 
     .edit-body p {
-      font-size: 15px;
+      font-size: 17px;
       color: var(--muted);
       line-height: 1.9;
       margin-bottom: 20px;
@@ -646,7 +646,7 @@
     }
 
     .edit-include-item p {
-      font-size: 14px;
+      font-size: 16px;
       margin: 0;
     }
 
@@ -696,7 +696,7 @@
     }
 
     .edit-criterion p {
-      font-size: 15px;
+      font-size: 17px;
       color: var(--ink);
       line-height: 1.7;
       margin: 0;
@@ -715,10 +715,104 @@
     }
 
     .edit-cta p {
-      font-size: 15px;
+      font-size: 17px;
       color: rgba(255,255,255,0.6);
       margin-bottom: 40px;
       line-height: 1.8;
+    }
+
+    /* Testimonial block */
+    .testimonial {
+      background: var(--off);
+      border-left: 3px solid var(--orange);
+      padding: 32px 36px;
+      margin: 48px 0;
+    }
+
+    .testimonial-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(18px, 2.5vw, 24px);
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Pricing cards */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    .pricing-card {
+      background: var(--white);
+      padding: 40px 36px;
+    }
+
+    .pricing-card.featured {
+      background: var(--navy);
+    }
+
+    .pricing-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .pricing-card.featured .pricing-label {
+      color: rgba(255,255,255,0.5);
+    }
+
+    .pricing-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .pricing-card.featured .pricing-name {
+      color: var(--white);
+    }
+
+    .pricing-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .pricing-card.featured .pricing-price {
+      color: var(--orange);
+    }
+
+    .pricing-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .pricing-card.featured .pricing-desc {
+      color: rgba(255,255,255,0.55);
+    }
+
+    @media (max-width: 600px) {
+      .pricing-grid { grid-template-columns: 1fr; }
     }
 
     /* ─── CONTACT ─────────────────────────────────── */
@@ -736,7 +830,7 @@
     }
 
     .contact-hero p {
-      font-size: 15px;
+      font-size: 17px;
       color: rgba(255,255,255,0.6);
       max-width: 440px;
       margin: 0 auto;
@@ -756,7 +850,7 @@
     .form-label {
       display: block;
       font-family: 'Inter', sans-serif;
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 400;
       color: var(--ink);
       margin-bottom: 8px;
@@ -775,7 +869,7 @@
     .form-textarea {
       width: 100%;
       font-family: 'Inter', sans-serif;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 300;
       color: var(--ink);
       background: var(--white);
@@ -1011,7 +1105,7 @@
       <div>
         <p class="home-intro-label">The Work</p>
         <h2>Dressing for the role you've earned.</h2>
-        <p>Making partner is a career-defining moment. The expectations shift. The rooms change. The stakes are higher — and your wardrobe needs to reflect that without you having to think about it.</p>
+        <p>Making partner is a career-defining moment. The expectations shift. The rooms change. The stakes are higher, and your wardrobe needs to reflect that without you having to think about it.</p>
         <p>I work with a small number of newly named partners each year to build precise, functional capsule wardrobes designed for their specific firm culture, lifestyle, and ambitions.</p>
         <p>No generic formulas. No overwhelming options. Just clarity.</p>
         <div style="margin-top: 32px;">
@@ -1026,9 +1120,9 @@
 
     <section class="home-offer">
       <div class="home-offer-inner">
-        <p class="home-offer-label">Entry Offer</p>
-        <h2>The Partner-Ready Edit</h2>
-        <p>A focused, high-precision wardrobe engagement built for the newly named partner. Everything you need. Nothing you don't.</p>
+        <p class="home-offer-label">The Offer</p>
+        <h2>The Partner-Ready Edit™</h2>
+        <p>One session. One outfit for your next high-stakes moment. A permanent reference for every time you shop after that. Starting at $500.</p>
         <button class="btn-primary" onclick="showPage('edit')">
           Learn More
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1069,42 +1163,21 @@
       </div>
 
       <div class="about-content">
-        <h2>The consultant behind the wardrobe.</h2>
-        <p>I'm Vladimir Riché — a personal style consultant working exclusively with high-performing professionals in finance and law at a pivotal moment in their careers: the day they make partner.</p>
-        <p>That promotion changes everything. The meetings you're in, the clients you're facing, the authority you need to project. <strong>Most people dress for the job they had. I help them dress for the one they just earned.</strong></p>
-        <p>My approach is precise, private, and built entirely around your life — your firm's culture, your client base, your schedule, your existing wardrobe. I don't do generic style guides. I do the work.</p>
+        <h2>Most newly-made partners dress like they're still trying to make partner.</h2>
+        <p>The position changed. The wardrobe didn't.</p>
+        <p>You've spent real money on clothes. Tom Ford, Canali, a few things from Saks. And there's still something slightly off. A suit that's been meaning to go to the tailor since 2019. An all-year-round fabric that's never quite comfortable. Pieces that are good on their own and don't add up to anything together.</p>
+        <p><strong style="color: var(--ink);">Spending well and dressing well are two different skills.</strong> GQ spent decades teaching men one of them. It's the wrong one.</p>
 
         <div class="about-divider"></div>
 
-        <h2>Why capsule wardrobes for partners.</h2>
-        <p>A capsule wardrobe isn't minimalism for its own sake. It's a decision you make once — so you never have to think about it again. For partners billing at your level, mental bandwidth is the most valuable thing you have.</p>
-        <p>The right wardrobe becomes invisible in the best possible way. It just works. Every meeting. Every client. Every room.</p>
+        <p>The GQ model was never built for men who need to command a room. The slim silhouettes, the recognizable brands, the trend cycle that starts over every two years — none of it was designed for authority. It was designed to sell magazines.</p>
+        <p>That's where I come in.</p>
 
         <div class="about-divider"></div>
 
-        <p class="home-intro-label" style="margin-bottom: 16px;">What I bring to the work</p>
-        <div class="about-pillars">
-          <div class="pillar">
-            <div class="pillar-num">01</div>
-            <h4>Precision</h4>
-            <p>No wasted pieces. Every item serves a specific function in your professional life.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar-num">02</div>
-            <h4>Discretion</h4>
-            <p>Private by design. My clients don't discuss their wardrobe work. Neither do I.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar-num">03</div>
-            <h4>Context</h4>
-            <p>Finance and law have different visual cultures. I know the difference.</p>
-          </div>
-          <div class="pillar">
-            <div class="pillar-num">04</div>
-            <h4>Longevity</h4>
-            <p>Built to last. The capsule you leave with is one you won't need to revisit for years.</p>
-          </div>
-        </div>
+        <p>RG looks the part of a partner, instantly. JH commands respect before he speaks. JC gets dressed in minutes, without second-guessing.</p>
+        <p>After the Edit, you stop walking into rooms wondering if the clothes are doing their job. You know what you're broadcasting before you walk in. The wardrobe finally matches the position you've earned.</p>
+        <p><strong style="color: var(--ink);">The room makes its decision before you open your mouth.</strong></p>
 
         <div style="margin-top: 48px;">
           <button class="btn-primary" onclick="showPage('edit')">
@@ -1129,103 +1202,88 @@
   <div id="page-edit" class="page page-wrap">
 
     <div class="edit-hero">
-      <p class="edit-hero-label">Entry Offer</p>
-      <h1>The Partner-Ready Edit</h1>
-      <p>A focused wardrobe engagement for the newly named partner in finance or law.</p>
+      <p class="edit-hero-label">The Offer</p>
+      <h1>The Partner-Ready Edit™</h1>
+      <p>By Vladimir Riché</p>
     </div>
 
     <div class="edit-body">
-      <p class="edit-lead">"You don't need more clothes. You need the right ones — chosen once, worn with confidence, for years."</p>
+      <p class="edit-lead">You just made partner. And somehow you're still standing in front of your closet the night before a big meeting with no clear answer.</p>
 
-      <p>Making partner is one of the most significant professional milestones of your career. But the wardrobe most partners arrive with was built for an earlier version of their role — and it shows.</p>
-      <p>The Partner-Ready Edit is my entry engagement: a high-precision capsule wardrobe built specifically around your new reality. Your firm. Your clients. Your life outside the office. Done.</p>
+      <p>You need a system. Right now, you don't have one.</p>
+
+      <p>I spent 20 years in property management sitting across from high-net-worth clients. I watched how rooms responded to men before they said a word. The guys who got taken seriously first weren't always the smartest. <strong style="color: var(--ink);">They just looked like they belonged.</strong></p>
+
+      <p>That's what this session builds.</p>
 
       <div class="edit-divider"></div>
 
       <div class="edit-section">
-        <p class="edit-section-label">What's Included</p>
-        <h2>Everything you need. Nothing you don't.</h2>
-        <p>The edit covers every professional context you operate in, built to work together as a coherent system — not a random collection of pieces.</p>
+        <p class="edit-section-label">What Happens</p>
+        <h2>Three steps. One session. A permanent reference.</h2>
       </div>
 
       <div class="edit-includes">
         <div class="edit-include-item">
-          <h4>Wardrobe Audit</h4>
-          <p>A full review of what you currently own — identifying what stays, what goes, and what's missing.</p>
+          <h4>Before the Call</h4>
+          <p>You complete a GPT-powered wardrobe analyzer, so we already know what's wrong before we speak.</p>
         </div>
         <div class="edit-include-item">
-          <h4>Capsule Blueprint</h4>
-          <p>A precise, personalised list of every piece in your new wardrobe, with specific recommendations for each one.</p>
+          <h4>On the Call</h4>
+          <p>We go through what you own. What stays, what goes, what's missing. With precision and without judgment.</p>
         </div>
         <div class="edit-include-item">
-          <h4>Shopping Direction</h4>
-          <p>Exact brands, stores, and items curated to your budget, body, and firm culture. No guesswork.</p>
+          <h4>Your Outfit</h4>
+          <p>I build you one complete outfit for your next high-stakes moment and send you direct links to every piece.</p>
         </div>
         <div class="edit-include-item">
-          <h4>Outfit System</h4>
-          <p>A clear, repeatable outfit matrix so you never stand in front of your wardrobe wondering what to wear.</p>
-        </div>
-        <div class="edit-include-item">
-          <h4>Fit Guidance</h4>
-          <p>Detailed guidance on fit, tailoring, and what to look for so every piece looks like it was made for you.</p>
-        </div>
-        <div class="edit-include-item">
-          <h4>Follow-Up Session</h4>
-          <p>A review session after you've made your purchases to ensure everything lands exactly as intended.</p>
+          <h4>Your Reference</h4>
+          <p>You get a full recording and written summary. A permanent reference every time you shop.</p>
         </div>
       </div>
 
       <div class="edit-divider"></div>
 
-      <p style="font-size: 15px; color: var(--muted); line-height: 1.9;">
-        <!-- Add pricing or additional context here -->
-        <!-- Example: "Investment starts at $X,XXX. A limited number of engagements are accepted each quarter." -->
-        This engagement is available to a limited number of partners each quarter. If you're interested, the best first step is to get in touch.
-      </p>
+      <p class="edit-section-label">The Standard</p>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.5vw, 26px); color: var(--navy); line-height: 1.6; margin-bottom: 20px;">The benchmark isn't compliments. It's that nobody questions your authority. You just look right.</p>
+
+      <div class="testimonial">
+        <p class="testimonial-text">"My client Jay came to me looking like a GQ ad in all the wrong ways. Every room he walked into, his outfit was the first thing people noticed. After working together, that stopped. The room stopped noticing his clothes. They started noticing him."</p>
+        <p class="testimonial-name">Vladimir Riché</p>
+      </div>
+
+      <div class="edit-divider"></div>
+
+      <p class="edit-section-label">Investment</p>
+      <h2 style="font-size: clamp(28px, 3vw, 40px); color: var(--navy); margin-bottom: 24px;">Two options. One outcome.</h2>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <p class="pricing-label">Standard</p>
+          <p class="pricing-name">Partner-Ready Edit</p>
+          <p class="pricing-price">$500</p>
+          <p class="pricing-desc">The full session, recording, written summary, and direct shopping links. Everything you need to solve this permanently.</p>
+        </div>
+        <div class="pricing-card featured">
+          <p class="pricing-label">Private</p>
+          <p class="pricing-name">Private Edit</p>
+          <p class="pricing-price">$1,000</p>
+          <p class="pricing-desc">No recording used for educational content. Completely private. For the partner who requires full discretion.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.9; font-style: italic;">Authority is read before you speak. This edit makes sure it's saying the right thing.</p>
     </div>
 
-    <section class="edit-for">
-      <div class="edit-for-inner">
-        <p class="edit-section-label">Who This Is For</p>
-        <h2>You've earned this room. Let's make sure you look the part.</h2>
-
-        <div class="edit-criteria">
-          <div class="edit-criterion">
-            <div class="edit-criterion-dot"></div>
-            <p>You've recently made partner — or you're about to — in a finance or law firm.</p>
-          </div>
-          <div class="edit-criterion">
-            <div class="edit-criterion-dot"></div>
-            <p>You know your wardrobe doesn't quite match where you are now, but you don't know exactly what to do about it.</p>
-          </div>
-          <div class="edit-criterion">
-            <div class="edit-criterion-dot"></div>
-            <p>You want a permanent solution, not another weekend shopping trip that doesn't quite work out.</p>
-          </div>
-          <div class="edit-criterion">
-            <div class="edit-criterion-dot"></div>
-            <p>You'd rather spend your time billing — or living — than thinking about what to wear.</p>
-          </div>
-          <div class="edit-criterion">
-            <div class="edit-criterion-dot"></div>
-            <p>You value precision, discretion, and working with someone who understands your world.</p>
-          </div>
-        </div>
-
-        <button class="btn-primary" onclick="showPage('contact')">
-          Apply Now
+    <section class="edit-cta">
+      <h2>Book your session.</h2>
+      <p>Authority is read before you speak. This edit makes sure it's saying the right thing.</p>
+      <a href="https://vladimirriche.com/book" target="_blank" rel="noopener">
+        <button class="btn-primary">
+          Book Your Session
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
-      </div>
-    </section>
-
-    <section class="edit-cta">
-      <h2>Ready to make the edit?</h2>
-      <p>Get in touch and tell me about where you are. I'll take it from there.</p>
-      <button class="btn-primary" onclick="showPage('contact')">
-        Get in Touch
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
+      </a>
     </section>
 
     <footer>
