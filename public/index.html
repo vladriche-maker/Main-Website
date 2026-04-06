@@ -53,11 +53,10 @@
     /* ─── Navigation ─────────────────────────────────── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+      top: 4px; left: 0; right: 0;
+      z-index: 1000;
       height: var(--nav-h);
       background: var(--white);
-      border-top: 4px solid var(--orange);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -869,6 +868,16 @@
       text-align: center;
     }
 
+    .contact-hero-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
     .contact-hero h1 {
       font-size: clamp(48px, 6vw, 80px);
       color: var(--white);
@@ -1084,6 +1093,9 @@
   </style>
 </head>
 <body>
+
+  <!-- Orange accent bar — hardcoded, cannot be hidden -->
+  <div style="position:fixed;top:0;left:0;right:0;height:4px;background:#FF7924;z-index:99999;"></div>
 
   <!-- ── Navigation ─────────────────────────────── -->
   <nav id="main-nav">
@@ -1387,6 +1399,7 @@
   <div id="page-contact" class="page page-wrap">
 
     <div class="contact-hero">
+      <p class="contact-hero-label">Reach Out</p>
       <h1>Get in Touch</h1>
       <p>Tell me about where you are. I'll take it from there.</p>
     </div>
