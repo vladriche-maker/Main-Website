@@ -35,17 +35,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    body::before {
-      content: '';
-      display: block;
-      width: 100%;
-      height: 4px;
-      background: var(--orange);
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 200;
-    }
 
     h1, h2, h3, h4 {
       font-family: 'Cormorant Garamond', serif;
@@ -64,10 +53,11 @@
     /* ─── Navigation ─────────────────────────────────── */
     nav {
       position: fixed;
-      top: 4px; left: 0; right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
       height: var(--nav-h);
       background: var(--white);
+      border-top: 4px solid var(--orange);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -149,22 +139,14 @@
 
     .nav-icons svg { width: 18px; height: 18px; }
 
-    .nav-linkedin {
+    .nav-li-icon {
       display: flex;
       align-items: center;
-      gap: 8px;
-      background: #0A66C2;
-      color: var(--white) !important;
-      padding: 7px 14px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      transition: background 0.2s ease !important;
+      color: var(--muted);
+      transition: color 0.2s ease;
     }
 
-    .nav-linkedin:hover { background: #004fa3 !important; color: var(--white) !important; }
-    .nav-linkedin svg { width: 14px; height: 14px; }
+    .nav-li-icon:hover { color: #0A66C2; }
 
     /* Floating social sidebar */
     .social-sidebar {
@@ -524,18 +506,10 @@
     }
 
     .about-photo {
-      background: var(--navy);
-      aspect-ratio: 3/4;
+      background: var(--off);
       position: sticky;
       top: calc(var(--nav-h) + 32px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.15);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 14px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      overflow: hidden;
     }
 
     .about-photo-caption {
@@ -1123,14 +1097,14 @@
       <li><button onclick="showPage('edit')" id="nav-edit">The Partner-Ready Edit</button></li>
       <!-- Free Resources tab hidden until ready: <li><button onclick="showPage('resources')" id="nav-resources">Free Resources</button></li> -->
       <li><button onclick="showPage('contact')" id="nav-contact">Contact</button></li>
+      <li>
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-li-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+      </li>
     </ul>
 
-    <div class="nav-icons">
-      <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-linkedin">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        <span>LinkedIn</span>
-      </a>
-    </div>
+    <div class="nav-icons"></div>
 
     <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1197,7 +1171,7 @@
         </div>
       </div>
       <div class="home-intro-visual">
-        <div class="home-intro-visual-inner">VR</div>
+        <img src="Vladimir 2.JPEG" alt="Vladimir Riché" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" />
         <div class="home-intro-visual-tag">Vladimir Riché</div>
       </div>
     </section>
@@ -1240,7 +1214,7 @@
     <div class="about-body">
       <div style="position: relative;">
         <div class="about-photo">
-          <img src="Vladimir.jpg" alt="Vladimir Riché" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <img src="Vladimir 2.JPEG" alt="Vladimir Riché" style="width:100%;height:auto;display:block;" />
           <div class="about-photo-caption">Vladimir Riché</div>
         </div>
       </div>
