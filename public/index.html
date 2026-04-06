@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vladimir Riché</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2C4669;
+      --orange: #FF7924;
+      --blue:   #2974B0;
+      --white:  #FFFFFF;
+      --off:    #F8F7F5;
+      --ink:    #1A1A1A;
+      --muted:  #6B6B6B;
+      --border: #E4E0D8;
+      --nav-h:  72px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ─── Pages ─────────────────────────────────────── */
+    .page { display: none; min-height: calc(100vh - var(--nav-h)); }
+    .page.active { display: block; }
+
+    /* ─── Navigation ─────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    nav.scrolled { box-shadow: 0 2px 24px rgba(44,70,105,0.08); }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--navy);
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .nav-logo span { color: var(--orange); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links li a,
+    .nav-links li button {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links li button::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--orange);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links li button:hover,
+    .nav-links li button.active {
+      color: var(--navy);
+    }
+
+    .nav-links li button.active::after,
+    .nav-links li button:hover::after {
+      width: 100%;
+    }
+
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icons a {
+      display: flex;
+      align-items: center;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .nav-icons a:hover { color: var(--navy); }
+
+    .nav-icons svg { width: 18px; height: 18px; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--navy);
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 32px 32px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .mobile-menu.open { display: flex; }
+
+    .mobile-menu button {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-menu .mobile-icons {
+      display: flex;
+      gap: 20px;
+      padding-top: 20px;
+    }
+
+    .mobile-menu .mobile-icons a {
+      color: var(--muted);
+    }
+
+    /* ─── Page Wrapper ────────────────────────────── */
+    .page-wrap { padding-top: var(--nav-h); }
+
+    /* ─── HOME ────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      background-color: var(--navy);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 60%, rgba(41,116,176,0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 20%, rgba(255,121,36,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.65);
+      max-width: 480px;
+      line-height: 1.8;
+      margin-bottom: 48px;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--orange);
+      border: none;
+      cursor: pointer;
+      padding: 16px 36px;
+      transition: background 0.25s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background: #e86a18;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: transparent;
+      border: 1px solid var(--navy);
+      cursor: pointer;
+      padding: 16px 36px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Home intro section */
+    .home-intro {
+      padding: 100px 48px;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .home-intro-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .home-intro h2 {
+      font-size: clamp(32px, 3.5vw, 48px);
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .home-intro p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+
+    .home-intro-visual {
+      background: var(--navy);
+      aspect-ratio: 3/4;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .home-intro-visual-tag {
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      margin: 24px;
+    }
+
+    .home-intro-visual-inner {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--navy) 0%, #1a2d45 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.1);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-style: italic;
+    }
+
+    /* Home offer teaser */
+    .home-offer {
+      background: var(--off);
+      padding: 100px 48px;
+      text-align: center;
+    }
+
+    .home-offer-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .home-offer-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 20px;
+    }
+
+    .home-offer h2 {
+      font-size: clamp(36px, 4vw, 56px);
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .home-offer p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 40px;
+    }
+
+    /* ─── ABOUT ───────────────────────────────────── */
+    .about-hero {
+      background: var(--navy);
+      padding: 120px 48px 80px;
+      text-align: center;
+    }
+
+    .about-hero h1 {
+      font-size: clamp(48px, 6vw, 80px);
+      color: var(--white);
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .about-hero p {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .about-body {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 100px 48px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-photo {
+      background: var(--navy);
+      aspect-ratio: 3/4;
+      position: sticky;
+      top: calc(var(--nav-h) + 32px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.15);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .about-photo-caption {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: var(--orange);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      text-align: center;
+    }
+
+    .about-content h2 {
+      font-size: clamp(28px, 3vw, 42px);
+      color: var(--navy);
+      margin-bottom: 28px;
+    }
+
+    .about-content p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+
+    .about-content p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .about-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      margin: 40px 0;
+    }
+
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .pillar {
+      border: 1px solid var(--border);
+      padding: 28px 24px;
+    }
+
+    .pillar-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .pillar h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .pillar p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ─── THE PARTNER-READY EDIT ─────────────────── */
+    .edit-hero {
+      background: var(--navy);
+      padding: 120px 48px 80px;
+      text-align: center;
+    }
+
+    .edit-hero-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    .edit-hero h1 {
+      font-size: clamp(40px, 6vw, 80px);
+      color: var(--white);
+      font-weight: 300;
+      margin-bottom: 24px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .edit-hero p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.6);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .edit-body {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 100px 48px;
+    }
+
+    .edit-lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(22px, 3vw, 30px);
+      color: var(--navy);
+      line-height: 1.6;
+      margin-bottom: 48px;
+      font-style: italic;
+    }
+
+    .edit-body p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 20px;
+    }
+
+    .edit-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--orange);
+      margin: 56px 0;
+    }
+
+    .edit-section-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 24px;
+    }
+
+    .edit-section h2 {
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--navy);
+      margin-bottom: 24px;
+    }
+
+    .edit-includes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin: 40px 0;
+      background: var(--border);
+    }
+
+    .edit-include-item {
+      background: var(--white);
+      padding: 32px 28px;
+    }
+
+    .edit-include-item h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .edit-include-item p {
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .edit-for {
+      background: var(--off);
+      padding: 100px 48px;
+      text-align: center;
+    }
+
+    .edit-for-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .edit-for h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      color: var(--navy);
+      margin-bottom: 40px;
+    }
+
+    .edit-criteria {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+      margin-bottom: 48px;
+      border: 1px solid var(--border);
+    }
+
+    .edit-criterion {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .edit-criterion:last-child { border-bottom: none; }
+
+    .edit-criterion-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    .edit-criterion p {
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .edit-cta {
+      background: var(--navy);
+      padding: 100px 48px;
+      text-align: center;
+    }
+
+    .edit-cta h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .edit-cta p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 40px;
+      line-height: 1.8;
+    }
+
+    /* ─── CONTACT ─────────────────────────────────── */
+    .contact-hero {
+      background: var(--navy);
+      padding: 120px 48px 80px;
+      text-align: center;
+    }
+
+    .contact-hero h1 {
+      font-size: clamp(48px, 6vw, 80px);
+      color: var(--white);
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+
+    .contact-hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      max-width: 440px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .contact-body {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 48px 120px;
+    }
+
+    .form-group {
+      margin-bottom: 36px;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-label span {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-left: 6px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      padding: 14px 16px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(44,70,105,0.06);
+    }
+
+    .form-select-wrap {
+      position: relative;
+    }
+
+    .form-select-wrap::after {
+      content: '';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--muted);
+      pointer-events: none;
+    }
+
+    .form-select { cursor: pointer; }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .form-submit {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--navy);
+      border: none;
+      padding: 18px;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      margin-top: 8px;
+    }
+
+    .form-submit:hover { background: var(--orange); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .form-message {
+      display: none;
+      padding: 16px 20px;
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .form-message.success {
+      display: block;
+      background: rgba(41,116,176,0.08);
+      border: 1px solid rgba(41,116,176,0.2);
+      color: var(--blue);
+    }
+
+    .form-message.error {
+      display: block;
+      background: rgba(255,121,36,0.08);
+      border: 1px solid rgba(255,121,36,0.2);
+      color: #c0521a;
+    }
+
+    /* ─── Footer ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .footer-brand span { color: var(--orange); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    .footer-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-icons a {
+      color: rgba(255,255,255,0.4);
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-icons a:hover { color: var(--white); }
+    .footer-icons svg { width: 18px; height: 18px; }
+
+    /* ─── Responsive ──────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+
+      .nav-links { display: none; }
+      .nav-icons { display: none; }
+      .hamburger { display: flex; }
+
+      .home-intro { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+      .home-intro-visual { max-width: 340px; }
+
+      .about-body { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
+      .about-photo { position: static; max-width: 340px; }
+      .about-pillars { grid-template-columns: 1fr; }
+
+      .edit-body { padding: 64px 24px; }
+      .edit-includes { grid-template-columns: 1fr; }
+      .edit-for { padding: 64px 24px; }
+
+      .about-hero,
+      .edit-hero,
+      .contact-hero { padding: 100px 24px 64px; }
+
+      .home-offer { padding: 64px 24px; }
+
+      .contact-body { padding: 64px 24px 80px; }
+
+      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+
+      .edit-cta { padding: 64px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 80px 20px; }
+      .hero h1 { font-size: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ─────────────────────────────── -->
+  <nav id="main-nav">
+    <div class="nav-logo" onclick="showPage('home')">
+      Vladimir <span>Riché</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><button onclick="showPage('home')" id="nav-home" class="active">Home</button></li>
+      <li><button onclick="showPage('about')" id="nav-about">About</button></li>
+      <li><button onclick="showPage('edit')" id="nav-edit">The Partner-Ready Edit</button></li>
+      <li><button onclick="showPage('contact')" id="nav-contact">Contact</button></li>
+    </ul>
+
+    <div class="nav-icons">
+      <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <!-- LinkedIn Icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+      <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
+        <!-- YouTube Icon -->
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+      </a>
+    </div>
+
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <button onclick="showPage('home'); closeMenu()">Home</button>
+    <button onclick="showPage('about'); closeMenu()">About</button>
+    <button onclick="showPage('edit'); closeMenu()">The Partner-Ready Edit</button>
+    <button onclick="showPage('contact'); closeMenu()">Contact</button>
+    <div class="mobile-icons">
+      <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── HOME ───────────────────────────────────── -->
+  <div id="page-home" class="page active page-wrap">
+
+    <section class="hero">
+      <p class="hero-eyebrow">Personal Style Consulting</p>
+      <h1>You made partner.<br/><em>Your wardrobe didn't.</em></h1>
+      <p class="hero-sub">I help newly named partners in finance and law build a wardrobe that matches the room they're now in.</p>
+      <button class="btn-primary" onclick="showPage('edit')">
+        Discover The Partner-Ready Edit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div class="hero-scroll">Scroll</div>
+    </section>
+
+    <section class="home-intro">
+      <div>
+        <p class="home-intro-label">The Work</p>
+        <h2>Dressing for the role you've earned.</h2>
+        <p>Making partner is a career-defining moment. The expectations shift. The rooms change. The stakes are higher — and your wardrobe needs to reflect that without you having to think about it.</p>
+        <p>I work with a small number of newly named partners each year to build precise, functional capsule wardrobes designed for their specific firm culture, lifestyle, and ambitions.</p>
+        <p>No generic formulas. No overwhelming options. Just clarity.</p>
+        <div style="margin-top: 32px;">
+          <button class="btn-secondary" onclick="showPage('about')">About Vladimir</button>
+        </div>
+      </div>
+      <div class="home-intro-visual">
+        <div class="home-intro-visual-inner">VR</div>
+        <div class="home-intro-visual-tag">Vladimir Riché</div>
+      </div>
+    </section>
+
+    <section class="home-offer">
+      <div class="home-offer-inner">
+        <p class="home-offer-label">Entry Offer</p>
+        <h2>The Partner-Ready Edit</h2>
+        <p>A focused, high-precision wardrobe engagement built for the newly named partner. Everything you need. Nothing you don't.</p>
+        <button class="btn-primary" onclick="showPage('edit')">
+          Learn More
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand">Vladimir <span>Riché</span></div>
+      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ── ABOUT ──────────────────────────────────── -->
+  <div id="page-about" class="page page-wrap">
+
+    <div class="about-hero">
+      <h1>Vladimir Riché</h1>
+      <p>Personal Style Consultant</p>
+    </div>
+
+    <div class="about-body">
+      <div style="position: relative;">
+        <div class="about-photo">
+          <!-- Replace with your actual photo using an <img> tag -->
+          Your photo here
+          <div class="about-photo-caption">Vladimir Riché</div>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <h2>The consultant behind the wardrobe.</h2>
+        <p>I'm Vladimir Riché — a personal style consultant working exclusively with high-performing professionals in finance and law at a pivotal moment in their careers: the day they make partner.</p>
+        <p>That promotion changes everything. The meetings you're in, the clients you're facing, the authority you need to project. <strong>Most people dress for the job they had. I help them dress for the one they just earned.</strong></p>
+        <p>My approach is precise, private, and built entirely around your life — your firm's culture, your client base, your schedule, your existing wardrobe. I don't do generic style guides. I do the work.</p>
+
+        <div class="about-divider"></div>
+
+        <h2>Why capsule wardrobes for partners.</h2>
+        <p>A capsule wardrobe isn't minimalism for its own sake. It's a decision you make once — so you never have to think about it again. For partners billing at your level, mental bandwidth is the most valuable thing you have.</p>
+        <p>The right wardrobe becomes invisible in the best possible way. It just works. Every meeting. Every client. Every room.</p>
+
+        <div class="about-divider"></div>
+
+        <p class="home-intro-label" style="margin-bottom: 16px;">What I bring to the work</p>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <h4>Precision</h4>
+            <p>No wasted pieces. Every item serves a specific function in your professional life.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <h4>Discretion</h4>
+            <p>Private by design. My clients don't discuss their wardrobe work. Neither do I.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <h4>Context</h4>
+            <p>Finance and law have different visual cultures. I know the difference.</p>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">04</div>
+            <h4>Longevity</h4>
+            <p>Built to last. The capsule you leave with is one you won't need to revisit for years.</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 48px;">
+          <button class="btn-primary" onclick="showPage('edit')">
+            See The Partner-Ready Edit
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-brand">Vladimir <span>Riché</span></div>
+      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ── THE PARTNER-READY EDIT ─────────────────── -->
+  <div id="page-edit" class="page page-wrap">
+
+    <div class="edit-hero">
+      <p class="edit-hero-label">Entry Offer</p>
+      <h1>The Partner-Ready Edit</h1>
+      <p>A focused wardrobe engagement for the newly named partner in finance or law.</p>
+    </div>
+
+    <div class="edit-body">
+      <p class="edit-lead">"You don't need more clothes. You need the right ones — chosen once, worn with confidence, for years."</p>
+
+      <p>Making partner is one of the most significant professional milestones of your career. But the wardrobe most partners arrive with was built for an earlier version of their role — and it shows.</p>
+      <p>The Partner-Ready Edit is my entry engagement: a high-precision capsule wardrobe built specifically around your new reality. Your firm. Your clients. Your life outside the office. Done.</p>
+
+      <div class="edit-divider"></div>
+
+      <div class="edit-section">
+        <p class="edit-section-label">What's Included</p>
+        <h2>Everything you need. Nothing you don't.</h2>
+        <p>The edit covers every professional context you operate in, built to work together as a coherent system — not a random collection of pieces.</p>
+      </div>
+
+      <div class="edit-includes">
+        <div class="edit-include-item">
+          <h4>Wardrobe Audit</h4>
+          <p>A full review of what you currently own — identifying what stays, what goes, and what's missing.</p>
+        </div>
+        <div class="edit-include-item">
+          <h4>Capsule Blueprint</h4>
+          <p>A precise, personalised list of every piece in your new wardrobe, with specific recommendations for each one.</p>
+        </div>
+        <div class="edit-include-item">
+          <h4>Shopping Direction</h4>
+          <p>Exact brands, stores, and items curated to your budget, body, and firm culture. No guesswork.</p>
+        </div>
+        <div class="edit-include-item">
+          <h4>Outfit System</h4>
+          <p>A clear, repeatable outfit matrix so you never stand in front of your wardrobe wondering what to wear.</p>
+        </div>
+        <div class="edit-include-item">
+          <h4>Fit Guidance</h4>
+          <p>Detailed guidance on fit, tailoring, and what to look for so every piece looks like it was made for you.</p>
+        </div>
+        <div class="edit-include-item">
+          <h4>Follow-Up Session</h4>
+          <p>A review session after you've made your purchases to ensure everything lands exactly as intended.</p>
+        </div>
+      </div>
+
+      <div class="edit-divider"></div>
+
+      <p style="font-size: 15px; color: var(--muted); line-height: 1.9;">
+        <!-- Add pricing or additional context here -->
+        <!-- Example: "Investment starts at $X,XXX. A limited number of engagements are accepted each quarter." -->
+        This engagement is available to a limited number of partners each quarter. If you're interested, the best first step is to get in touch.
+      </p>
+    </div>
+
+    <section class="edit-for">
+      <div class="edit-for-inner">
+        <p class="edit-section-label">Who This Is For</p>
+        <h2>You've earned this room. Let's make sure you look the part.</h2>
+
+        <div class="edit-criteria">
+          <div class="edit-criterion">
+            <div class="edit-criterion-dot"></div>
+            <p>You've recently made partner — or you're about to — in a finance or law firm.</p>
+          </div>
+          <div class="edit-criterion">
+            <div class="edit-criterion-dot"></div>
+            <p>You know your wardrobe doesn't quite match where you are now, but you don't know exactly what to do about it.</p>
+          </div>
+          <div class="edit-criterion">
+            <div class="edit-criterion-dot"></div>
+            <p>You want a permanent solution, not another weekend shopping trip that doesn't quite work out.</p>
+          </div>
+          <div class="edit-criterion">
+            <div class="edit-criterion-dot"></div>
+            <p>You'd rather spend your time billing — or living — than thinking about what to wear.</p>
+          </div>
+          <div class="edit-criterion">
+            <div class="edit-criterion-dot"></div>
+            <p>You value precision, discretion, and working with someone who understands your world.</p>
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="showPage('contact')">
+          Apply Now
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="edit-cta">
+      <h2>Ready to make the edit?</h2>
+      <p>Get in touch and tell me about where you are. I'll take it from there.</p>
+      <button class="btn-primary" onclick="showPage('contact')">
+        Get in Touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </section>
+
+    <footer>
+      <div class="footer-brand">Vladimir <span>Riché</span></div>
+      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ── CONTACT ─────────────────────────────────── -->
+  <div id="page-contact" class="page page-wrap">
+
+    <div class="contact-hero">
+      <h1>Get in Touch</h1>
+      <p>Tell me about where you are. I'll take it from there.</p>
+    </div>
+
+    <div class="contact-body">
+      <form id="contact-form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="name">Name <span>(required)</span></label>
+          <input class="form-input" type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email <span>(required)</span></label>
+          <input class="form-input" type="email" id="email" name="email" required autocomplete="email" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="linkedin">LinkedIn Profile URL <span>(required)</span></label>
+          <input class="form-input" type="url" id="linkedin" name="linkedin" required placeholder="https://linkedin.com/in/yourname" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="industry">Industry <span>(required)</span></label>
+          <div class="form-select-wrap">
+            <select class="form-select" id="industry" name="industry" required>
+              <option value="" disabled selected>Select your industry</option>
+              <option value="Finance">Finance</option>
+              <option value="Law">Law</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="challenge">When it comes to style and menswear, what is your single biggest challenge?</label>
+          <textarea class="form-textarea" id="challenge" name="challenge" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reason">What caused you to want to solve this problem today?</label>
+          <textarea class="form-textarea" id="reason" name="reason" rows="4"></textarea>
+        </div>
+
+        <button type="submit" class="form-submit" id="submit-btn">Send</button>
+
+        <div class="form-message" id="form-message"></div>
+      </form>
+    </div>
+
+    <footer>
+      <div class="footer-brand">Vladimir <span>Riché</span></div>
+      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ── JavaScript ──────────────────────────────── -->
+  <script>
+    // ── Page Navigation ──────────────────────────
+    const pages = ['home', 'about', 'edit', 'contact'];
+
+    function showPage(id) {
+      pages.forEach(p => {
+        document.getElementById('page-' + p).classList.remove('active');
+        const btn = document.getElementById('nav-' + p);
+        if (btn) btn.classList.remove('active');
+      });
+      document.getElementById('page-' + id).classList.add('active');
+      const btn = document.getElementById('nav-' + id);
+      if (btn) btn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+
+    // ── Mobile Menu ───────────────────────────────
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('open');
+    }
+
+    function closeMenu() {
+      document.getElementById('mobile-menu').classList.remove('open');
+    }
+
+    // ── Nav shadow on scroll ──────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ── Contact Form ──────────────────────────────
+    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = document.getElementById('submit-btn');
+      const msg = document.getElementById('form-message');
+
+      const name     = document.getElementById('name').value.trim();
+      const email    = document.getElementById('email').value.trim();
+      const linkedin = document.getElementById('linkedin').value.trim();
+      const industry = document.getElementById('industry').value;
+      const challenge = document.getElementById('challenge').value.trim();
+      const reason   = document.getElementById('reason').value.trim();
+
+      if (!name || !email || !linkedin || !industry) {
+        msg.className = 'form-message error';
+        msg.textContent = 'Please fill in all required fields.';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      msg.className = 'form-message';
+
+      try {
+        const res = await fetch('/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, linkedin, industry, challenge, reason })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          msg.className = 'form-message success';
+          msg.textContent = 'Thank you. I\'ll be in touch shortly.';
+          document.getElementById('contact-form').reset();
+        } else {
+          throw new Error(data.message || 'Something went wrong.');
+        }
+      } catch (err) {
+        msg.className = 'form-message error';
+        msg.textContent = err.message || 'Something went wrong. Please try again.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send';
+      }
+    });
+  </script>
+
+</body>
+</html>
