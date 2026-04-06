@@ -31,7 +31,7 @@ app.post('/contact', async (req, res) => {
   }
 
   try {
-    const smtpPort = parseInt(process.env.SMTP_PORT) || 587;
+    const smtpPort = parseInt(process.env.SMTP_PORT) || 465;
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.hostinger.com',
       port: smtpPort,
