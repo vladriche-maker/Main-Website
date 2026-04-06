@@ -448,7 +448,9 @@
     }
 
     /* ── Responsive ── */
+    .mobile-break { display: none; }
     @media (max-width: 768px) {
+      .mobile-break { display: inline; }
       .topbar { padding: 16px 24px; }
       .hero { padding: 48px 24px 64px; }
       .main { padding: 48px 24px 72px; }
@@ -472,7 +474,7 @@
 
   <!-- Hero -->
   <div class="hero">
-    <p class="hero-eyebrow">One session. One outfit. A permanent reference.</p>
+    <p class="hero-eyebrow">One session. One outfit.<br class="mobile-break"> A permanent reference.</p>
     <h1>The Partner-Ready Edit™</h1>
     <p class="hero-sub">Choose the option that works best for you.</p>
   </div>
@@ -541,7 +543,6 @@
     <div class="testimonial-section">
       <div class="client-photo">
         <img src="jahlon.reid 2026.JPEG" alt="Jahlon R." />
-        <div class="client-photo-tag">A Partner-Ready Edit client</div>
       </div>
       <div class="testimonial-content">
         <div class="stars">
