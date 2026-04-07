@@ -96,6 +96,14 @@ app.get('/5signals', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '5signals.html'));
 });
 
+app.get('/wardrobe-decisions', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'wardrobe-decisions.html'));
+});
+
+app.get('/suit-mistakes', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'suit-mistakes.html'));
+});
+
 app.get('/edit/confirmed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'edit-confirmed.html'));
 });

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>5 Associate Tells — Vladimir Riché</title>
+  <title>10 Suit Mistakes Killing Your Authority — Vladimir Riché</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -31,7 +31,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Orange accent bar at very top */
     body::before {
       content: '';
       display: block;
@@ -42,7 +41,6 @@
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── Top bar ── */
     .topbar {
       background: var(--navy);
       padding: 20px 48px;
@@ -75,14 +73,12 @@
     }
     .topbar-back:hover { color: var(--white); }
 
-    /* ── Two-column layout ── */
     .layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       min-height: calc(100vh - 68px);
     }
 
-    /* ── Left: navy with cover image ── */
     .left {
       background: var(--navy);
       display: flex;
@@ -154,7 +150,6 @@
       margin-top: 24px;
     }
 
-    /* ── Right: white with form ── */
     .right {
       background: var(--white);
       display: flex;
@@ -233,10 +228,7 @@
       flex-shrink: 0;
     }
 
-    /* Form */
-    #signals-form {
-      max-width: 380px;
-    }
+    #suit-form { max-width: 380px; }
 
     .form-rule {
       width: 40px;
@@ -245,9 +237,7 @@
       margin-bottom: 28px;
     }
 
-    .form-group {
-      margin-bottom: 12px;
-    }
+    .form-group { margin-bottom: 12px; }
 
     .form-label {
       display: block;
@@ -334,7 +324,6 @@
       color: #A83228;
     }
 
-    /* ── Footer ── */
     footer {
       background: var(--navy);
       padding: 24px 48px;
@@ -354,13 +343,8 @@
     }
 
     .footer-brand span { color: var(--orange); }
+    .footer-copy { font-size: 11px; color: rgba(255,255,255,0.3); }
 
-    .footer-copy {
-      font-size: 11px;
-      color: rgba(255,255,255,0.3);
-    }
-
-    /* ── Responsive ── */
     @media (max-width: 780px) {
       .topbar { padding: 18px 24px; }
       .layout { grid-template-columns: 1fr; min-height: auto; }
@@ -378,9 +362,6 @@
 </head>
 <body>
 
-  <!-- Orange accent bar rendered via body::before -->
-
-  <!-- Top Bar -->
   <div class="topbar">
     <div class="topbar-brand">Vladimir <span>Riché</span></div>
     <a href="/" class="topbar-back">
@@ -391,65 +372,62 @@
 
   <div class="layout">
 
-    <!-- Left: cover image -->
     <div class="left">
       <p class="cover-eyebrow">Free Guide</p>
       <div class="cover-image-wrap">
-        <img src="/5 Associate Tells Vertical Card.jpg" alt="5 Associate Tells — Free Guide" />
+        <img src="/10 Suit Mistakes Vertical Card.jpg" alt="10 Suit Mistakes Killing Your Authority" />
       </div>
       <p class="cover-caption">Instant download — no wait, no fluff</p>
     </div>
 
-    <!-- Right: headline + form -->
     <div class="right">
       <div class="right-inner">
-      <p class="right-eyebrow">You made partner</p>
-      <h1 class="right-heading">5 Associate<br>Tells</h1>
-      <p class="right-sub">Your wardrobe might not know it yet.</p>
+        <p class="right-eyebrow">Most men are making at least 3</p>
+        <h1 class="right-heading">10 Suit Mistakes<br>Killing Your<br>Authority</h1>
+        <p class="right-sub">Find out which ones are yours.</p>
 
-      <p class="inside-label">What's inside</p>
-      <ul class="inside-list">
-        <li>Your suit speaks before you do</li>
-        <li>The shoe mistake that gives you away</li>
-        <li>What your tie is broadcasting</li>
-        <li>Why the right pieces still fail</li>
-        <li>The one fix that changes everything</li>
-      </ul>
+        <p class="inside-label">What's inside</p>
+        <ul class="inside-list">
+          <li>The lapel width that dates you instantly</li>
+          <li>Why your jacket length is undermining your frame</li>
+          <li>The trouser break mistake most men never notice</li>
+          <li>Shoulder fit — the one thing that can't be fixed by a tailor after the fact</li>
+          <li>The fabric and pattern choices that signal the wrong room</li>
+        </ul>
 
-      <div class="form-rule"></div>
+        <div class="form-rule"></div>
 
-      <form id="signals-form" novalidate>
-        <div class="form-group">
-          <label class="form-label" for="sig-name">First Name</label>
-          <input class="form-input" type="text" id="sig-name" name="name" placeholder="Vladimir" autocomplete="given-name" />
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="sig-email">Email Address</label>
-          <input class="form-input" type="email" id="sig-email" name="email" placeholder="you@firm.com" required autocomplete="email" />
-        </div>
-        <button type="submit" class="form-submit" id="sig-submit">Send Me The Guide</button>
-        <p class="form-privacy">We respect your privacy. Unsubscribe at any time.</p>
-        <div class="form-message" id="sig-message"></div>
-      </form>
+        <form id="suit-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="suit-name">First Name</label>
+            <input class="form-input" type="text" id="suit-name" name="name" placeholder="Vladimir" autocomplete="given-name" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="suit-email">Email Address</label>
+            <input class="form-input" type="email" id="suit-email" name="email" placeholder="you@firm.com" required autocomplete="email" />
+          </div>
+          <button type="submit" class="form-submit" id="suit-submit">Send Me The Guide</button>
+          <p class="form-privacy">We respect your privacy. Unsubscribe at any time.</p>
+          <div class="form-message" id="suit-message"></div>
+        </form>
       </div>
     </div>
 
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-brand">Vladimir <span>Riché</span></div>
     <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
   </footer>
 
   <script>
-    document.getElementById('signals-form').addEventListener('submit', async function(e) {
+    document.getElementById('suit-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const btn = document.getElementById('sig-submit');
-      const msg = document.getElementById('sig-message');
-      const email = document.getElementById('sig-email').value.trim();
-      const name  = document.getElementById('sig-name').value.trim();
+      const btn = document.getElementById('suit-submit');
+      const msg = document.getElementById('suit-message');
+      const email = document.getElementById('suit-email').value.trim();
+      const name  = document.getElementById('suit-name').value.trim();
 
       if (!email) {
         msg.className = 'form-message error';
@@ -468,7 +446,7 @@
           body: JSON.stringify({
             email,
             name,
-            groupId: '182792861833495840'
+            groupId: '183561091552380082'
           })
         });
 
@@ -477,7 +455,7 @@
         if (data.success) {
           msg.className = 'form-message success';
           msg.textContent = 'Check your inbox. The guide is on its way.';
-          document.getElementById('signals-form').reset();
+          document.getElementById('suit-form').reset();
         } else {
           throw new Error(data.message || 'Something went wrong.');
         }
