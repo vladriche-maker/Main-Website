@@ -863,6 +863,12 @@
       .pricing-grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── FREE RESOURCES ─────────────────────────── */
+    @media (max-width: 700px) {
+      .resource-card { grid-template-columns: 1fr !important; gap: 32px !important; }
+      .resource-card > div:first-child { max-width: 280px; }
+    }
+
     /* ─── CONTACT ─────────────────────────────────── */
     .contact-hero {
       background: var(--navy);
@@ -1110,7 +1116,7 @@
       <li><button onclick="showPage('home')" id="nav-home" class="active">Home</button></li>
       <li><button onclick="showPage('about')" id="nav-about">About</button></li>
       <li><button onclick="showPage('edit')" id="nav-edit">The Partner-Ready Edit</button></li>
-      <!-- Free Resources tab hidden until ready: <li><button onclick="showPage('resources')" id="nav-resources">Free Resources</button></li> -->
+      <li><button onclick="showPage('resources')" id="nav-resources">Free Resources</button></li>
       <li><button onclick="showPage('contact')" id="nav-contact">Contact</button></li>
       <li>
         <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-li-icon">
@@ -1131,8 +1137,7 @@
     <button onclick="showPage('home'); closeMenu()">Home</button>
     <button onclick="showPage('about'); closeMenu()">About</button>
     <button onclick="showPage('edit'); closeMenu()">The Partner-Ready Edit</button>
-    <!-- Free Resources mobile menu hidden until ready -->
-
+    <button onclick="showPage('resources'); closeMenu()">Free Resources</button>
     <button onclick="showPage('contact'); closeMenu()">Contact</button>
     <div class="mobile-icons">
       <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -1375,17 +1380,27 @@
       <p>Tools and guides to get you started</p>
     </div>
 
-    <div style="max-width: 900px; margin: 0 auto; padding: 100px 48px;">
-      <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 3vw, 32px); color: var(--navy); line-height: 1.6; margin-bottom: 48px; font-style: italic;">Resources coming soon. Check back shortly.</p>
-      <p style="font-size: 17px; color: var(--muted); line-height: 1.9; margin-bottom: 40px;">In the meantime, follow along on LinkedIn and YouTube for weekly content on dressing for authority, capsule wardrobes, and the style mistakes that cost partners in the room.</p>
-      <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener">
-          <button class="btn-primary">Follow on LinkedIn</button>
-        </a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener">
-          <button class="btn-secondary">Watch on YouTube</button>
-        </a>
+    <div style="max-width: 900px; margin: 0 auto; padding: 64px 48px 100px;">
+
+      <!-- Resource: 5 Associate Tells -->
+      <div class="resource-card" style="display: grid; grid-template-columns: 340px 1fr; gap: 64px; align-items: center; padding: 56px 0; border-bottom: 1px solid var(--border);">
+
+        <div style="background: var(--navy); overflow: hidden;">
+          <img src="5 Associate Tells Cover.png" alt="5 Associate Tells" style="width: 100%; height: auto; display: block;" />
+        </div>
+
+        <div>
+          <p style="font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">Free Guide</p>
+          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;">5 Associate Tells</h2>
+          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px;">You made partner. Your wardrobe might not know it yet.</p>
+          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">Five specific signals that mark you as junior in the room — and the one fix that changes everything.</p>
+          <a href="/5signals">
+            <button class="btn-primary">Get the Free Guide</button>
+          </a>
+        </div>
+
       </div>
+
     </div>
 
     <footer>
