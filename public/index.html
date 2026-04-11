@@ -1348,7 +1348,7 @@
 
       <p style="font-size: 16px; color: var(--muted); line-height: 1.9; font-style: italic; margin: 28px 0 32px;">Not sure which one fits? That's what the call is for.</p>
 
-      <a href="/book">
+      <a href="#edit-calendar" onclick="document.getElementById('edit-calendar').scrollIntoView({behavior:'smooth'}); return false;">
         <button class="btn-primary">
           Book a 15-Minute Call
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1359,13 +1359,18 @@
     <section class="edit-cta">
       <h2>Ready when you are.</h2>
       <p>Authority is read before you speak. This edit makes sure it's saying the right thing.</p>
-      <a href="https://vladimirriche.com/book">
+      <a href="#edit-calendar" onclick="document.getElementById('edit-calendar').scrollIntoView({behavior:'smooth'}); return false;">
         <button class="btn-primary">
           Book a 15-Minute Call
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </a>
     </section>
+
+    <div id="edit-calendar" style="max-width: 900px; margin: 0 auto; padding: 0 48px 80px;">
+      <div class="tidycal-embed" data-path="vladriche/partner-ready-call"></div>
+      <script src="https://asset-tidycal.b-cdn.net/js/embed.js" async></script>
+    </div>
 
     <footer>
       <div class="footer-brand">Vladimir <span>Riché</span></div>
