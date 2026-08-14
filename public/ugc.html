@@ -6,6 +6,7 @@
 <title>Vladimir Riché · Menswear UGC</title>
 <meta name="description" content="Menswear UGC for brands selling to men 30 to 55. Classic menswear, casual, elevated casual, footwear and accessories.">
 <meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23141312'/%3E%3Ctext x='50' y='68' font-family='Georgia,serif' font-size='46' fill='%23faf8f4' text-anchor='middle'%3EVR%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
@@ -31,8 +32,14 @@
   .role{margin-top:18px;font-size:14px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted)}
   .lede{margin-top:22px;font-size:clamp(19px,2.4vw,23px);max-width:30em;line-height:1.45}
   section{padding:56px 0;border-bottom:1px solid var(--line)}
-  .positioning p{max-width:38em;color:var(--muted);margin-bottom:16px}
-  .positioning p strong{color:var(--ink);font-weight:500}
+  .intro{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;align-items:start}
+  .intro-text p{color:var(--muted);margin-bottom:16px}
+  .intro-text p strong{color:var(--ink);font-weight:500}
+  .portrait{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 20%;border-radius:10px;background:#ece7de;display:block}
+  @media (max-width:720px){
+    .intro{grid-template-columns:1fr;gap:28px}
+    .portrait{max-width:300px}
+  }
   .label{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
   .bridge{max-width:36em;margin-bottom:30px;color:var(--muted)}
   .bridge strong{color:var(--ink);font-weight:500}
@@ -56,6 +63,8 @@
   .contact a.email{font-family:"Fraunces",Georgia,serif;font-size:clamp(24px,3.6vw,32px);color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}
   .contact a.email:hover{border-bottom-color:var(--ink)}
   .contact p{margin-top:14px;color:var(--muted)}
+  .btn{display:inline-block;margin-top:24px;background:var(--ink);color:var(--bg);padding:14px 28px;border-radius:8px;text-decoration:none;font-size:15px}
+  .btn:hover{opacity:0.86}
   footer{padding:40px 0 72px;font-size:14px;color:var(--muted)}
   footer a{color:var(--muted)}
 </style>
@@ -69,9 +78,14 @@
     <p class="lede">I make ad-ready video for brands selling to men 30 to 55.</p>
   </header>
 
-  <section class="positioning">
-    <p>Personal stylist, twelve years. Formerly Astor &amp; Black Custom Clothier, dressing executives at Morgan Stanley, Mercedes-Benz, and the New York Giants. I currently build wardrobes for newly named partners in finance and law.</p>
-    <p><strong>Most UGC creators are under 30. That is a problem when your customer isn't.</strong> I shoot for the man who has outgrown his old clothes and doesn't want to look like he's trying.</p>
+  <section>
+    <div class="intro">
+      <div class="intro-text">
+        <p>Personal stylist, twelve years. Formerly Astor &amp; Black Custom Clothier, dressing executives at Morgan Stanley, Mercedes-Benz, and the New York Giants. I currently build wardrobes for newly named partners in finance and law.</p>
+        <p><strong>Most UGC creators are under 30. That is a problem when your customer isn't.</strong> I shoot for the man who has outgrown his old clothes and doesn't want to look like he's trying.</p>
+      </div>
+      <img class="portrait" src="/Vladimir.jpg" alt="Vladimir Riché">
+    </div>
   </section>
 
   <section>
@@ -139,6 +153,7 @@
     <p class="label">Contact</p>
     <a class="email" href="mailto:vr@chaceandryder.com">vr@chaceandryder.com</a>
     <p>New York metro area. Available for remote shoots nationwide.</p>
+    <a class="btn" href="https://tidycal.com/vladriche/ugc" target="_blank" rel="noopener">Book a 15-minute call</a>
   </section>
 
   <footer>
