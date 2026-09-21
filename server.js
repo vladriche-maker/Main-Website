@@ -104,6 +104,10 @@ app.get('/suit-mistakes', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'suit-mistakes.html'));
 });
 
+app.get('/score', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'score.html'));
+});
+
 app.get('/edit/confirmed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'edit-confirmed.html'));
 });
@@ -149,6 +153,122 @@ app.post('/subscribe', async (req, res) => {
   } catch (error) {
     console.error('Subscribe error:', error);
     res.status(500).json({ success: false, message: 'Something went wrong.' });
+  }
+});
+
+// ── Partner Wardrobe System Score submissions ──────
+// Emails the result to VR, then writes the subscriber into MailerLite.
+// Optional env var: MAILERLITE_SCORE_GROUP (a MailerLite group id).
+app.post('/score-submit', async (req, res) => {
+  const d = req.body || {};
+
+  if (!d.email || typeof d.email !== 'string') {
+    return res.status(400).json({ success: false, message: 'Email is required.' });
+  }
+
+  const name = String(d.name || '').slice(0, 120);
+  const email = String(d.email).slice(0, 200);
+  const num = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+  const txt = (v) => String(v == null ? '' : v).slice(0, 120);
+
+  const score = {
+    score_total:       num(d.score_total),
+    score_tier:        txt(d.score_tier),
+    score_weakest:     txt(d.score_weakest),
+    score_foundation:  num(d.score_foundation),
+    score_fit:         num(d.score_fit),
+    score_decision:    num(d.score_decision),
+    score_acquisition: num(d.score_acquisition),
+    score_room:        num(d.score_room),
+    promo_window:      txt(d.promo_window),
+    firm_type:         txt(d.firm_type),
+    location:          txt(d.location),
+  };
+
+  // A hard ICP match: newly named, in law, in the New York metro.
+  const icpMatch =
+    score.promo_window === '6 to 18 months' &&
+    score.firm_type === 'Law' &&
+    score.location === 'New York metro';
+
+  // Answer the browser now. The notification and the MailerLite write happen
+  // after, so a slow mail server never holds up someone's result.
+  res.json({ success: true });
+
+  // 1. Notify VR. Uses the same SMTP settings as the contact form.
+  try {
+    const smtpPort = parseInt(process.env.SMTP_PORT) || 465;
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
+    });
+
+    const row = (label, value) =>
+      `<tr><td style="padding:10px 0;border-bottom:1px solid #e8e4de;font-size:12px;color:#888;letter-spacing:1px;font-family:sans-serif;text-transform:uppercase;width:45%;">${label}</td>` +
+      `<td style="padding:10px 0;border-bottom:1px solid #e8e4de;font-size:16px;">${value}</td></tr>`;
+
+    await transporter.sendMail({
+      from: `"Partner Wardrobe Score" <${process.env.SMTP_USER}>`,
+      to: 'vr@chaceandryder.com',
+      replyTo: email,
+      subject: `Score ${score.score_total}% — ${name || email}${icpMatch ? ' — ICP MATCH' : ''}`,
+      html: `
+        <div style="font-family: Georgia, serif; max-width: 620px; margin: 0 auto; color: #1a1a1a;">
+          <div style="background:#2C4669;padding:24px 32px;">
+            <h1 style="color:#fff;margin:0;font-size:20px;letter-spacing:2px;font-family:sans-serif;font-weight:300;">VLADIMIR RICH&Eacute;</h1>
+            <p style="color:#FF7924;margin:4px 0 0;font-size:13px;letter-spacing:1px;font-family:sans-serif;">PARTNER WARDROBE SYSTEM SCORE</p>
+          </div>
+          <div style="padding:32px;background:#f8f7f5;border:1px solid #e8e4de;">
+            ${icpMatch ? '<p style="margin:0 0 20px;padding:10px 14px;background:#FF7924;color:#fff;font-family:sans-serif;font-size:13px;letter-spacing:1px;">HARD ICP MATCH</p>' : ''}
+            <table style="width:100%;border-collapse:collapse;">
+              ${row('Name', name || '&mdash;')}
+              ${row('Email', `<a href="mailto:${email}" style="color:#2974B0;">${email}</a>`)}
+              ${row('Score', `<strong>${score.score_total}%</strong> &nbsp; ${score.score_tier}`)}
+              ${row('Weakest area', score.score_weakest)}
+              ${row('Foundation', score.score_foundation + ' / 12')}
+              ${row('Fit', score.score_fit + ' / 12')}
+              ${row('Decision', score.score_decision + ' / 12')}
+              ${row('Acquisition', score.score_acquisition + ' / 12')}
+              ${row('Room', score.score_room + ' / 12')}
+              ${row('Since promotion', score.promo_window || '&mdash;')}
+              ${row('Firm type', score.firm_type || '&mdash;')}
+              ${row('Location', score.location || '&mdash;')}
+            </table>
+          </div>
+        </div>`,
+    });
+  } catch (err) {
+    console.error('Score notification email failed:', err);
+  }
+
+  // 2. Write the subscriber into MailerLite. Never blocks the visitor's result.
+  try {
+    if (process.env.MAILERLITE_API_KEY) {
+      const payload = { email, fields: Object.assign({ name }, score) };
+      if (process.env.MAILERLITE_SCORE_GROUP) {
+        payload.groups = [process.env.MAILERLITE_SCORE_GROUP];
+      }
+      const r = await fetch('https://connect.mailerlite.com/api/subscribers', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      if (!r.ok) console.error('MailerLite score subscribe failed:', r.status, await r.text());
+    }
+  } catch (err) {
+    console.error('MailerLite score subscribe error:', err);
   }
 });
 
