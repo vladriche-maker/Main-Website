@@ -1185,6 +1185,30 @@
       line-height: 1;
     }
 
+    #page-checkout .testimonial-with-photo {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    #page-checkout .testimonial-photo {
+      background: var(--navy);
+      overflow: hidden;
+      align-self: center;
+    }
+
+    #page-checkout .testimonial-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      #page-checkout .testimonial-with-photo { grid-template-columns: 1fr; gap: 24px; }
+      #page-checkout .testimonial-photo { max-width: 220px; align-self: start; }
+    }
+
     .stripe-line {
       font-family: 'Inter', sans-serif;
       font-size: 13px;
@@ -1667,9 +1691,14 @@
 
       <p class="stripe-line">Payments are processed by Stripe.</p>
 
-      <div class="testimonial">
-        <p class="testimonial-text">&ldquo;It&rsquo;s wild how much money I was wasting on clothes that didn&rsquo;t work together. One session fixed that. Now every piece in my closet has a purpose.&rdquo;</p>
-        <p class="testimonial-name">Jahlon R.</p>
+      <div class="testimonial testimonial-with-photo">
+        <div class="testimonial-photo">
+          <img src="jahlon-reid-testimonial.jpg" alt="Jahlon R." />
+        </div>
+        <div>
+          <p class="testimonial-text">&ldquo;It&rsquo;s wild how much money I was wasting on clothes that didn&rsquo;t work together. One session fixed that. Now every piece in my closet has a purpose.&rdquo;</p>
+          <p class="testimonial-name">Jahlon R.</p>
+        </div>
       </div>
 
       <div class="edit-divider"></div>
