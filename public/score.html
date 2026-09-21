@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A fifteen-question wardrobe diagnostic for newly named partners. Score, five-area breakdown, and the one area costing you the most.">
+<title>Partner Wardrobe System Score</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#2C4669;
+    --navy-deep:#1E3048;
+    --orange:#FF7924;
+    --blue:#2974B0;
+    --ground:#F8F7F5;
+    --surface:#FFFFFF;
+    --ink:#1F2833;
+    --muted:#5D6675;
+    --rule:#E2DED7;
+    --rule-soft:#EDEAE4;
+    --sel:#2C4669;
+    --btn-text:#FFFFFF;
+    --shadow:0 1px 2px rgba(31,40,51,.05), 0 8px 28px rgba(31,40,51,.06);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --navy:#8FB0D8;
+      --navy-deep:#0F1620;
+      --orange:#FF8F45;
+      --blue:#6FA3D6;
+      --ground:#12171F;
+      --surface:#1A212B;
+      --ink:#E9E7E3;
+      --muted:#9AA3B2;
+      --rule:#2B3542;
+      --rule-soft:#232C37;
+      --sel:#8FB0D8;
+      --btn-text:#101720;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --navy:#8FB0D8;
+    --navy-deep:#0F1620;
+    --orange:#FF8F45;
+    --blue:#6FA3D6;
+    --ground:#12171F;
+    --surface:#1A212B;
+    --ink:#E9E7E3;
+    --muted:#9AA3B2;
+    --rule:#2B3542;
+    --rule-soft:#232C37;
+    --sel:#8FB0D8;
+    --btn-text:#101720;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 28px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{font-family:"Cormorant Garamond","Iowan Old Style",Georgia,serif;font-weight:400;text-wrap:balance}
+
+  .rail{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;height:3px;background:var(--rule-soft);z-index:40}
+  .rail-fill{height:100%;width:0;background:var(--orange);transition:width .45s cubic-bezier(.4,0,.2,1)}
+
+  .wrap{max-width:720px;margin:0 auto;padding-inline:20px;padding-block:clamp(40px,8vh,88px) 64px}
+
+  .eyebrow{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;
+  }
+  .eyebrow .sep{opacity:.45;padding:0 .5em}
+
+  /* ---- intro ---- */
+  .mark{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--navy);font-weight:500}
+  .intro h1{font-size:clamp(34px,7vw,54px);line-height:1.08;letter-spacing:-.01em;margin-top:26px}
+  .intro h1 em{font-style:italic;color:var(--navy)}
+  .lede{max-width:52ch;color:var(--muted);margin-top:22px;font-size:17px}
+  .lede + .lede{margin-top:14px}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:34px;padding-top:22px;border-top:1px solid var(--rule)}
+  .meta-item{font-size:13px;color:var(--muted)}
+  .meta-item b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:26px;font-weight:500;color:var(--ink);line-height:1.2}
+
+  /* ---- buttons ---- */
+  .btn{
+    display:inline-flex;align-items:center;gap:12px;
+    background:var(--navy);color:var(--btn-text);border:0;border-radius:2px;
+    font:500 12px/1 "Inter",sans-serif;letter-spacing:.14em;text-transform:uppercase;
+    padding:17px 30px;cursor:pointer;text-decoration:none;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn:hover{background:var(--orange);color:#fff}
+  .btn:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+  .btn .arw{font-size:15px;line-height:1;transform:translateY(-1px)}
+  .btn-ghost{
+    background:none;color:var(--muted);border:0;padding:10px 0;cursor:pointer;
+    font:400 12px/1 "Inter",sans-serif;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .btn-ghost:hover{color:var(--ink)}
+  .btn-ghost:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+
+  /* ---- question ---- */
+  .qhead{margin-bottom:6px}
+  .qtext{font-size:clamp(24px,4.6vw,34px);line-height:1.22;margin-top:16px;max-width:22ch;letter-spacing:-.005em}
+  .options{display:flex;flex-direction:column;gap:0;margin-top:34px;border-top:1px solid var(--rule)}
+  .opt{
+    display:flex;align-items:flex-start;gap:16px;width:100%;text-align:left;
+    background:none;border:0;border-bottom:1px solid var(--rule);
+    padding:18px 8px 18px 4px;cursor:pointer;color:var(--ink);
+    font:400 16px/1.45 "Inter",sans-serif;
+    transition:background .16s ease,padding-left .16s ease;
+  }
+  .opt:hover{background:var(--rule-soft);padding-left:12px}
+  .opt:focus-visible{outline:2px solid var(--orange);outline-offset:-2px}
+  .opt .key{
+    flex:none;width:24px;height:24px;border:1px solid var(--rule);border-radius:50%;
+    display:grid;place-items:center;font-size:10px;letter-spacing:.04em;color:var(--muted);
+    margin-top:1px;transition:all .16s ease;
+  }
+  .opt:hover .key{border-color:var(--navy);color:var(--navy)}
+  .opt[aria-pressed="true"] .key{background:var(--sel);border-color:var(--sel);color:var(--ground)}
+  .opt[aria-pressed="true"]{background:var(--rule-soft)}
+  .qnav{display:flex;align-items:center;justify-content:space-between;margin-top:26px;gap:16px}
+
+  /* ---- form ---- */
+  .field{margin-top:26px}
+  .field label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;font-weight:500}
+  .field input, .field select{
+    width:100%;background:var(--surface);color:var(--ink);
+    border:1px solid var(--rule);border-radius:2px;padding:14px 15px;
+    font:400 16px/1.3 "Inter",sans-serif;
+  }
+  .field input:focus, .field select:focus{outline:2px solid var(--orange);outline-offset:-1px;border-color:transparent}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    background:var(--surface);border:1px solid var(--rule);border-radius:2px;
+    padding:11px 16px;cursor:pointer;color:var(--ink);
+    font:400 14px/1.2 "Inter",sans-serif;transition:all .16s ease;
+  }
+  .chip:hover{border-color:var(--navy)}
+  .chip[aria-pressed="true"]{background:var(--sel);border-color:var(--sel);color:var(--ground)}
+  .chip:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+  .note{font-size:13px;color:var(--muted);margin-top:18px;max-width:46ch}
+  .err{font-size:13px;color:var(--orange);margin-top:14px;min-height:1.2em}
+
+  /* ---- result ---- */
+  .score-block{display:flex;align-items:center;gap:clamp(20px,5vw,44px);flex-wrap:wrap;margin-top:26px}
+  .dial{flex:none;position:relative;width:132px;height:132px}
+  .dial svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .dial .val{
+    position:absolute;inset:0;display:flex;align-items:baseline;justify-content:center;gap:1px;
+    font-family:"Cormorant Garamond",Georgia,serif;font-size:40px;font-weight:500;
+    font-variant-numeric:tabular-nums;color:var(--ink);
+  }
+  .dial .val .pct{font-size:18px;color:var(--muted)}
+  .tier-name{font-size:clamp(28px,5.6vw,42px);line-height:1.12;letter-spacing:-.01em}
+  .tier-body{color:var(--muted);margin-top:14px;max-width:56ch}
+
+  .bars{margin-top:44px;border-top:1px solid var(--rule)}
+  .bar-row{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--rule)}
+  .bar-name{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:500}
+  .bar-num{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+  .bar-track{grid-column:1 / -1;height:4px;background:var(--rule-soft);position:relative;overflow:hidden}
+  .bar-fill{position:absolute;inset:0 auto 0 0;width:0;background:var(--blue);transition:width .9s cubic-bezier(.4,0,.2,1)}
+  .bar-row.weak .bar-fill{background:var(--orange)}
+  .bar-line{grid-column:1 / -1;font-size:14px;color:var(--muted);margin-top:8px}
+  .bar-row.weak .bar-line{color:var(--ink)}
+
+  .gap{
+    margin-top:44px;padding:28px;background:var(--surface);
+    border:1px solid var(--rule);border-left:2px solid var(--orange);
+    box-shadow:var(--shadow);
+  }
+  .gap h3{font-size:24px;margin-top:8px}
+  .gap p{color:var(--muted);margin-top:12px;max-width:54ch}
+  .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:40px;padding-top:30px;border-top:1px solid var(--rule)}
+  .cta-note{font-size:13px;color:var(--muted);max-width:34ch}
+
+  .sig{margin-top:56px;padding-top:22px;border-top:1px solid var(--rule);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+  .preview-flag{
+    margin-top:30px;padding:14px 16px;border:1px dashed var(--rule);
+    font-size:13px;color:var(--muted);background:var(--surface);
+  }
+
+  [hidden]{display:none !important}
+  @media (prefers-reduced-motion: reduce){
+    *{transition-duration:.01ms !important;animation-duration:.01ms !important}
+  }
+  @media (max-width:420px){
+    .dial{width:104px;height:104px}
+    .dial .val{font-size:32px}
+  }
+</style>
+<script>window.SCORE_MODE="live";</script>
+</head>
+<body>
+<div class="rail" aria-hidden="true"><div class="rail-fill" id="railFill"></div></div>
+
+<main class="wrap">
+
+  <!-- INTRO -->
+  <section class="step intro" id="stepIntro">
+    <p class="mark">Vladimir Riché</p>
+    <h1>You made partner.<br>Does your <em>wardrobe</em> have a system?</h1>
+    <p class="lede">Most newly named partners do not look bad. They look fine by the standard of the floor they came from. What they do not have is a system, so every new room is a fresh guess.</p>
+    <p class="lede">Fifteen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
+    <div class="meta-row">
+      <div class="meta-item"><b>15</b>questions</div>
+      <div class="meta-item"><b>3</b>minutes</div>
+      <div class="meta-item"><b>5</b>areas scored</div>
+    </div>
+    <div style="margin-top:34px">
+      <button class="btn" id="beginBtn" type="button">Begin the score <span class="arw">&rarr;</span></button>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section class="step" id="stepQ" hidden>
+    <div class="qhead">
+      <p class="eyebrow"><span id="qDim">Foundation</span><span class="sep">/</span><span id="qCount">Question 1 of 15</span></p>
+      <h2 class="qtext" id="qText"></h2>
+    </div>
+    <div class="options" id="qOptions"></div>
+    <div class="qnav">
+      <button class="btn-ghost" id="backBtn" type="button">&larr; Back</button>
+      <p class="eyebrow" id="qHint">Select one</p>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="step" id="stepProfile" hidden>
+    <p class="eyebrow">Last step</p>
+    <h2 class="qtext" style="max-width:26ch">Where to send the full breakdown.</h2>
+
+    <div class="field">
+      <label id="lblPromo">How long since your promotion?</label>
+      <div class="chips" role="group" aria-labelledby="lblPromo" id="promoChips"></div>
+    </div>
+
+    <div class="field">
+      <label id="lblFirm">Firm type</label>
+      <div class="chips" role="group" aria-labelledby="lblFirm" id="firmChips"></div>
+    </div>
+
+    <div class="field">
+      <label id="lblLoc">Where do you work?</label>
+      <div class="chips" role="group" aria-labelledby="lblLoc" id="locChips"></div>
+    </div>
+
+    <div class="field">
+      <label for="fName">First name</label>
+      <input type="text" id="fName" name="name" autocomplete="given-name" placeholder="First name">
+    </div>
+
+    <div class="field">
+      <label for="fEmail">Email</label>
+      <input type="email" id="fEmail" name="email" autocomplete="email" placeholder="you@firm.com">
+    </div>
+
+    <p class="err" id="formErr" role="alert"></p>
+
+    <div class="qnav" style="justify-content:flex-start;gap:20px">
+      <button class="btn" id="submitBtn" type="button">See my score <span class="arw">&rarr;</span></button>
+      <button class="btn-ghost" id="backBtn2" type="button">&larr; Back</button>
+    </div>
+    <p class="note">Your answers stay between us. No list rental, no resale, one unsubscribe link on every email.</p>
+  </section>
+
+  <!-- RESULT -->
+  <section class="step" id="stepResult" hidden>
+    <p class="eyebrow">Your result</p>
+
+    <div class="score-block">
+      <div class="dial">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--rule-soft)" stroke-width="7"></circle>
+          <circle cx="60" cy="60" r="52" fill="none" stroke="var(--orange)" stroke-width="7"
+                  stroke-linecap="butt" id="dialArc"
+                  stroke-dasharray="326.7" stroke-dashoffset="326.7"
+                  style="transition:stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1)"></circle>
+        </svg>
+        <div class="val"><span id="dialNum">0</span><span class="pct">%</span></div>
+      </div>
+      <div style="flex:1 1 260px;min-width:0">
+        <h2 class="tier-name" id="tierName"></h2>
+        <p class="tier-body" id="tierBody"></p>
+      </div>
+    </div>
+
+    <div class="bars" id="bars"></div>
+
+    <div class="gap">
+      <p class="eyebrow" id="gapEyebrow">Where it is costing you</p>
+      <h3 id="gapName"></h3>
+      <p id="gapLine"></p>
+      <p id="gapCost"></p>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn" id="ctaBtn" href="#">The Partner-Ready Edit <span class="arw">&rarr;</span></a>
+      <p class="cta-note">One session. One outfit for your next high-stakes moment.</p>
+    </div>
+
+    <div class="preview-flag" id="previewFlag" hidden></div>
+
+    <p class="sig">Vladimir Riché &middot; Personal Style Consulting</p>
+  </section>
+
+</main>
+<script>
+(function () {
+  "use strict";
+
+  /* =====================================================================
+     CONFIG
+     ---------------------------------------------------------------------
+     CTA_URL   Where the results button sends people.
+     ===================================================================== */
+  var CTA_URL = "https://vladimirriche.com/edit";
+
+  var MODE = (typeof window !== "undefined" && window.SCORE_MODE) || "live";
+
+  /* ------------------------------ data ------------------------------ */
+
+  var DIMS = [
+    { key: "foundation",  name: "Foundation",  blurb: "Whether the closet covers the rooms you are actually in" },
+    { key: "fit",         name: "Fit",         blurb: "Whether tailoring is a process or a one-time event" },
+    { key: "decision",    name: "Decision",    blurb: "Whether getting dressed requires thought" },
+    { key: "acquisition", name: "Acquisition", blurb: "Whether you buy to a plan or to a deadline" },
+    { key: "room",        name: "Room",        blurb: "Whether you can read what an occasion requires" }
+  ];
+
+  var QUESTIONS = [
+    { d: "foundation", q: "How many suits in your closet could you wear to a client pitch tomorrow with no changes?",
+      a: ["None", "One", "Two", "Three", "Four or more"] },
+    { d: "foundation", q: "How many pairs of leather dress shoes would you wear on the high floor?",
+      a: ["One pair, and it goes with everything", "Two pairs", "Three pairs", "Four or more",
+          "Four or more, and I know which suit each pair belongs to"] },
+    { d: "foundation", q: "A client dinner gets added after a full day at the office. What happens?",
+      a: ["I go in what I wore, and I know it is not right",
+          "I go in what I wore and hope nobody looks closely",
+          "I keep something at the office, but it was not planned",
+          "I keep a shirt and tie at the office for exactly this",
+          "I dressed that morning knowing the day could run long"] },
+
+    { d: "fit", q: "Of the jackets you wear most, how many have been to a tailor?",
+      a: ["None", "One", "Some of them", "Most of them", "All of them, by the same tailor"] },
+    { d: "fit", q: "You buy a suit off the rack. What happens next?",
+      a: ["I wear it as is",
+          "The store does sleeves and hem",
+          "I take it somewhere for sleeves, hem, and waist",
+          "I take it to my tailor with a list of what I want changed",
+          "I bought it already knowing what my tailor would do, and I budgeted for it"] },
+    { d: "fit", q: "Your build has shifted since you bought most of your suits. Your wardrobe:",
+      a: ["Has not changed with it",
+          "Has a couple of replacement pieces",
+          "Has had a few things let out or taken in",
+          "Went through a full tailoring pass",
+          "Gets checked on a schedule and adjusted as I go"] },
+
+    { d: "decision", q: "Getting dressed on a normal workday takes:",
+      a: ["Longer than it should, and I second-guess it",
+          "Ten to fifteen minutes of deciding",
+          "A few minutes",
+          "No time. I rotate through a set I trust",
+          "No time. I set it the night before against the next day's calendar"] },
+    { d: "decision", q: "Someone asks what goes with a charcoal suit. You:",
+      a: ["Would have to look it up",
+          "Have a rough sense",
+          "Know one combination that works",
+          "Know two or three, and why",
+          "Start from the shoes and build the rest from there"] },
+    { d: "decision", q: "How often do you leave the house unsure whether the outfit is right?",
+      a: ["Most days", "About weekly", "A few times a month", "Rarely",
+          "Never, and I could tell you why each piece is there"] },
+
+    { d: "acquisition", q: "Your last three clothing purchases were driven by:",
+      a: ["An event a few days out", "A sale", "Replacing something worn out",
+          "A gap I had noticed and kept in mind", "A written plan for the year"] },
+    { d: "acquisition", q: "How much of what you own do you actually wear?",
+      a: ["Less than a quarter", "About a third", "About half", "Most of it",
+          "Nearly all of it, and I clear out what I do not"] },
+    { d: "acquisition", q: "Do you know what you spent on clothing last year?",
+      a: ["No", "Roughly, and it was higher than I would want to say", "Roughly", "Yes",
+          "Yes, and it ran against a plan I set"] },
+
+    { d: "room", q: "You walk into a room and the dress code was never stated. You:",
+      a: ["End up the odd one out often enough to notice",
+          "Guess, and usually land close",
+          "Ask someone beforehand",
+          "Read the invitation, the venue, and the guest list first",
+          "Have a default for each type of room I walk into"] },
+    { d: "room", q: "The difference between a board meeting and a Thursday at the office:",
+      a: ["There is not one", "I add a tie", "I wear a better suit",
+          "Different suit, shirt, and shoes, chosen on purpose",
+          "I have a defined tier for each, so I do not think about it"] },
+    { d: "room", q: "A partner two levels above you walks in. Compared to him, you:",
+      a: ["Can tell something is different but could not name it",
+          "Notice his fit is better",
+          "Notice fit and fabric",
+          "Could name three specific things",
+          "Could name them, and know which ones apply to me"] }
+  ];
+
+  var TIERS = [
+    { min: 80, name: "Running on a System",
+      body: "You know what you own, why you own it, and what each piece is for. Getting dressed is not a decision anymore. What is left is refinement, not construction." },
+    { min: 60, name: "Running on Rules",
+      body: "You have figured out some things that work and you repeat them. Good instincts, learned the slow way. They hold until something new comes up." },
+    { min: 40, name: "Running on Inventory",
+      body: "You own enough, which is what makes this hard to see from the inside. You solve every occasion by shopping the closet, and the closet holds more than you use." },
+    { min: 0, name: "Running on Luck",
+      body: "You get dressed and hope. Most days it works, because most rooms do not look that hard. The rooms that do are the ones you are now in, and the gap shows up there first." }
+  ];
+
+  var GAP_LINES = {
+    foundation: [
+      "Your closet covers one room. You are now in four.",
+      "You have pieces, not sets. Nothing finishes.",
+      "The base is there. Depth is the next question."
+    ],
+    fit: [
+      "Nothing you own was made for your body.",
+      "Some of it fits. The rest is being carried by the rest.",
+      "Fit is handled. Fabric and cut are what is left."
+    ],
+    decision: [
+      "Every morning is a fresh decision with no rule behind it.",
+      "You have defaults, but they run out by Wednesday.",
+      "You are not deciding anymore. That is the point."
+    ],
+    acquisition: [
+      "You buy against deadlines. That is the most expensive way to buy.",
+      "You buy reasonably and still end up with gaps.",
+      "You buy to a plan. Little of what you own is dead weight."
+    ],
+    room: [
+      "You cannot yet name what the room is asking for.",
+      "You read most rooms. The unfamiliar ones still cost you.",
+      "You read the room before you walk in."
+    ]
+  };
+
+  var GAP_COST = {
+    foundation: "Start here. Coverage is the cheapest problem to fix and the one that shows up fastest in the rooms that matter.",
+    fit: "Start here. Fit is the first thing a partner two levels above you reads, and it is the cheapest thing on this list to correct.",
+    decision: "Start here. The cost is not money. It is the attention a new partner cannot afford to spend before nine in the morning.",
+    acquisition: "Start here. Buying against a deadline is how a wardrobe gets expensive without getting better.",
+    room: "Start here. Reading a room correctly is what the next three years of your career will keep asking of you."
+  };
+
+  var PROFILE = {
+    promo: { label: "promo_window", opts: ["Under 6 months", "6 to 18 months", "18 months to 3 years", "More than 3 years", "Not applicable"] },
+    firm:  { label: "firm_type",    opts: ["Law", "Consulting", "Accounting", "Financial services", "Other"] },
+    loc:   { label: "location",     opts: ["New York metro", "Elsewhere in the US", "Outside the US"] }
+  };
+
+  /* ----------------------------- state ----------------------------- */
+
+  var answers = new Array(QUESTIONS.length).fill(null);
+  var profile = { promo: null, firm: null, loc: null };
+  var idx = 0;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var steps = { intro: $("stepIntro"), q: $("stepQ"), profile: $("stepProfile"), result: $("stepResult") };
+
+  function show(which) {
+    Object.keys(steps).forEach(function (k) { steps[k].hidden = (k !== which); });
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  function progress(pct) { $("railFill").style.width = Math.max(0, Math.min(100, pct)) + "%"; }
+
+  function dimName(key) {
+    for (var i = 0; i < DIMS.length; i++) { if (DIMS[i].key === key) return DIMS[i].name; }
+    return key;
+  }
+
+  /* --------------------------- questions --------------------------- */
+
+  function renderQuestion() {
+    var q = QUESTIONS[idx];
+    $("qDim").textContent = dimName(q.d);
+    $("qCount").textContent = "Question " + (idx + 1) + " of " + QUESTIONS.length;
+    $("qText").textContent = q.q;
+    $("backBtn").style.visibility = idx === 0 ? "hidden" : "visible";
+
+    var box = $("qOptions");
+    box.textContent = "";
+    q.a.forEach(function (text, i) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "opt";
+      b.id = "q" + idx + "o" + i;
+      b.setAttribute("aria-pressed", answers[idx] === i ? "true" : "false");
+
+      var key = document.createElement("span");
+      key.className = "key";
+      key.textContent = String.fromCharCode(65 + i);
+
+      var label = document.createElement("span");
+      label.textContent = text;
+
+      b.appendChild(key);
+      b.appendChild(label);
+      b.addEventListener("click", function () { choose(i); });
+      box.appendChild(b);
+    });
+
+    progress((idx / (QUESTIONS.length + 1)) * 100);
+  }
+
+  function choose(i) {
+    answers[idx] = i;
+    var btns = $("qOptions").querySelectorAll(".opt");
+    for (var n = 0; n < btns.length; n++) {
+      btns[n].setAttribute("aria-pressed", n === i ? "true" : "false");
+    }
+    window.setTimeout(function () {
+      if (idx < QUESTIONS.length - 1) { idx++; renderQuestion(); }
+      else { goProfile(); }
+    }, 190);
+  }
+
+  /* ---------------------------- profile ---------------------------- */
+
+  function buildChips(hostId, cfg, slot) {
+    var host = $(hostId);
+    host.textContent = "";
+    cfg.opts.forEach(function (text) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.id = hostId + "-" + text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      b.textContent = text;
+      b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        profile[slot] = text;
+        var sibs = host.querySelectorAll(".chip");
+        for (var n = 0; n < sibs.length; n++) {
+          sibs[n].setAttribute("aria-pressed", sibs[n] === b ? "true" : "false");
+        }
+        $("formErr").textContent = "";
+      });
+      host.appendChild(b);
+    });
+  }
+
+  function goProfile() {
+    progress((QUESTIONS.length / (QUESTIONS.length + 1)) * 100);
+    show("profile");
+    $("fName").focus({ preventScroll: true });
+  }
+
+  /* ---------------------------- scoring ---------------------------- */
+
+  function computeScore() {
+    var per = {};
+    DIMS.forEach(function (d) { per[d.key] = 0; });
+    QUESTIONS.forEach(function (q, i) { per[q.d] += (answers[i] || 0); });
+
+    var total = 0;
+    DIMS.forEach(function (d) { total += per[d.key]; });
+    var pct = Math.round((total / (QUESTIONS.length * 4)) * 100);
+
+    var tier = TIERS[TIERS.length - 1];
+    for (var t = 0; t < TIERS.length; t++) { if (pct >= TIERS[t].min) { tier = TIERS[t]; break; } }
+
+    var weakest = DIMS[0].key;
+    DIMS.forEach(function (d) { if (per[d.key] < per[weakest]) weakest = d.key; });
+
+    return { per: per, total: total, pct: pct, tier: tier, weakest: weakest };
+  }
+
+  function band(points) { return points <= 4 ? 0 : (points <= 8 ? 1 : 2); }
+
+  /* ---------------------------- results ---------------------------- */
+
+  function renderResult(s) {
+    $("tierName").textContent = s.tier.name;
+    $("tierBody").textContent = s.tier.body;
+    $("ctaBtn").href = CTA_URL;
+
+    var bars = $("bars");
+    bars.textContent = "";
+    DIMS.forEach(function (d) {
+      var pts = s.per[d.key];
+      var row = document.createElement("div");
+      row.className = "bar-row" + (d.key === s.weakest ? " weak" : "");
+
+      var name = document.createElement("div");
+      name.className = "bar-name";
+      name.textContent = d.name;
+
+      var num = document.createElement("div");
+      num.className = "bar-num";
+      num.textContent = pts + " / 12";
+
+      var track = document.createElement("div");
+      track.className = "bar-track";
+      var fill = document.createElement("div");
+      fill.className = "bar-fill";
+      track.appendChild(fill);
+
+      var line = document.createElement("div");
+      line.className = "bar-line";
+      line.textContent = GAP_LINES[d.key][band(pts)];
+
+      row.appendChild(name);
+      row.appendChild(num);
+      row.appendChild(track);
+      row.appendChild(line);
+      bars.appendChild(row);
+
+      window.setTimeout(function () { fill.style.width = ((pts / 12) * 100) + "%"; }, 260);
+    });
+
+    var wBand = band(s.per[s.weakest]);
+    $("gapEyebrow").textContent = wBand === 2 ? "Where to refine next" : "Where it is costing you";
+    $("gapName").textContent = dimName(s.weakest);
+    $("gapLine").textContent = GAP_LINES[s.weakest][wBand];
+    $("gapCost").textContent = wBand === 2
+      ? "This is your lowest area, and it is already sound. The work left here is detail, which is the part that separates correct from excellent."
+      : GAP_COST[s.weakest];
+
+    progress(100);
+    show("result");
+
+    // dial
+    var C = 2 * Math.PI * 52;
+    var arc = $("dialArc");
+    arc.setAttribute("stroke-dasharray", C.toFixed(1));
+    arc.setAttribute("stroke-dashoffset", C.toFixed(1));
+    window.setTimeout(function () {
+      arc.setAttribute("stroke-dashoffset", (C * (1 - s.pct / 100)).toFixed(1));
+    }, 120);
+
+    var n = 0, numEl = $("dialNum");
+    var tick = window.setInterval(function () {
+      n += Math.max(1, Math.round(s.pct / 24));
+      if (n >= s.pct) { n = s.pct; window.clearInterval(tick); }
+      numEl.textContent = n;
+    }, 28);
+
+    if (MODE === "preview") {
+      var flag = $("previewFlag");
+      flag.hidden = false;
+      flag.textContent = "Preview copy. Nothing was sent or stored. The version on vladimirriche.com writes this result into MailerLite.";
+    }
+  }
+
+  /* ------------------------ submit to server ------------------------ */
+  /* Posts to /score-submit on vladimirriche.com. That endpoint emails the
+     result to VR and writes the subscriber into MailerLite server side, so
+     no API key is ever exposed here. */
+
+  function postResult(s, name, email) {
+    var payload = {
+      name: name,
+      email: email,
+      score_total: s.pct,
+      score_tier: s.tier.name,
+      score_weakest: dimName(s.weakest),
+      score_foundation: s.per.foundation,
+      score_fit: s.per.fit,
+      score_decision: s.per.decision,
+      score_acquisition: s.per.acquisition,
+      score_room: s.per.room,
+      promo_window: profile.promo || "",
+      firm_type: profile.firm || "",
+      location: profile.loc || ""
+    };
+    return fetch("/score-submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  /* ----------------------------- wiring ---------------------------- */
+
+  function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
+
+  $("beginBtn").addEventListener("click", function () {
+    idx = 0;
+    show("q");
+    renderQuestion();
+  });
+
+  $("backBtn").addEventListener("click", function () {
+    if (idx > 0) { idx--; renderQuestion(); }
+  });
+
+  $("backBtn2").addEventListener("click", function () {
+    show("q");
+    renderQuestion();
+  });
+
+  $("submitBtn").addEventListener("click", function () {
+    var name = $("fName").value.trim();
+    var email = $("fEmail").value.trim();
+    var err = $("formErr");
+
+    if (!profile.promo || !profile.firm || !profile.loc) {
+      err.textContent = "Pick one option in each of the three groups above.";
+      return;
+    }
+    if (!name) { err.textContent = "Add a first name so the email is addressed to you."; $("fName").focus(); return; }
+    if (!validEmail(email)) { err.textContent = "That email address does not look right."; $("fEmail").focus(); return; }
+    err.textContent = "";
+
+    var s = computeScore();
+    if (MODE === "live") {
+      try { postResult(s, name, email); } catch (e) { /* the score still shows */ }
+    }
+    renderResult(s);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (steps.q.hidden) return;
+    var k = e.key.toUpperCase();
+    if (k >= "A" && k <= "E") {
+      var i = k.charCodeAt(0) - 65;
+      if (i < QUESTIONS[idx].a.length) { choose(i); }
+    }
+  });
+
+  buildChips("promoChips", PROFILE.promo, "promo");
+  buildChips("firmChips", PROFILE.firm, "firm");
+  buildChips("locChips", PROFILE.loc, "loc");
+  progress(0);
+})();
+</script>
+</body>
+</html>
