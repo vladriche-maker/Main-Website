@@ -1099,6 +1099,105 @@
       .hero { padding: 80px 20px; }
       .hero h1 { font-size: 40px; }
     }
+
+    /* ─── Checkout & Welcome ─────────────────────── */
+    .pricing-card .btn-primary {
+      margin-top: 28px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* .edit-body p wins on specificity, so restate the card type at card scope */
+    #page-checkout .pricing-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      line-height: 1.25;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    #page-checkout .pricing-card.featured .pricing-name { color: var(--white); }
+
+    #page-checkout .pricing-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+
+    #page-checkout .pricing-card.featured .pricing-price { color: var(--orange); }
+
+    #page-checkout .pricing-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    #page-checkout .pricing-card.featured .pricing-label { color: rgba(255,255,255,0.5); }
+
+    #page-checkout .pricing-desc { font-size: 16px; line-height: 1.75; margin-bottom: 0; }
+    #page-checkout .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.55); }
+
+    .pricing-terms {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .pricing-card.featured .pricing-terms {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .step-list {
+      list-style: none;
+      margin: 32px 0 0;
+      padding: 0;
+      counter-reset: step;
+      border-top: 1px solid var(--border);
+    }
+
+    .step-list li {
+      counter-increment: step;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .step-list li::before {
+      content: counter(step);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: var(--orange);
+      line-height: 1;
+    }
+
+    .stripe-line {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 28px;
+    }
+
+
+
+    @media (max-width: 768px) {
+      .step-list li { grid-template-columns: 28px 1fr; gap: 12px; font-size: 16px; }
+    }
   </style>
 </head>
 <body>
@@ -1512,17 +1611,100 @@
   </div>
 
   <!-- ── JavaScript ──────────────────────────────── -->
+
+  <!-- ── CHECKOUT ─────────────────────────────────── -->
+  <div id="page-checkout" class="page page-wrap">
+
+    <div class="edit-hero">
+      <p class="edit-hero-label">The Partner-Ready Edit</p>
+      <h1>Reserve your session.</h1>
+      <p>Two ways to do this. Pick the one we talked about.</p>
+    </div>
+
+    <div class="edit-body">
+      <p class="edit-lead">Same session. Same outfit build. Same shopping links.</p>
+
+      <p>The only difference between these two is what happens to the recording afterward. Everything you get on the call is identical.</p>
+
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <p class="pricing-label">Signature</p>
+          <p class="pricing-name">Partner-Ready Edit</p>
+          <p class="pricing-price">$500</p>
+          <p class="pricing-desc">The full session, the recording, your written summary, and direct links to every piece.</p>
+          <a href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o" style="text-decoration:none;">
+            <button class="btn-primary">
+              Reserve the Signature Edit
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </a>
+          <p class="pricing-terms">One payment. No subscription.</p>
+        </div>
+
+        <div class="pricing-card featured">
+          <p class="pricing-label">Private</p>
+          <p class="pricing-name">Private Edit</p>
+          <p class="pricing-price">$1,000</p>
+          <p class="pricing-desc">Everything in the Signature Edit. Nothing from your session is ever used as teaching material, in any form, anywhere.</p>
+          <a href="https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l" style="text-decoration:none;">
+            <button class="btn-primary">
+              Reserve the Private Edit
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </a>
+          <p class="pricing-terms">One payment. No subscription.</p>
+        </div>
+      </div>
+
+      <div class="edit-divider"></div>
+
+      <p class="edit-section-label">What happens next</p>
+      <ol class="step-list">
+        <li>You land on a page with my calendar and pick your time.</li>
+        <li>You spend ten minutes on a short prep exercise before we meet.</li>
+        <li>We do the session. Your written summary follows within two days.</li>
+      </ol>
+
+      <p class="stripe-line">Payments are processed by Stripe.</p>
+
+      <div class="testimonial">
+        <p class="testimonial-text">&ldquo;It&rsquo;s wild how much money I was wasting on clothes that didn&rsquo;t work together. One session fixed that. Now every piece in my closet has a purpose.&rdquo;</p>
+        <p class="testimonial-name">Jahlon R.</p>
+      </div>
+
+      <div class="edit-divider"></div>
+
+      <p>Not sure which one yet? <a href="/edit" onclick="showPage('edit'); return false;" style="color: var(--blue);">Read through the Edit again</a>, or reply to my last email and I&rsquo;ll tell you which one I would pick.</p>
+
+    </div>
+
+    <footer>
+      <div class="footer-brand">Vladimir <span>Riché</span></div>
+      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
+      <div class="footer-icons">
+        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+
   <script>
     // ── Page Navigation ──────────────────────────
-    const pages = ['home', 'about', 'edit', 'resources', 'contact'];
+    const pages = ['home', 'about', 'edit', 'resources', 'contact', 'checkout'];
 
     const urlMap = {
       home: '/', about: '/about', edit: '/edit',
-      resources: '/resources', contact: '/contact'
+      resources: '/resources', contact: '/contact',
+      checkout: '/checkout'
     };
     const pathMap = {
       '/': 'home', '/about': 'about', '/edit': 'edit',
-      '/resources': 'resources', '/contact': 'contact'
+      '/resources': 'resources', '/contact': 'contact',
+      '/checkout': 'checkout'
     };
 
     function showPage(id, pushState = true) {
