@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="A sixteen-question wardrobe diagnostic for newly named partners. Score, five-area breakdown, and the one area costing you the most.">
+<meta name="description" content="A seventeen-question wardrobe diagnostic for newly named partners. Score, five-area breakdown, and the one area costing you the most.">
 <title>Partner Wardrobe System Score</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -132,6 +132,13 @@
   .opt:hover .key{border-color:var(--navy);color:var(--navy)}
   .opt[aria-pressed="true"] .key{background:var(--sel);border-color:var(--sel);color:var(--ground)}
   .opt[aria-pressed="true"]{background:var(--rule-soft)}
+  /* The cursor sits still while the next question renders under it, which used
+     to light up whichever option landed there. Hover stays off until the
+     pointer actually moves. */
+  .options.nohover .opt:hover{background:none;padding-left:4px}
+  .options.nohover .opt:hover .key{border-color:var(--rule);color:var(--muted)}
+  .options.nohover .opt[aria-pressed="true"]{background:var(--rule-soft)}
+  .options.nohover .opt[aria-pressed="true"] .key{background:var(--sel);border-color:var(--sel);color:var(--ground)}
   .qnav{display:flex;align-items:center;justify-content:space-between;margin-top:26px;gap:16px}
 
   /* ---- form ---- */
@@ -216,9 +223,9 @@
     <p class="mark">Vladimir Riché</p>
     <h1>You made partner.<br>Does your <em>wardrobe</em> have a system?</h1>
     <p class="lede">Most newly named partners do not look bad. They look fine by the standard of the floor they came from. What they do not have is a system, so every new room is a fresh guess.</p>
-    <p class="lede">Sixteen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
+    <p class="lede">Seventeen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
     <div class="meta-row">
-      <div class="meta-item"><b>16</b>questions</div>
+      <div class="meta-item"><b>17</b>questions</div>
       <div class="meta-item"><b>3</b>minutes</div>
       <div class="meta-item"><b>5</b>areas scored</div>
     </div>
@@ -230,7 +237,7 @@
   <!-- QUESTION -->
   <section class="step" id="stepQ" hidden>
     <div class="qhead">
-      <p class="eyebrow"><span id="qDim">Foundation</span><span class="sep">/</span><span id="qCount">Question 1 of 16</span></p>
+      <p class="eyebrow"><span id="qDim">Foundation</span><span class="sep">/</span><span id="qCount">Question 1 of 17</span></p>
       <h2 class="qtext" id="qText"></h2>
     </div>
     <div class="options" id="qOptions"></div>
@@ -413,6 +420,12 @@
       a: ["There is not one", "I add a tie", "I wear a better suit",
           "Different suit, shirt, and shoes, chosen on purpose",
           "I have a defined tier for each, so I do not think about it"] },
+    { d: "room", q: "A client meets your team for the first time. Nobody makes introductions. You:",
+      a: ["Would not stand out from the associates in the room",
+          "Look like the most senior person because I am the oldest one there",
+          "Am usually identified correctly, though I could not say why",
+          "Read as the decision maker, and I dressed for that on purpose",
+          "Read as the decision maker in any room, because nothing I wear is left to chance"] },
     { d: "room", q: "A partner two levels above you walks in. Compared to him, you:",
       a: ["Can tell something is different but could not name it",
           "Notice his fit is better",
@@ -530,8 +543,14 @@
       box.appendChild(b);
     });
 
+    box.classList.add("nohover");
     progress((idx / (QUESTIONS.length + 1)) * 100);
   }
+
+  document.addEventListener("pointermove", function () {
+    var box = $("qOptions");
+    if (box) box.classList.remove("nohover");
+  }, { passive: true });
 
   function choose(i) {
     answers[idx] = i;
