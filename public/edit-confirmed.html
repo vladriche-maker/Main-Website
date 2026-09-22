@@ -379,15 +379,13 @@
       margin-bottom: 12px;
     }
 
-    /* Sits under .step-title, so it has to read as the smaller of the two.
-       At 40px it was larger than the step heading above it. */
+    /* Steps 1 and 2 open with plain body copy under the orange eyebrow.
+       This line does the same, so all three steps read the same way. */
     .closing-heading {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(20px, 2vw, 25px);
-      font-weight: 400;
-      color: var(--navy);
-      line-height: 1.3;
-      margin-bottom: 18px;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.75;
+      margin-bottom: 16px;
     }
 
     .closing-body p {
@@ -578,7 +576,7 @@
       <div class="closing-grid">
         <div>
           <p class="closing-text-label">What to expect</p>
-          <h3 class="closing-heading">Come with an open wardrobe and an honest eye.</h3>
+          <p class="closing-heading">Come with an open wardrobe and an honest eye.</p>
           <div class="closing-body">
             <p>Bring your draft. We move fast and we do not waste time.</p>
           </div>
