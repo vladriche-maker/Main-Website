@@ -252,20 +252,48 @@ app.post('/score-submit', async (req, res) => {
   // 2. Write the subscriber into MailerLite. Never blocks the visitor's result.
   try {
     if (process.env.MAILERLITE_API_KEY) {
+      // The Scorecard group in MailerLite. Not a secret, just an id, so it
+      // lives here rather than in an environment variable. Set
+      // MAILERLITE_SCORE_GROUP in Hostinger to override it without a code change.
+      const group = process.env.MAILERLITE_SCORE_GROUP || '199265122678474097';
+      const auth = {
+        'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      };
+
       const payload = { email, fields: Object.assign({ name }, score) };
-      if (process.env.MAILERLITE_SCORE_GROUP) {
-        payload.groups = [process.env.MAILERLITE_SCORE_GROUP];
-      }
+      if (group) payload.groups = [group];
+
       const r = await fetch('https://connect.mailerlite.com/api/subscribers', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`,
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: auth,
         body: JSON.stringify(payload),
       });
-      if (!r.ok) console.error('MailerLite score subscribe failed:', r.status, await r.text());
+      const body = await r.json().catch(() => null);
+
+      if (!r.ok) {
+        console.error('MailerLite score subscribe failed:', r.status, JSON.stringify(body));
+      } else if (!group) {
+        console.log('MailerLite: no group id available, subscriber saved without a group');
+      } else {
+        // An upsert does not reliably add an ALREADY EXISTING subscriber to a
+        // group, so assign it explicitly. Safe for new subscribers too.
+        const id = body && body.data && body.data.id;
+        if (!id) {
+          console.error('MailerLite: no subscriber id returned, cannot assign group');
+        } else {
+          const g = await fetch(
+            `https://connect.mailerlite.com/api/subscribers/${id}/groups/${group}`,
+            { method: 'POST', headers: auth }
+          );
+          if (!g.ok) {
+            console.error('MailerLite group assign failed:', g.status, await g.text());
+          } else {
+            console.log('MailerLite: subscriber', id, 'assigned to group', group);
+          }
+        }
+      }
     }
   } catch (err) {
     console.error('MailerLite score subscribe error:', err);
