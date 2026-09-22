@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="A fifteen-question wardrobe diagnostic for newly named partners. Score, five-area breakdown, and the one area costing you the most.">
+<meta name="description" content="A sixteen-question wardrobe diagnostic for newly named partners. Score, five-area breakdown, and the one area costing you the most.">
 <title>Partner Wardrobe System Score</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -216,9 +216,9 @@
     <p class="mark">Vladimir Riché</p>
     <h1>You made partner.<br>Does your <em>wardrobe</em> have a system?</h1>
     <p class="lede">Most newly named partners do not look bad. They look fine by the standard of the floor they came from. What they do not have is a system, so every new room is a fresh guess.</p>
-    <p class="lede">Fifteen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
+    <p class="lede">Sixteen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
     <div class="meta-row">
-      <div class="meta-item"><b>15</b>questions</div>
+      <div class="meta-item"><b>16</b>questions</div>
       <div class="meta-item"><b>3</b>minutes</div>
       <div class="meta-item"><b>5</b>areas scored</div>
     </div>
@@ -349,6 +349,12 @@
     { d: "foundation", q: "How many pairs of leather dress shoes would you wear on the high floor?",
       a: ["One pair, and it goes with everything", "Two pairs", "Three pairs", "Four or more",
           "Four or more, and I know which suit each pair belongs to"] },
+    { d: "foundation", q: "Your suits and jackets across the year:",
+      a: ["One all-season weight, worn all twelve months",
+          "Mostly one weight, plus a coat for winter",
+          "A few heavier and lighter pieces, picked up here and there",
+          "I dress for the season, and I know which cloth belongs to which months",
+          "Two rotations, warm and cold, and I switch them over on schedule"] },
     { d: "foundation", q: "A client dinner gets added after a full day at the office. What happens?",
       a: ["I go in what I wore, and I know it is not right",
           "I go in what I wore and hope nobody looks closely",
@@ -470,6 +476,10 @@
 
   /* ----------------------------- state ----------------------------- */
 
+  var DIM_MAX = {};
+  DIMS.forEach(function (d) { DIM_MAX[d.key] = 0; });
+  QUESTIONS.forEach(function (q) { DIM_MAX[q.d] += 4; });
+
   var answers = new Array(QUESTIONS.length).fill(null);
   var profile = { promo: null, firm: null, loc: null };
   var idx = 0;
@@ -580,12 +590,17 @@
     for (var t = 0; t < TIERS.length; t++) { if (pct >= TIERS[t].min) { tier = TIERS[t]; break; } }
 
     var weakest = DIMS[0].key;
-    DIMS.forEach(function (d) { if (per[d.key] < per[weakest]) weakest = d.key; });
+    DIMS.forEach(function (d) {
+      if (per[d.key] / DIM_MAX[d.key] < per[weakest] / DIM_MAX[weakest]) weakest = d.key;
+    });
 
     return { per: per, total: total, pct: pct, tier: tier, weakest: weakest };
   }
 
-  function band(points) { return points <= 4 ? 0 : (points <= 8 ? 1 : 2); }
+  function band(points, max) {
+    var r = points / max;
+    return r <= 1 / 3 ? 0 : (r <= 2 / 3 ? 1 : 2);
+  }
 
   /* ---------------------------- results ---------------------------- */
 
@@ -607,7 +622,7 @@
 
       var num = document.createElement("div");
       num.className = "bar-num";
-      num.textContent = pts + " / 12";
+      num.textContent = pts + " / " + DIM_MAX[d.key];
 
       var track = document.createElement("div");
       track.className = "bar-track";
@@ -617,7 +632,7 @@
 
       var line = document.createElement("div");
       line.className = "bar-line";
-      line.textContent = GAP_LINES[d.key][band(pts)];
+      line.textContent = GAP_LINES[d.key][band(pts, DIM_MAX[d.key])];
 
       row.appendChild(name);
       row.appendChild(num);
@@ -625,10 +640,10 @@
       row.appendChild(line);
       bars.appendChild(row);
 
-      window.setTimeout(function () { fill.style.width = ((pts / 12) * 100) + "%"; }, 260);
+      window.setTimeout(function () { fill.style.width = ((pts / DIM_MAX[d.key]) * 100) + "%"; }, 260);
     });
 
-    var wBand = band(s.per[s.weakest]);
+    var wBand = band(s.per[s.weakest], DIM_MAX[s.weakest]);
     $("gapEyebrow").textContent = wBand === 2 ? "Where to refine next" : "Where it is costing you";
     $("gapName").textContent = dimName(s.weakest);
     $("gapLine").textContent = GAP_LINES[s.weakest][wBand];
