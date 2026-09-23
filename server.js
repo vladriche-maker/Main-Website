@@ -112,6 +112,14 @@ app.get('/edit/confirmed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'edit-confirmed.html'));
 });
 
+app.get('/workshop', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'workshop.html'));
+});
+
+app.get('/workshop/confirmed', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'workshop-confirmed.html'));
+});
+
 app.get('/capsule-guide', (req, res) => {
   res.redirect(301, 'https://chatgpt.com/g/g-691dcf33abb88191b28a7f683790512b-capsule-wardrobe-guide');
 });
@@ -145,6 +153,26 @@ app.post('/subscribe', async (req, res) => {
     const data = await response.json();
 
     if (response.ok || response.status === 200 || response.status === 201) {
+      // An upsert does not reliably add an ALREADY EXISTING subscriber to a
+      // group, so assign it explicitly. Safe for new subscribers too.
+      const id = data && data.data && data.data.id;
+      if (id) {
+        try {
+          const g = await fetch(
+            `https://connect.mailerlite.com/api/subscribers/${id}/groups/${groupId}`,
+            {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${process.env.MAILERLITE_API_KEY}`,
+                'Accept': 'application/json'
+              }
+            }
+          );
+          if (!g.ok) console.error('MailerLite group assign failed:', g.status, await g.text());
+        } catch (e) {
+          console.error('MailerLite group assign error:', e);
+        }
+      }
       res.json({ success: true });
     } else {
       console.error('MailerLite error:', data);
