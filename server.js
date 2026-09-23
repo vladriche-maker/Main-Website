@@ -120,6 +120,10 @@ app.get('/workshop/confirmed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'workshop-confirmed.html'));
 });
 
+app.get('/workshop/replay-access', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'workshop-replay-access.html'));
+});
+
 app.get('/capsule-guide', (req, res) => {
   res.redirect(301, 'https://chatgpt.com/g/g-691dcf33abb88191b28a7f683790512b-capsule-wardrobe-guide');
 });
