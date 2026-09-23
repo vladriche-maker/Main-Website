@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>You're In · Keep, Tailor, or Burn</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Libre+Franklin:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --navy:#0E1A2B; --navy-deep:#09121F; --chalk:#ECE7DB; --chalk-dim:#A9B2C0;
+  --orange:#FF7924; --orange-soft:#FF9D5C; --line:rgba(236,231,219,.14);
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Libre Franklin","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--chalk);font:400 17px/1.6 var(--body);
+  background:repeating-linear-gradient(90deg,transparent 0 46px,rgba(236,231,219,.05) 46px 47px),linear-gradient(180deg,var(--navy-deep),var(--navy));}
+.wrap{max-width:640px;margin:0 auto;padding:56px 24px 72px}
+@media (max-width:480px){.wrap{padding-inline:16px}}
+.brand{font:600 13px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;margin-bottom:56px}
+.brand span{color:var(--orange)}
+.eyebrow{font:500 12px/1.5 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+h1{font:500 clamp(40px,8vw,64px)/1.05 var(--display);margin:14px 0 0;text-wrap:balance}
+h1 em{color:var(--orange);font-style:italic}
+.lede{margin:20px 0 0;font-size:18px;max-width:52ch}
+form{margin-top:36px;display:grid;gap:14px;padding:28px;border:1px solid var(--line);background:rgba(9,18,31,.6)}
+label{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--chalk-dim)}
+input{width:100%;margin-top:8px;padding:14px 16px;font:400 17px var(--body);color:var(--chalk);background:var(--navy-deep);border:1px solid var(--line);border-radius:2px}
+input:focus{outline:2px solid var(--orange);outline-offset:1px;border-color:transparent}
+button{margin-top:6px;padding:18px 24px;font:600 16px/1 var(--body);background:var(--orange);color:var(--navy-deep);border:0;border-radius:2px;cursor:pointer}
+button:hover{background:var(--orange-soft)}
+button:disabled{opacity:.6;cursor:default}
+.note{font:400 13px/1.5 var(--mono);color:var(--chalk-dim);margin:0}
+.msg{font-size:15px;margin:0}
+.msg.error{color:#FF9D8A}
+.done{margin-top:36px;padding:28px;border:1px solid var(--orange)}
+.done h2{font:500 30px/1.15 var(--display);margin:0 0 10px}
+.steps{margin-top:44px;border-top:1px solid var(--line);padding-top:28px}
+.steps h2{font:500 26px/1.2 var(--display);margin:10px 0 16px}
+.steps ol{margin:0;padding-left:22px;display:grid;gap:8px}
+.meta{margin-top:28px;font:400 14px/1.6 var(--mono);color:var(--chalk-dim)}
+.meta b{color:var(--chalk);font-weight:500}
+a{color:var(--orange-soft)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Chace <span>&amp;</span> Ryder</div>
+
+  <p class="eyebrow">Dressed in the Dark · No. 01 · Keep, Tailor, or Burn</p>
+  <h1>You're in. <em>One last step.</em></h1>
+  <p class="lede">Payment went through. Tell me where to send your Zoom link and the Closet Edit Worksheet. Use the email you check.</p>
+
+  <form id="confirm-form" novalidate>
+    <div>
+      <label for="ws-name">First name</label>
+      <input id="ws-name" name="name" type="text" autocomplete="given-name" required>
+    </div>
+    <div>
+      <label for="ws-email">Email</label>
+      <input id="ws-email" name="email" type="email" autocomplete="email" required>
+    </div>
+    <button id="ws-btn" type="submit">Send my Zoom link</button>
+    <p class="msg" id="ws-msg" role="status" aria-live="polite"></p>
+    <p class="note">You'll also get a reminder the day before and an hour before we start.</p>
+  </form>
+
+  <div class="done" id="ws-done" hidden>
+    <h2>Done. Check your inbox.</h2>
+    <p class="msg">Your Zoom link and worksheet are on the way. If you don't see them in a few minutes, check your promotions or spam folder, or reply to any of my emails.</p>
+  </div>
+
+  <div class="steps">
+    <p class="eyebrow">Your homework</p>
+    <h2>Pull five pieces before we start.</h2>
+    <ol>
+      <li>Your best suit</li>
+      <li>Your worst suit (you know the one)</li>
+      <li>One sport coat or blazer</li>
+      <li>Two pairs of trousers</li>
+    </ol>
+    <p class="meta">Worksheet: <a href="/closet-edit-worksheet.pdf" target="_blank" rel="noopener">The Closet Edit Worksheet (PDF)</a><br>
+    <b>Thursday, October 22 · 7:00 PM ET</b> · Live on Zoom</p>
+    <p class="meta">Peace! Vladimir</p>
+  </div>
+</div>
+
+<script>
+document.getElementById('confirm-form').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  var btn = document.getElementById('ws-btn');
+  var msg = document.getElementById('ws-msg');
+  var name = document.getElementById('ws-name').value.trim();
+  var email = document.getElementById('ws-email').value.trim();
+
+  if (!email || email.indexOf('@') < 1) {
+    msg.className = 'msg error';
+    msg.textContent = 'Enter the email address where you want your Zoom link.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  msg.className = 'msg';
+  msg.textContent = '';
+
+  try {
+    var res = await fetch('/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, name: name, groupId: '199357439310562614' })
+    });
+    var data = await res.json();
+    if (!data.success) throw new Error(data.message || 'Something went wrong.');
+    document.getElementById('confirm-form').hidden = true;
+    document.getElementById('ws-done').hidden = false;
+  } catch (err) {
+    msg.className = 'msg error';
+    msg.textContent = 'That didn’t go through. Try again, or reply to any of my emails and I’ll send your link by hand.';
+    btn.disabled = false;
+    btn.textContent = 'Send my Zoom link';
+  }
+});
+</script>
+</body>
+</html>
