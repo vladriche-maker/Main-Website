@@ -19,6 +19,7 @@ html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit}
+[hidden]{display:none !important}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 .narrow{max-width:760px;margin:0 auto;padding:0 20px}
 h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
@@ -33,8 +34,9 @@ header.top{border-bottom:1px solid var(--line)}
 .top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .top b{color:var(--text)}
 .tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold2);padding:3px 10px;border-radius:20px}
-.btn{display:inline-block;background:var(--gold);color:#0c1420;text-decoration:none;font-weight:600;padding:16px 30px;border-radius:3px;font-size:16px;letter-spacing:.02em;transition:.2s;border:0;cursor:pointer}
+.btn{display:inline-block;background:var(--gold);color:#0c1420;text-decoration:none;font-weight:600;padding:16px 30px;border-radius:3px;font-size:16px;letter-spacing:.02em;transition:.2s;border:0;cursor:pointer;font-family:inherit}
 .btn:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn[disabled]{opacity:.6;cursor:wait;transform:none}
 .btn.off{background:var(--card);color:var(--muted);border:1px solid var(--line);pointer-events:none}
 .hero{padding:56px 0 40px;border-top:0;text-align:center}
 .hero .sub{font-size:19px;color:var(--muted);max-width:620px;margin:18px auto 0}
@@ -44,6 +46,18 @@ header.top{border-bottom:1px solid var(--line)}
 .soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
 .soon h3{margin-bottom:8px}
 .soon p{max-width:440px;margin:0;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:36px 28px;max-width:520px;margin:0 auto}
+.gate{padding:72px 0 96px;border-top:0;text-align:center}
+.gate .sub{font-size:18px;color:var(--muted);max-width:560px;margin:16px auto 32px}
+.card label{display:block;text-align:left;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.card input[type=email]{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:3px;color:var(--text);font:inherit;padding:14px 16px;margin-bottom:16px}
+.card input[type=email]:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold)}
+.card .btn{width:100%}
+.status{min-height:24px;margin:14px 0 0;font-size:15px;color:var(--muted)}
+.status.err{color:#ff9a8a}
+.checking{padding:140px 0;border-top:0;text-align:center;color:var(--muted)}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--gold);border-radius:50%;margin:0 auto 14px;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
 .item{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
 .item h3{font-size:24px}
@@ -67,6 +81,7 @@ ul.clean li:before{content:"";position:absolute;left:0;top:19px;width:12px;heigh
 .count strong{display:block;font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1;color:var(--gold2)}
 .count span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .fine{font-size:14px;color:var(--muted);margin:14px 0 0}
+.linkbtn{background:none;border:0;color:var(--gold2);font:inherit;font-size:14px;text-decoration:underline;cursor:pointer;margin-top:18px}
 footer{padding:36px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
 footer a{color:var(--gold2)}
 @media(max-width:760px){
@@ -81,134 +96,243 @@ footer a{color:var(--gold2)}
   <div class="wrap"><b>Chace &amp; Ryder · Workshop replay</b><span class="tag">Workshop buyers only</span></div>
 </header>
 
-<section class="hero">
+<!-- 1. Checking saved access -->
+<section class="checking" id="checking">
+  <div class="spin" aria-hidden="true"></div>
+  <p style="color:var(--muted);margin:0">Checking your access</p>
+</section>
+
+<!-- 2. Access gate -->
+<section class="gate" id="gate" hidden>
   <div class="wrap">
     <div class="eyebrow">Dressed in the Dark · No. 01</div>
     <h1>Watch the <em>replay.</em></h1>
-    <p class="sub">The full session on trousers, plus your Trousers GPT, all in one place. Everything Hangs on the Trousers.</p>
-  </div>
-  <div class="player">
-    <div class="frame" id="frame">
-      <div class="soon" id="soon">
-        <h3>Your replay is being edited.</h3>
-        <p>It will be posted right here. Check your email for the note when it's up.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="eyebrow">Resources</div>
-    <h2>Everything that came with your ticket.</h2>
-    <div class="grid2">
-      <div class="item">
-        <span class="tag">Everyone</span>
-        <h3>The Trousers GPT</h3>
-        <p>Enter your height, shoe size and other details, and it tells you the measurements to go for. Take it shopping or to your tailor.</p>
-        <a class="btn off" id="gptBtn" href="#">Link coming soon</a>
-      </div>
-      <div class="item">
-        <span class="tag">Live attendees</span>
-        <h3>The Tailor Talk Sheet</h3>
-        <p>The exact words to use when you ask for trouser alterations, what a fair price looks like, and what no tailor can fix. It went out by email to everyone who joined live.</p>
-      </div>
-    </div>
+    <p class="sub">Enter the email you used to buy your workshop ticket. This device will be remembered, so it's a one-time step.</p>
+    <form class="card" id="gateForm" novalidate>
+      <label for="email">Your purchase email</label>
+      <input type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required>
+      <button class="btn" type="submit" id="gateBtn">Unlock the replay</button>
+      <div class="status" id="gateStatus" role="status" aria-live="polite"></div>
+    </form>
+    <noscript><p class="fine">This page needs JavaScript to check your access.</p></noscript>
   </div>
 </section>
 
-<section>
-  <div class="narrow">
-    <div class="eyebrow">Keep the momentum</div>
-    <h2>The workshop covered the trousers. The Edit covers <em>everything else.</em></h2>
-    <p>The Edit is my one-on-one closet audit. Ninety minutes live on Zoom, and we go through what you own piece by piece: what stays, what a tailor can fix, and what goes. Then we build one outfit from what's left and write down exactly what's missing.</p>
-    <p>I only take four hours of Edits a week, so the spots are limited. As a thank-you for joining the workshop, you get a better price until the deadline below.</p>
-    <ul class="clean">
-      <li>A 90-minute live closet audit, just you and me</li>
-      <li>A keep, tailor or burn verdict on every piece</li>
-      <li>One complete outfit built from what you already own</li>
-      <li>A short gap list, so you only buy what's missing</li>
-    </ul>
-    <div class="quote">
-      <img src="https://vladimirriche.com/jahlon-reid-testimonial.jpg" alt="Jahlon R. in a navy double-breasted blazer, grey flannel trousers and brown suede loafers">
-      <div>
-        <blockquote>“It’s wild how much money I was wasting on clothes that didn’t work together. One session fixed that. Now every piece in my closet has a purpose.”</blockquote>
-        <div class="who">Jahlon R.</div>
-      </div>
+<!-- 3. Members area (filled in only after the server approves access) -->
+<main id="members" hidden>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Dressed in the Dark · No. 01</div>
+      <h1>Watch the <em>replay.</em></h1>
+      <p class="sub">The full session on trousers, plus your Trousers GPT, all in one place. Everything Hangs on the Trousers.</p>
     </div>
-
-    <div class="offer" id="offer">
-      <div class="eyebrow" style="margin:0">Workshop buyers only</div>
-      <h3>The Edit</h3>
-      <p style="margin:0">90-minute live closet audit with Vladimir Riché</p>
-      <div class="price" id="price"><s>$500</s>$491</div>
-      <p style="margin:0" id="priceNote">Use code below at checkout.</p>
-      <div class="code" id="codeBox"><span id="codeText">WORKSHOP9</span><button type="button" id="copyBtn">Copy</button></div>
-      <div id="timer">
-        <p class="fine" style="margin-top:12px">Offer ends Sunday, October 25 at 11:59 PM ET</p>
-        <div class="count">
-          <div><strong id="d">--</strong><span>Days</span></div>
-          <div><strong id="h">--</strong><span>Hours</span></div>
-          <div><strong id="m">--</strong><span>Min</span></div>
-          <div><strong id="s">--</strong><span>Sec</span></div>
+    <div class="player">
+      <div class="frame" id="frame">
+        <div class="soon" id="soon">
+          <h3>Your replay is being edited.</h3>
+          <p>It will be posted right here. Check your email for the note when it's up.</p>
         </div>
       </div>
-      <p style="margin:22px 0 0"><a class="btn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
-      <p class="fine">Enter the code at checkout. Secure Stripe checkout.</p>
     </div>
-  </div>
-</section>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="eyebrow">Resources</div>
+      <h2>Everything that came with your ticket.</h2>
+      <div class="grid2">
+        <div class="item">
+          <span class="tag">Everyone</span>
+          <h3>The Trousers GPT</h3>
+          <p>Enter your height, shoe size and other details, and it tells you the measurements to go for. Take it shopping or to your tailor.</p>
+          <a class="btn off" id="gptBtn" href="#">Link coming soon</a>
+        </div>
+        <div class="item">
+          <span class="tag">Live attendees</span>
+          <h3>The Tailor Talk Sheet</h3>
+          <p>The exact words to use when you ask for trouser alterations, what a fair price looks like, and what no tailor can fix. It went out by email to everyone who joined live.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="narrow">
+      <div class="eyebrow">Keep the momentum</div>
+      <h2>The workshop covered the trousers. The Edit covers <em>everything else.</em></h2>
+      <p>The Edit is my one-on-one closet audit. Ninety minutes live on Zoom, and we go through what you own piece by piece: what stays, what a tailor can fix, and what goes. Then we build one outfit from what's left and write down exactly what's missing.</p>
+      <p>I only take four hours of Edits a week, so the spots are limited. As a thank-you for joining the workshop, you get a better price until the deadline below.</p>
+      <ul class="clean">
+        <li>A 90-minute live closet audit, just you and me</li>
+        <li>A keep, tailor or burn verdict on every piece</li>
+        <li>One complete outfit built from what you already own</li>
+        <li>A short gap list, so you only buy what's missing</li>
+      </ul>
+      <div class="quote">
+        <img src="https://vladimirriche.com/jahlon-reid-testimonial.jpg" alt="Jahlon R. in a navy double-breasted blazer, grey flannel trousers and brown suede loafers">
+        <div>
+          <blockquote>“It’s wild how much money I was wasting on clothes that didn’t work together. One session fixed that. Now every piece in my closet has a purpose.”</blockquote>
+          <div class="who">Jahlon R.</div>
+        </div>
+      </div>
+
+      <div class="offer" id="offer">
+        <div class="eyebrow" style="margin:0">Workshop buyers only</div>
+        <h3>The Edit</h3>
+        <p style="margin:0">90-minute live closet audit with Vladimir Riché</p>
+        <div class="price" id="price"><s>$500</s>$491</div>
+        <p style="margin:0" id="priceNote">Use the code below at checkout.</p>
+        <div class="code" id="codeBox"><span id="codeText"></span><button type="button" id="copyBtn">Copy</button></div>
+        <div id="timer">
+          <p class="fine" style="margin-top:12px">Offer ends Sunday, October 25 at 11:59 PM ET</p>
+          <div class="count">
+            <div><strong id="d">--</strong><span>Days</span></div>
+            <div><strong id="h">--</strong><span>Hours</span></div>
+            <div><strong id="m">--</strong><span>Min</span></div>
+            <div><strong id="s">--</strong><span>Sec</span></div>
+          </div>
+        </div>
+        <p style="margin:22px 0 0"><a class="btn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
+        <p class="fine">Enter the code at checkout. Secure Stripe checkout.</p>
+      </div>
+      <p style="text-align:center"><button type="button" class="linkbtn" id="signOut">Use a different email</button></p>
+    </div>
+  </section>
+</main>
 
 <footer>© 2026 Chace &amp; Ryder · Dressed in the Dark · <a href="https://vladimirriche.com">vladimirriche.com</a></footer>
 
 <script>
 (function(){
-  /* ---- Fill these in, then re-upload ---- */
-  var VIMEO_ID   = "";   // e.g. "123456789"
-  var VIMEO_HASH = "";   // the h= value from the unlisted Vimeo link, if it has one
-  var GPT_URL    = "";   // link to the Trousers GPT
-  /* --------------------------------------- */
+  var KEY = "cr_replay_token";
+  var $ = function(id){ return document.getElementById(id); };
+  var timerStarted = false;
 
-  if (VIMEO_ID) {
-    var src = "https://player.vimeo.com/video/" + encodeURIComponent(VIMEO_ID) +
-      (VIMEO_HASH ? "?h=" + encodeURIComponent(VIMEO_HASH) : "");
-    var f = document.createElement("iframe");
-    f.src = src;
-    f.title = "Dressed in the Dark No. 01 replay";
-    f.allow = "autoplay; fullscreen; picture-in-picture";
-    f.setAttribute("allowfullscreen", "");
-    document.getElementById("frame").appendChild(f);
-    document.getElementById("soon").style.display = "none";
-  }
-  if (GPT_URL) {
-    var b = document.getElementById("gptBtn");
-    b.href = GPT_URL; b.textContent = "Open the Trousers GPT"; b.className = "btn"; b.target = "_blank"; b.rel = "noopener";
+  function store(t){ try { localStorage.setItem(KEY, t); } catch(e){} }
+  function load(){ try { return localStorage.getItem(KEY) || ""; } catch(e){ return ""; } }
+  function clear(){ try { localStorage.removeItem(KEY); } catch(e){} }
+
+  function post(url, body){
+    return fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      cache: "no-store"
+    }).then(function(r){
+      return r.json().catch(function(){ return {}; }).then(function(j){ j.status = r.status; return j; });
+    });
   }
 
-  var copyBtn = document.getElementById("copyBtn");
-  copyBtn.addEventListener("click", function(){
-    var t = document.getElementById("codeText").textContent;
-    try { navigator.clipboard.writeText(t); copyBtn.textContent = "Copied"; setTimeout(function(){copyBtn.textContent="Copy"},1800); } catch(e) {}
+  function showGate(msg, isErr){
+    $("checking").hidden = true;
+    $("members").hidden = true;
+    $("gate").hidden = false;
+    var s = $("gateStatus");
+    s.textContent = msg || "";
+    s.className = "status" + (isErr ? " err" : "");
+  }
+
+  function unlock(content){
+    content = content || {};
+    $("checking").hidden = true;
+    $("gate").hidden = true;
+    $("members").hidden = false;
+
+    if (content.vimeoId && !$("frame").querySelector("iframe")) {
+      var src = "https://player.vimeo.com/video/" + encodeURIComponent(content.vimeoId) +
+        (content.vimeoHash ? "?h=" + encodeURIComponent(content.vimeoHash) : "");
+      var f = document.createElement("iframe");
+      f.src = src;
+      f.title = "Dressed in the Dark No. 01 replay";
+      f.allow = "autoplay; fullscreen; picture-in-picture";
+      f.setAttribute("allowfullscreen", "");
+      $("frame").appendChild(f);
+      $("soon").hidden = true;
+    }
+    if (content.gptUrl) {
+      var b = $("gptBtn");
+      b.href = content.gptUrl; b.textContent = "Open the Trousers GPT";
+      b.className = "btn"; b.target = "_blank"; b.rel = "noopener";
+    }
+    $("codeText").textContent = content.editCode || "";
+    if (!content.editCode) $("codeBox").hidden = true;
+    startTimer();
+    window.scrollTo(0, 0);
+  }
+
+  // ---- Edit offer countdown ----
+  function startTimer(){
+    if (timerStarted) return;
+    timerStarted = true;
+    var end = Date.UTC(2026, 9, 26, 3, 59, 59); // Oct 25, 2026 11:59:59 PM EDT
+    function pad(n){ return n < 10 ? "0" + n : "" + n; }
+    function tick(){
+      var t = end - Date.now();
+      if (t <= 0) {
+        $("price").textContent = "$500";
+        $("priceNote").textContent = "The workshop offer has ended. The Edit is still open at the regular price.";
+        $("codeBox").hidden = true;
+        $("timer").hidden = true;
+        return false;
+      }
+      $("d").textContent = pad(Math.floor(t / 864e5));
+      $("h").textContent = pad(Math.floor(t / 36e5) % 24);
+      $("m").textContent = pad(Math.floor(t / 6e4) % 60);
+      $("s").textContent = pad(Math.floor(t / 1e3) % 60);
+      return true;
+    }
+    if (tick()) { var iv = setInterval(function(){ if (!tick()) clearInterval(iv); }, 1000); }
+  }
+
+  $("copyBtn").addEventListener("click", function(){
+    var btn = $("copyBtn");
+    try {
+      navigator.clipboard.writeText($("codeText").textContent);
+      btn.textContent = "Copied";
+      setTimeout(function(){ btn.textContent = "Copy"; }, 1800);
+    } catch(e) {}
   });
 
-  var end = Date.UTC(2026,9,26,3,59,59); // Oct 25, 2026 11:59:59 PM EDT
-  function pad(n){return n<10?"0"+n:""+n}
-  function tick(){
-    var t = end - Date.now();
-    if (t <= 0) {
-      document.getElementById("price").innerHTML = "$500";
-      document.getElementById("priceNote").textContent = "The workshop offer has ended. The Edit is still open at the regular price.";
-      document.getElementById("codeBox").style.display = "none";
-      document.getElementById("timer").style.display = "none";
-      return false;
-    }
-    document.getElementById("d").textContent = pad(Math.floor(t/864e5));
-    document.getElementById("h").textContent = pad(Math.floor(t/36e5)%24);
-    document.getElementById("m").textContent = pad(Math.floor(t/6e4)%60);
-    document.getElementById("s").textContent = pad(Math.floor(t/1e3)%60);
-    return true;
-  }
-  if (tick()) { var iv = setInterval(function(){ if(!tick()) clearInterval(iv); }, 1000); }
+  $("signOut").addEventListener("click", function(){
+    clear();
+    $("email").value = "";
+    showGate("");
+  });
+
+  // ---- Gate form ----
+  $("gateForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var email = $("email").value.trim();
+    var btn = $("gateBtn");
+    if (!email || email.indexOf("@") < 1) { showGate("Enter the email you used at checkout.", true); return; }
+    btn.disabled = true;
+    $("gateStatus").className = "status";
+    $("gateStatus").textContent = "Checking your access";
+    post("/api/replay/unlock", { email: email }).then(function(r){
+      btn.disabled = false;
+      if (r.ok) { store(r.token); unlock(r.content); return; }
+      if (r.error === "no_purchase") {
+        showGate("We couldn't find a ticket for that email. Try the email you used at checkout, or reply to your confirmation email and I'll sort it out.", true);
+      } else if (r.error === "too_many") {
+        showGate("Too many tries. Please wait a few minutes and try again.", true);
+      } else if (r.error === "bad_email") {
+        showGate("That doesn't look like an email address.", true);
+      } else {
+        showGate("Something went wrong on our end. Please try again in a minute.", true);
+      }
+    }).catch(function(){
+      btn.disabled = false;
+      showGate("Couldn't reach the server. Check your connection and try again.", true);
+    });
+  });
+
+  // ---- On load: use a saved device token if there is one ----
+  var saved = load();
+  if (!saved) { showGate(""); return; }
+  post("/api/replay/verify", { token: saved }).then(function(r){
+    if (r.ok) { unlock(r.content); }
+    else { clear(); showGate(""); }
+  }).catch(function(){ showGate(""); });
 })();
 </script>
 </body>
