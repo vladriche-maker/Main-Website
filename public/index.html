@@ -1,1866 +1,306 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <title>Vladimir Riché</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ─── Reset & Base ─────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --navy:   #2C4669;
-      --orange: #FF7924;
-      --blue:   #2974B0;
-      --white:  #FFFFFF;
-      --off:    #F8F7F5;
-      --ink:    #1A1A1A;
-      --muted:  #6B6B6B;
-      --border: #E4E0D8;
-      --nav-h:  72px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
-      color: var(--ink);
-      background: var(--white);
-      line-height: 1.7;
-      -webkit-font-smoothing: antialiased;
-    }
-
-
-    h1, h2, h3, h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      line-height: 1.15;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    img { display: block; max-width: 100%; }
-
-    /* ─── Pages ─────────────────────────────────────── */
-    .page { display: none; min-height: calc(100vh - var(--nav-h)); }
-    .page.active { display: block; }
-
-    /* ─── Navigation ─────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 4px; left: 0; right: 0;
-      z-index: 1000;
-      height: var(--nav-h);
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      transition: box-shadow 0.3s ease;
-    }
-
-    nav.scrolled { box-shadow: 0 2px 24px rgba(44,70,105,0.08); }
-
-    .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      color: var(--navy);
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
-    .nav-logo span { color: var(--orange); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 36px;
-      list-style: none;
-    }
-
-    .nav-links li a,
-    .nav-links li button {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px 0;
-      position: relative;
-      transition: color 0.2s ease;
-    }
-
-    .nav-links li button::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; left: 0;
-      width: 0; height: 1px;
-      background: var(--orange);
-      transition: width 0.25s ease;
-    }
-
-    .nav-links li button:hover,
-    .nav-links li button.active {
-      color: var(--navy);
-    }
-
-    .nav-links li button.active::after,
-    .nav-links li button:hover::after {
-      width: 100%;
-    }
-
-    .nav-icons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .nav-icons a {
-      display: flex;
-      align-items: center;
-      color: var(--muted);
-      transition: color 0.2s ease;
-    }
-
-    .nav-icons a:hover { color: var(--navy); }
-
-    .nav-icons svg { width: 18px; height: 18px; }
-
-    .nav-li-icon {
-      display: flex;
-      align-items: center;
-      color: var(--muted);
-      transition: color 0.2s ease;
-    }
-
-    .nav-li-icon:hover { color: #0A66C2; }
-
-    /* Floating social sidebar */
-    .social-sidebar {
-      position: fixed;
-      right: 20px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 90;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .social-sidebar a {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--white);
-      border: 1px solid var(--border);
-      color: var(--muted);
-      transition: all 0.2s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .social-sidebar a:hover {
-      background: var(--navy);
-      border-color: var(--navy);
-      color: var(--white);
-      transform: translateX(-2px);
-    }
-
-    .social-sidebar svg { width: 16px; height: 16px; }
-
-    @media (max-width: 900px) {
-      .social-sidebar { display: none; }
-      .nav-linkedin span { display: none; }
-      .nav-linkedin { padding: 7px 10px; }
-    }
-
-    /* Hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 22px;
-      height: 1.5px;
-      background: var(--navy);
-      transition: all 0.3s ease;
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: var(--nav-h);
-      left: 0; right: 0;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 24px 32px 32px;
-      z-index: 99;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .mobile-menu.open { display: flex; }
-
-    .mobile-menu button {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--navy);
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-align: left;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .mobile-menu .mobile-icons {
-      display: flex;
-      gap: 20px;
-      padding-top: 20px;
-    }
-
-    .mobile-menu .mobile-icons a {
-      color: var(--muted);
-    }
-
-    /* ─── Page Wrapper ────────────────────────────── */
-    .page-wrap { padding-top: var(--nav-h); }
-
-    /* ─── HOME ────────────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      background-color: var(--navy);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 32px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 30% 60%, rgba(41,116,176,0.15) 0%, transparent 60%),
-                  radial-gradient(ellipse at 70% 20%, rgba(255,121,36,0.08) 0%, transparent 50%);
-      pointer-events: none;
-    }
-
-    .hero-eyebrow {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 28px;
-    }
-
-    .hero h1 {
-      font-size: clamp(48px, 7vw, 96px);
-      font-weight: 300;
-      color: var(--white);
-      letter-spacing: 0.02em;
-      margin-bottom: 28px;
-      max-width: 900px;
-    }
-
-    .hero h1 em {
-      font-style: italic;
-      color: rgba(255,255,255,0.75);
-    }
-
-    .hero-sub {
-      font-size: 19px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.65);
-      max-width: 480px;
-      line-height: 1.8;
-      margin-bottom: 48px;
-      letter-spacing: 0.02em;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--orange);
-      border: none;
-      cursor: pointer;
-      padding: 16px 36px;
-      transition: background 0.25s ease, transform 0.2s ease;
-    }
-
-    .btn-primary:hover {
-      background: #e86a18;
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--navy);
-      background: transparent;
-      border: 1px solid var(--navy);
-      cursor: pointer;
-      padding: 16px 36px;
-      transition: all 0.25s ease;
-    }
-
-    .btn-secondary:hover {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      color: rgba(255,255,255,0.3);
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-    }
-
-    .hero-scroll::after {
-      content: '';
-      width: 1px;
-      height: 40px;
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* Home intro section */
-    .home-intro {
-      padding: 100px 48px;
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .home-intro-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 20px;
-    }
-
-    .home-intro h2 {
-      font-size: clamp(32px, 3.5vw, 48px);
-      color: var(--navy);
-      margin-bottom: 24px;
-    }
-
-    .home-intro p {
-      font-size: 17px;
-      color: var(--muted);
-      line-height: 1.85;
-      margin-bottom: 16px;
-    }
-
-    .home-intro-visual {
-      background: var(--navy);
-      aspect-ratio: 3/4;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .home-intro-visual-tag {
-      background: var(--orange);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 12px 20px;
-      margin: 24px;
-    }
-
-    .home-intro-visual-inner {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--navy) 0%, #1a2d45 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255,255,255,0.1);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 72px;
-      font-style: italic;
-    }
-
-    /* Home offer teaser */
-    .home-offer {
-      background: var(--off);
-      padding: 100px 48px;
-      text-align: center;
-    }
-
-    .home-offer-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .home-offer-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 20px;
-    }
-
-    .home-offer h2 {
-      font-size: clamp(36px, 4vw, 56px);
-      color: var(--navy);
-      margin-bottom: 24px;
-    }
-
-    .home-offer p {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.85;
-      margin-bottom: 40px;
-    }
-
-    /* ─── ABOUT ───────────────────────────────────── */
-    .about-hero {
-      background: var(--navy);
-      padding: 120px 48px 80px;
-      text-align: center;
-    }
-
-    .about-hero h1 {
-      font-size: clamp(48px, 6vw, 80px);
-      color: var(--white);
-      font-weight: 300;
-      margin-bottom: 16px;
-    }
-
-    .about-hero p {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-    }
-
-    .about-body {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 100px 48px;
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .about-photo {
-      background: var(--off);
-      position: sticky;
-      top: calc(var(--nav-h) + 32px);
-      overflow: hidden;
-    }
-
-    .about-photo-caption {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      background: var(--orange);
-      color: var(--white);
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      padding: 12px 20px;
-      text-align: center;
-    }
-
-    .about-content h2 {
-      font-size: clamp(28px, 3vw, 42px);
-      color: var(--navy);
-      margin-bottom: 28px;
-    }
-
-    .about-content p {
-      font-size: 17px;
-      color: var(--muted);
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-
-    .about-content p strong {
-      color: var(--ink);
-      font-weight: 500;
-    }
-
-    .about-divider {
-      width: 40px;
-      height: 2px;
-      background: var(--orange);
-      margin: 40px 0;
-    }
-
-    .about-pillars {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 16px;
-    }
-
-    .pillar {
-      border: 1px solid var(--border);
-      border-top: 3px solid var(--orange);
-      padding: 28px 24px;
-    }
-
-    .pillar-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      color: var(--orange);
-      line-height: 1;
-      margin-bottom: 12px;
-    }
-
-    .pillar h4 {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--navy);
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .pillar p {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.7;
-      margin: 0;
-    }
-
-    /* ─── THE PARTNER-READY EDIT ─────────────────── */
-    .edit-hero {
-      background: var(--navy);
-      padding: 120px 48px 80px;
-      text-align: center;
-    }
-
-    .edit-hero-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.25em;
-      color: var(--orange) !important;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 20px;
-    }
-
-    .edit-hero h1 {
-      font-size: clamp(40px, 6vw, 80px);
-      color: var(--white);
-      font-weight: 300;
-      margin-bottom: 24px;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .edit-hero p {
-      font-size: 16px;
-      color: rgba(255,255,255,0.6);
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    .edit-body {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 100px 48px;
-    }
-
-    .edit-lead {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(26px, 2.5vw, 36px) !important;
-      color: var(--navy);
-      line-height: 1.5;
-      margin-bottom: 48px;
-      font-style: italic;
-    }
-
-    .edit-body p {
-      font-size: 17px;
-      color: var(--muted);
-      line-height: 1.9;
-      margin-bottom: 20px;
-    }
-
-    .edit-divider {
-      width: 40px;
-      height: 2px;
-      background: var(--orange);
-      margin: 56px 0;
-    }
-
-    .edit-section-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 24px;
-    }
-
-    .edit-section h2 {
-      font-size: clamp(28px, 3vw, 40px);
-      color: var(--navy);
-      margin-bottom: 24px;
-    }
-
-    .edit-includes {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      margin: 40px 0;
-      background: var(--border);
-    }
-
-    .edit-include-item {
-      background: var(--white);
-      padding: 32px 28px;
-      border-top: 3px solid var(--orange);
-    }
-
-    .edit-include-item h4 {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
-
-    .edit-include-item p {
-      font-size: 16px;
-      margin: 0;
-    }
-
-    .edit-for {
-      background: var(--off);
-      padding: 100px 48px;
-      text-align: center;
-    }
-
-    .edit-for-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .edit-for h2 {
-      font-size: clamp(32px, 4vw, 48px);
-      color: var(--navy);
-      margin-bottom: 40px;
-    }
-
-    .edit-criteria {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      text-align: left;
-      margin-bottom: 48px;
-      border: 1px solid var(--border);
-    }
-
-    .edit-criterion {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .edit-criterion:last-child { border-bottom: none; }
-
-    .edit-criterion-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--orange);
-      border-radius: 50%;
-      margin-top: 8px;
-      flex-shrink: 0;
-    }
-
-    .edit-criterion p {
-      font-size: 17px;
-      color: var(--ink);
-      line-height: 1.7;
-      margin: 0;
-    }
-
-    .edit-cta {
-      background: var(--navy);
-      padding: 100px 48px;
-      text-align: center;
-    }
-
-    .edit-cta h2 {
-      font-size: clamp(32px, 4vw, 52px);
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-
-    .edit-cta p {
-      font-size: 17px;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 40px;
-      line-height: 1.8;
-    }
-
-    /* Testimonial block */
-    .testimonial {
-      background: var(--off);
-      border-left: 3px solid var(--orange);
-      padding: 32px 36px;
-      margin: 48px 0;
-    }
-
-    .testimonial-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(18px, 2.5vw, 24px);
-      font-style: italic;
-      color: var(--navy);
-      line-height: 1.65;
-      margin-bottom: 16px;
-    }
-
-    .testimonial-name {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    /* Pricing cards */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: var(--border);
-      margin: 40px 0;
-    }
-
-    .pricing-card {
-      background: var(--white);
-      padding: 40px 36px;
-      border-top: 3px solid var(--blue);
-    }
-
-    .pricing-card.featured {
-      background: var(--navy);
-      border-top: 3px solid var(--orange);
-    }
-
-    .pricing-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 12px;
-    }
-
-    .pricing-card.featured .pricing-label {
-      color: rgba(255,255,255,0.5);
-    }
-
-    .pricing-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-
-    .pricing-card.featured .pricing-name {
-      color: var(--white);
-    }
-
-    .pricing-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 52px;
-      font-weight: 300;
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 20px;
-    }
-
-    .pricing-card.featured .pricing-price {
-      color: var(--orange);
-    }
-
-    .pricing-desc {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .pricing-card.featured .pricing-desc {
-      color: rgba(255,255,255,0.55);
-    }
-
-    @media (max-width: 600px) {
-      .pricing-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ─── FREE RESOURCES ─────────────────────────── */
-    @media (max-width: 700px) {
-      .resource-card { grid-template-columns: 1fr !important; gap: 32px !important; }
-      .resource-card > div:first-child { max-width: 280px; }
-    }
-
-    /* ─── CONTACT ─────────────────────────────────── */
-    .contact-hero {
-      background: var(--navy);
-      padding: 120px 48px 80px;
-      text-align: center;
-    }
-
-    .contact-hero-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      color: var(--orange) !important;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 20px;
-    }
-
-    .contact-hero h1 {
-      font-size: clamp(48px, 6vw, 80px);
-      color: var(--white);
-      font-weight: 300;
-      margin-bottom: 16px;
-    }
-
-    .contact-hero p {
-      font-size: 17px;
-      color: rgba(255,255,255,0.6);
-      max-width: 440px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    .contact-body {
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 80px 48px 120px;
-    }
-
-    .form-group {
-      margin-bottom: 36px;
-    }
-
-    .form-label {
-      display: block;
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 8px;
-      letter-spacing: 0.02em;
-    }
-
-    .form-label span {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.05em;
-      margin-left: 6px;
-    }
-
-    .form-input,
-    .form-select,
-    .form-textarea {
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-      font-size: 16px;
-      font-weight: 300;
-      color: var(--ink);
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 0;
-      padding: 14px 16px;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-
-    .form-input:focus,
-    .form-select:focus,
-    .form-textarea:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(44,70,105,0.06);
-    }
-
-    .form-select-wrap {
-      position: relative;
-    }
-
-    .form-select-wrap::after {
-      content: '';
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid var(--muted);
-      pointer-events: none;
-    }
-
-    .form-select { cursor: pointer; }
-
-    .form-textarea {
-      min-height: 120px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    .form-submit {
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white);
-      background: var(--navy);
-      border: none;
-      padding: 18px;
-      cursor: pointer;
-      transition: background 0.25s ease;
-      margin-top: 8px;
-    }
-
-    .form-submit:hover { background: var(--orange); }
-    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .form-message {
-      display: none;
-      padding: 16px 20px;
-      font-size: 14px;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .form-message.success {
-      display: block;
-      background: rgba(41,116,176,0.08);
-      border: 1px solid rgba(41,116,176,0.2);
-      color: var(--blue);
-    }
-
-    .form-message.error {
-      display: block;
-      background: rgba(255,121,36,0.08);
-      border: 1px solid rgba(255,121,36,0.2);
-      color: #c0521a;
-    }
-
-    /* ─── Footer ──────────────────────────────────── */
-    footer {
-      background: var(--navy);
-      padding: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-
-    .footer-brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--white);
-    }
-
-    .footer-brand span { color: var(--orange); }
-
-    .footer-copy {
-      font-size: 12px;
-      color: rgba(255,255,255,0.35);
-      letter-spacing: 0.05em;
-    }
-
-    .footer-icons {
-      display: flex;
-      gap: 20px;
-    }
-
-    .footer-icons a {
-      color: rgba(255,255,255,0.4);
-      transition: color 0.2s ease;
-      display: flex;
-      align-items: center;
-    }
-
-    .footer-icons a:hover { color: var(--white); }
-    .footer-icons svg { width: 18px; height: 18px; }
-
-    /* ─── Responsive ──────────────────────────────── */
-    @media (max-width: 900px) {
-      nav { padding: 0 24px; }
-
-      .nav-links { display: none; }
-      .nav-icons { display: none; }
-      .hamburger { display: flex; }
-
-      .home-intro { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
-      .home-intro-visual { max-width: 340px; }
-
-      .about-body { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px; }
-      .about-photo { position: static; max-width: 340px; }
-      .about-pillars { grid-template-columns: 1fr; }
-
-      .edit-body { padding: 64px 24px; }
-      .edit-includes { grid-template-columns: 1fr; }
-      .edit-for { padding: 64px 24px; }
-
-      .about-hero,
-      .edit-hero,
-      .contact-hero { padding: 100px 24px 64px; }
-
-      .home-offer { padding: 64px 24px; }
-
-      .contact-body { padding: 64px 24px 80px; }
-
-      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
-
-      .edit-cta { padding: 64px 24px; }
-    }
-
-    @media (max-width: 480px) {
-      .hero { padding: 80px 20px; }
-      .hero h1 { font-size: 40px; }
-    }
-
-    /* ─── Checkout & Welcome ─────────────────────── */
-    .pricing-card .btn-primary {
-      margin-top: 28px;
-      width: 100%;
-      justify-content: center;
-    }
-
-    /* .edit-body p wins on specificity, so restate the card type at card scope */
-    #page-checkout .pricing-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      line-height: 1.25;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-
-    #page-checkout .pricing-card.featured .pricing-name { color: var(--white); }
-
-    #page-checkout .pricing-price {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 52px;
-      font-weight: 300;
-      line-height: 1;
-      color: var(--navy);
-      margin-bottom: 20px;
-    }
-
-    #page-checkout .pricing-card.featured .pricing-price { color: var(--orange); }
-
-    #page-checkout .pricing-label {
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 12px;
-    }
-
-    #page-checkout .pricing-card.featured .pricing-label { color: rgba(255,255,255,0.5); }
-
-    #page-checkout .pricing-desc { font-size: 16px; line-height: 1.75; margin-bottom: 0; }
-    #page-checkout .pricing-card.featured .pricing-desc { color: rgba(255,255,255,0.55); }
-
-    .pricing-terms {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      margin-top: 14px;
-      text-align: center;
-    }
-
-    .pricing-card.featured .pricing-terms {
-      color: rgba(255,255,255,0.45);
-    }
-
-    .step-list {
-      list-style: none;
-      margin: 32px 0 0;
-      padding: 0;
-      counter-reset: step;
-      border-top: 1px solid var(--border);
-    }
-
-    .step-list li {
-      counter-increment: step;
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 18px;
-      align-items: baseline;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 17px;
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
-    .step-list li::before {
-      content: counter(step);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      color: var(--orange);
-      line-height: 1;
-    }
-
-    #page-checkout .testimonial-with-photo {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 32px;
-      align-items: center;
-    }
-
-    #page-checkout .testimonial-photo {
-      background: var(--navy);
-      overflow: hidden;
-      align-self: center;
-    }
-
-    #page-checkout .testimonial-photo img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      #page-checkout .testimonial-with-photo { grid-template-columns: 1fr; gap: 24px; }
-      #page-checkout .testimonial-photo { max-width: 220px; align-self: start; }
-    }
-
-    .stripe-line {
-      font-family: 'Inter', sans-serif;
-      font-size: 13px;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      margin-top: 28px;
-    }
-
-
-
-    @media (max-width: 768px) {
-      .step-list li { grid-template-columns: 28px 1fr; gap: 12px; font-size: 16px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Everything Hangs on the Trousers · Live Workshop with Vladimir Riché</title>
+<meta name="description" content="A 90-minute live Zoom workshop on everything that goes into a good pair of trousers, plus my Trousers GPT. Thursday, October 22 at 7 PM ET. $9.">
+<meta property="og:title" content="Everything Hangs on the Trousers · Live Workshop">
+<meta property="og:description" content="90 minutes. Every detail that makes trousers work. Thursday, Oct 22 · 7 PM ET · $9.">
+<meta property="og:image" content="https://vladimirriche.com/Vladimir.jpg">
+<meta property="og:url" content="https://vladimirriche.com/workshop/trousers">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1420; --bg2:#121c2b; --card:#16212f; --line:#2a3a50;
+  --text:#ece6d8; --muted:#a9b1bd; --gold:#c2a362; --gold2:#d9bf86;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.narrow{max-width:720px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
+h1{font-size:clamp(40px,8vw,76px)}
+h2{font-size:clamp(32px,5.5vw,50px);margin-bottom:18px}
+h3{font-size:26px}
+em{color:var(--gold2);font-style:italic}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600}
+section{padding:72px 0;border-top:1px solid var(--line)}
+p{margin-bottom:16px;color:#d8d3c6}
+.top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 0;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.top b{color:var(--text)}
+.btn{display:inline-block;background:var(--gold);color:#0c1420;text-decoration:none;font-weight:600;padding:16px 30px;border-radius:3px;font-size:16px;letter-spacing:.02em;transition:.2s}
+.btn:hover{background:var(--gold2);transform:translateY(-1px)}
+.hero{padding:40px 0 72px;border-top:0}
+.hero .sub{font-size:20px;color:var(--muted);margin:20px 0 14px;max-width:560px}
+.hero p.lead{max-width:600px}
+.meta{font-size:14px;color:var(--muted);margin-top:16px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+.photo{position:relative}
+.photo img{border-radius:4px;border:1px solid var(--line);aspect-ratio:4/5;object-fit:cover;width:100%}
+.stamp{position:absolute;left:-14px;bottom:24px;background:var(--gold);color:#0c1420;padding:12px 18px;font-weight:600;line-height:1.15;border-radius:3px;font-size:14px}
+.stamp span{display:block;font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1}
+.host-line{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);margin-top:12px;font-size:18px}
+.count{display:flex;gap:12px;margin-top:30px}
+.count div{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:12px 8px;text-align:center;min-width:72px}
+.count strong{display:block;font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1;color:var(--gold2)}
+.count span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.callout{background:var(--card);border-left:3px solid var(--gold);padding:20px 24px;margin-top:26px;border-radius:0 4px 4px 0}
+.callout small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600}
+.callout p{margin:0}
+.steps{display:grid;gap:18px;margin-top:34px}
+.step{display:grid;grid-template-columns:130px 1fr;gap:24px;background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px}
+.step .time{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold2);line-height:1.1}
+.step h3{margin-bottom:8px}
+.step p{margin-bottom:10px}
+.leave{font-size:14px;color:var(--gold2);margin:0}
+.leave b{color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.12em;font-size:11px;margin-right:6px}
+.grid3{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px}
+.item h3{font-size:24px;margin-bottom:8px}
+.item p{margin-bottom:12px;font-size:16px}
+.tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold2);padding:3px 10px;border-radius:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:28px}
+.two h3{margin-bottom:14px}
+ul.clean{list-style:none}
+ul.clean li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid var(--line);color:#d8d3c6}
+ul.clean li:before{content:"";position:absolute;left:0;top:19px;width:12px;height:2px;background:var(--gold)}
+.skip li:before{background:#7b8696}
+.quote{display:grid;grid-template-columns:.7fr 1.3fr;gap:36px;align-items:center}
+.quote img{border-radius:4px;border:1px solid var(--line)}
+blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,4vw,36px);line-height:1.2;font-style:italic}
+.who{margin-top:14px;color:var(--gold);font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+.ticket{background:var(--card);border:1px solid var(--gold);border-radius:6px;padding:40px 28px;text-align:center;max-width:560px;margin:30px auto 0}
+.ticket h3{font-size:36px;margin:6px 0 6px}
+.price{font-family:'Cormorant Garamond',serif;font-size:76px;color:var(--gold2);line-height:1;margin:18px 0 4px}
+.ticket ul{list-style:none;text-align:left;max-width:380px;margin:22px auto}
+.ticket li{padding:7px 0 7px 26px;position:relative}
+.ticket li:before{content:"\2713";position:absolute;left:0;color:var(--gold)}
+table{width:100%;max-width:560px;margin:34px auto 0;border-collapse:collapse;font-size:15px}
+td,th{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--gold);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.host{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:center}
+.host img{border-radius:4px;border:1px solid var(--line)}
+.series{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.series .item.now{border-color:var(--gold)}
+.series small{color:var(--gold);letter-spacing:.14em;text-transform:uppercase;font-size:11px;font-weight:600}
+details{border-bottom:1px solid var(--line);padding:20px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--gold);font-size:22px;line-height:1}
+details[open] summary:after{content:"\2212"}
+details p{margin:12px 0 0}
+.final{text-align:center;padding:90px 0}
+footer{padding:36px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+footer a{color:var(--gold2)}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(12,20,32,.96);border-top:1px solid var(--line);padding:10px 16px;display:none;justify-content:space-between;align-items:center;gap:12px;z-index:9}
+.bar span{font-size:13px;color:var(--muted);line-height:1.3}
+.bar .btn{padding:12px 20px;font-size:15px;white-space:nowrap}
+@media(max-width:820px){
+  .hero-grid,.host,.quote,.two,.series,.grid3{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:6px}
+  section{padding:56px 0}
+  .stamp{left:10px}
+  .bar{display:flex}
+  body{padding-bottom:64px}
+}
+</style>
 </head>
 <body>
 
-  <!-- Orange accent bar — hardcoded, cannot be hidden -->
-  <div style="position:fixed;top:0;left:0;right:0;height:4px;background:#FF7924;z-index:99999;"></div>
+<div class="wrap">
+  <div class="top"><b>Chace &amp; Ryder</b><span>Live on Zoom · <b>Thu, Oct 22 · 7:00 PM ET</b></span></div>
+</div>
 
-  <!-- ── Navigation ─────────────────────────────── -->
-  <nav id="main-nav">
-    <div class="nav-logo" onclick="showPage('home')">
-      Vladimir <span>Riché</span>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Dressed in the Dark · Monthly live workshop · No. 01</div>
+      <h1>Good trousers can't carry <em>a bad outfit.</em></h1>
+      <p class="sub">Everything hangs on the trousers.</p>
+      <p class="lead">A 90-minute live session on everything that goes into a good pair of trousers. I bring 18 years of fixing other men's wardrobes. By the end of the night, you'll know what to look for, what a tailor can fix, and why the rest of your outfit has to live up to them. You also get my Trousers GPT, which gives you the measurements to aim for.</p>
+      <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
+      <p class="meta">90 min live · Replay for life · Trousers GPT included</p>
+      <div class="count" id="count">
+        <div><strong id="d">--</strong><span>Days</span></div>
+        <div><strong id="h">--</strong><span>Hours</span></div>
+        <div><strong id="m">--</strong><span>Min</span></div>
+        <div><strong id="s">--</strong><span>Sec</span></div>
+      </div>
     </div>
-
-    <ul class="nav-links">
-      <li><button onclick="showPage('home')" id="nav-home" class="active">Home</button></li>
-      <li><button onclick="showPage('about')" id="nav-about">About</button></li>
-      <li><button onclick="showPage('edit')" id="nav-edit">The Partner-Ready Edit</button></li>
-      <li><button onclick="showPage('resources')" id="nav-resources">Free Resources</button></li>
-      <li><button onclick="showPage('contact')" id="nav-contact">Contact</button></li>
-      <li>
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn" class="nav-li-icon">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-      </li>
-    </ul>
-
-    <div class="nav-icons"></div>
-
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobile-menu">
-    <button onclick="showPage('home'); closeMenu()">Home</button>
-    <button onclick="showPage('about'); closeMenu()">About</button>
-    <button onclick="showPage('edit'); closeMenu()">The Partner-Ready Edit</button>
-    <button onclick="showPage('resources'); closeMenu()">Free Resources</button>
-    <button onclick="showPage('contact'); closeMenu()">Contact</button>
-    <div class="mobile-icons">
-      <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-      </a>
-      <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-      </a>
-      <a href="https://www.instagram.com/chace.ryder" target="_blank" rel="noopener" aria-label="Instagram">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-      </a>
+    <div class="photo">
+      <img src="https://vladimirriche.com/Vladimir.jpg" alt="Vladimir Riché in a brown double-breasted suit and green striped tie">
+      <div class="stamp">OCT<span>22</span>THU · 7 PM ET</div>
+      <div class="host-line">Hosted live by Vladimir Riché</div>
     </div>
   </div>
+</section>
 
-  <!-- Floating Social Sidebar -->
-  <div class="social-sidebar">
-    <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-    </a>
-    <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-    </a>
-    <a href="https://www.instagram.com/chace.ryder" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-    </a>
+<section>
+  <div class="narrow">
+    <div class="eyebrow">The problem</div>
+    <h2>Most men care about the top. The bottom matters just as much.</h2>
+    <p>Think about where your money goes. The jacket. The shirt. The tie. The watch. Trousers get whatever is left, usually a pair off the rack in the size that sort of fits.</p>
+    <p>But the eye doesn't work that way. Half of what a person sees when you walk into a room is below your belt. And a pair of trousers is not one decision. It's a dozen: the cloth, the rise, the seat, the thigh, the taper, the hem, the break. Get them right and the whole outfit looks like it belongs to you. Get one wrong and nobody can say why, they just know something is off.</p>
+    <p>That's why you can't wear good trousers and skimp on everything else. It's also why a great jacket can't save a bad pair. The top and the bottom have to hold each other up.</p>
+    <p>I learned this the hard way. For years I wore trousers cut for a different decade. Too short, too narrow, too tight to sit in. I kept buying new jackets to fix a problem that started at the waist.</p>
+    <p>You don't need to replace everything. You need to understand the details, so you know what you're looking at the next time you try on a pair.</p>
+    <p>That's this workshop.</p>
+    <div class="callout"><small>The short version</small><p>A 90-minute live session on trousers: rise, seat, thigh, taper, break, cloth, and how they work together. You also get my Trousers GPT, which turns your height, shoe size and other details into the measurements you should be aiming for. Nine dollars.</p></div>
   </div>
+</section>
+<section>
+  <div class="wrap">
+    <div class="eyebrow">What's included</div>
+    <h2>What you walk away with.</h2>
+    <div class="grid3">
+      <div class="item"><h3>The live workshop</h3><p>90 minutes on Zoom with me. Camera on or off, your call. Nothing to prepare.</p><span class="tag">Everyone</span></div>
+      <div class="item"><h3>The Trousers GPT</h3><p>My trousers GPT. Enter your height, shoe size and other details, and it tells you the measurements to go for: rise, leg opening, length and break. Take it shopping or to your tailor.</p><span class="tag">Everyone</span></div>
+      <div class="item"><h3>Replay for life</h3><p>Can't make it live? Buy the ticket anyway. The recording is yours. Run it back the next time you shop.</p><span class="tag">Everyone</span></div>
+      <div class="item"><h3>The Tailor Talk Sheet</h3><p>The exact words to use when you ask for trouser alterations, what a fair price looks like, and what no tailor can fix. Take it with you on your next drop-off.</p><span class="tag">Live only</span></div>
+    </div>
+  </div>
+</section>
 
-  <!-- ── HOME ───────────────────────────────────── -->
-  <div id="page-home" class="page active page-wrap">
-
-    <section class="hero">
-      <p class="hero-eyebrow">Personal Style Consulting</p>
-      <h1>You made partner.<br/><em>Your wardrobe didn't.</em></h1>
-      <p class="hero-sub">I help newly named partners in finance and law build a wardrobe that matches the room they're now in.</p>
-      <button class="btn-primary" onclick="showPage('edit')">
-        Discover The Partner-Ready Edit
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-      <div class="hero-scroll">Scroll</div>
-    </section>
-
-    <section class="home-intro">
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Who it's for</div>
+    <h2>You don't need a title. You need a few pairs of trousers.</h2>
+    <div class="two">
       <div>
-        <p class="home-intro-label">The Work</p>
-        <h2>Dressing for the role you've earned.</h2>
-        <p>Making partner is a career-defining moment. The expectations shift. The rooms change. The stakes are higher, and your wardrobe needs to reflect that without you having to think about it.</p>
-        <p>I work with a small number of newly named partners each year to build precise, functional capsule wardrobes designed for their specific firm culture, lifestyle, and ambitions.</p>
-        <p>No generic formulas. No overwhelming options. Just clarity.</p>
-        <div style="margin-top: 32px;">
-          <button class="btn-secondary" onclick="showPage('about')">About Vladimir</button>
-        </div>
+        <h3>This is for you if</h3>
+        <ul class="clean">
+          <li>You own trousers that technically fit but never look right.</li>
+          <li>You're not sure how long they should be, or where they should sit.</li>
+          <li>You have a wedding, interview, or big meeting coming and want to walk in right.</li>
+          <li>You spend more on your jackets and shirts than on what's below the belt.</li>
+          <li>You just made partner and want your wardrobe to catch up to the job.</li>
+        </ul>
       </div>
-      <div class="home-intro-visual">
-        <img src="Vladimir 2.JPEG" alt="Vladimir Riché" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block;" />
-        <div class="home-intro-visual-tag">Vladimir Riché</div>
+      <div>
+        <h3>Skip it if</h3>
+        <ul class="clean skip">
+          <li>You only care about your jacket, not the pants.</li>
+          <li>You only like to wear skin tight trousers and love being uncomfortable.</li>
+          <li>You're closed-minded and not willing to learn.</li>
+        </ul>
       </div>
-    </section>
-
-    <section class="home-offer">
-      <div class="home-offer-inner">
-        <p class="home-offer-label">The Offer</p>
-        <h2>The Partner-Ready Edit™</h2>
-        <p>One session. One outfit for your next high-stakes moment.<br>A permanent reference for every time you shop after that.</p>
-        <button class="btn-primary" onclick="showPage('edit')">
-          Learn More
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-      </div>
-    </footer>
-
+    </div>
   </div>
+</section>
 
-  <!-- ── ABOUT ──────────────────────────────────── -->
-  <div id="page-about" class="page page-wrap">
-
-    <div class="about-hero">
-      <h1>Vladimir Riché</h1>
-      <p>Personal Style Consultant</p>
+<section>
+  <div class="wrap quote">
+    <img src="https://vladimirriche.com/jahlon-reid-testimonial.jpg" alt="Jahlon R. in a navy double-breasted blazer, grey flannel trousers and brown suede loafers">
+    <div>
+      <div class="eyebrow">From a client</div>
+      <blockquote>“It’s wild how much money I was wasting on clothes that didn’t work together. One session fixed that. Now every piece in my closet has a purpose.”</blockquote>
+      <div class="who">Jahlon R.</div>
     </div>
-
-    <div class="about-body">
-      <div style="position: relative;">
-        <div class="about-photo">
-          <img src="Vladimir.jpg" alt="Vladimir Riché" style="width:100%;height:auto;display:block;" />
-        </div>
-      </div>
-
-      <div class="about-content">
-        <h2>Most newly-made partners dress like they're still trying to make partner.</h2>
-        <p>The position changed. The wardrobe didn't.</p>
-        <p>You've spent real money on clothes. Tom Ford, Canali, a few things from Saks. And there's still something slightly off. A suit that's been meaning to go to the tailor since 2019. An all-year-round fabric that's never quite comfortable. Pieces that are good on their own and don't add up to anything together.</p>
-        <p><strong style="color: var(--ink);">Spending well and dressing well are two different skills.</strong> GQ spent decades teaching men one of them. It's the wrong one.</p>
-
-        <div class="about-divider"></div>
-
-        <p>The GQ model was never built for men who need to command a room. The slim silhouettes, the recognizable brands, the trend cycle that starts over every two years — none of it was designed for authority. It was designed to sell magazines.</p>
-        <p>That's where I come in.</p>
-
-        <div class="about-divider"></div>
-
-        <p>RG looks the part of a partner, instantly. JH commands respect before he speaks. JC gets dressed in minutes, without second-guessing.</p>
-        <p>After the Edit, you stop walking into rooms wondering if the clothes are doing their job. You know what you're broadcasting before you walk in. The wardrobe finally matches the position you've earned.</p>
-        <p><strong style="color: var(--ink);">The room makes its decision before you open your mouth.</strong></p>
-
-        <div style="margin-top: 48px;">
-          <button class="btn-primary" onclick="showPage('edit')">
-            See The Partner-Ready Edit
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-    </footer>
   </div>
+</section>
 
-  <!-- ── THE PARTNER-READY EDIT ─────────────────── -->
-  <div id="page-edit" class="page page-wrap">
-
-    <div class="edit-hero">
-      <p class="edit-hero-label">The Offer</p>
-      <h1>The Partner-Ready Edit™</h1>
-      <p>By Vladimir Riché</p>
+<section id="tickets">
+  <div class="wrap" style="text-align:center">
+    <div class="eyebrow">Admission</div>
+    <h2>One ticket. Less than a dry cleaning bill.</h2>
+    <div class="ticket">
+      <div class="eyebrow" style="margin:0">Dressed in the Dark · No. 01</div>
+      <h3>Everything Hangs on the Trousers</h3>
+      <p style="margin:0"><b>Thursday, October 22, 2026 · 7:00 PM ET</b> · Zoom</p>
+      <ul>
+        <li>90-minute live working session</li>
+        <li>Access to the Trousers GPT</li>
+        <li>Lifetime replay</li>
+        <li>The Tailor Talk Sheet (live attendees)</li>
+      </ul>
+      <div class="price">$9</div>
+      <p style="margin-bottom:22px">One time. No subscription.</p>
+      <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Reserve my seat</a>
+      <p style="margin:16px 0 0;font-size:14px;color:var(--muted)">Replay included if you can't make it live.</p>
     </div>
-
-    <div class="edit-body">
-      <p class="edit-lead">You just made partner. And somehow you're still standing in front of your closet the night before a big meeting with no clear answer.</p>
-
-      <p>You need a system. Right now, you don't have one.</p>
-
-      <p>I spent 20 years in property management sitting across from high-net-worth clients. I watched how rooms responded to men before they said a word. The guys who got taken seriously first weren't always the smartest. <strong style="color: var(--ink);">They just looked like they belonged.</strong></p>
-
-      <p>That's what this session builds.</p>
-
-      <div class="edit-divider"></div>
-
-      <div class="edit-section">
-        <p class="edit-section-label">What Happens</p>
-        <h2>Four steps. One session. A permanent reference.</h2>
-      </div>
-
-      <div class="edit-includes">
-        <div class="edit-include-item">
-          <h4>Before the Call</h4>
-          <p>You complete a GPT-powered wardrobe analyzer, so we already know what's wrong before we speak.</p>
-        </div>
-        <div class="edit-include-item">
-          <h4>On the Call</h4>
-          <p>We go through what you own. What stays, what goes, what's missing. With precision and without judgment.</p>
-        </div>
-        <div class="edit-include-item">
-          <h4>Your Outfit</h4>
-          <p>I build you one complete outfit for your next high-stakes moment and send you direct links to every piece.</p>
-        </div>
-        <div class="edit-include-item">
-          <h4>Your Reference</h4>
-          <p>You get a full recording and written summary. A permanent reference every time you shop.</p>
-        </div>
-      </div>
-
-      <div style="margin: 40px 0; text-align: center;">
-        <a href="#edit-calendar" onclick="document.getElementById('edit-calendar').scrollIntoView({behavior:'smooth'}); return false;">
-          <button class="btn-primary">
-            Book a call to see if the Edit is the right fit
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-        </a>
-      </div>
-
-      <div class="edit-divider"></div>
-
-      <p class="edit-section-label">The Standard</p>
-      <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(20px, 2.5vw, 26px); color: var(--navy); line-height: 1.6; margin-bottom: 20px;">The benchmark isn't compliments. It's that nobody questions your authority. You just look right.</p>
-
-      <div class="testimonial">
-        <p class="testimonial-text">"My client Jay came to me looking like a GQ ad in all the wrong ways. Every room he walked into, his outfit was the first thing people noticed. After working together, that stopped. The room stopped noticing his clothes. They started noticing him."</p>
-        <p class="testimonial-name">Vladimir Riché</p>
-      </div>
-
-      <div class="edit-divider"></div>
-
-      <h2 style="font-size: clamp(28px, 3vw, 40px); color: var(--navy); margin-bottom: 24px;">Two options. One outcome.</h2>
-
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <p class="pricing-label">Signature</p>
-          <p class="pricing-name">Partner-Ready Edit</p>
-          <p class="pricing-desc">The full session, recording, written summary, and direct shopping links. Everything you need to solve this permanently.</p>
-        </div>
-        <div class="pricing-card featured">
-          <p class="pricing-label">Private</p>
-          <p class="pricing-name">Private Edit</p>
-          <p class="pricing-desc">No recording used for educational content. Completely private. For the partner who requires full discretion.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <section class="edit-cta">
-      <h2>Ready to get started?</h2>
-      <p>Pick a time below. We'll spend 30 minutes figuring out which option is right for you.</p>
-      <a href="#edit-calendar" onclick="document.getElementById('edit-calendar').scrollIntoView({behavior:'smooth'}); return false;">
-        <button class="btn-primary">
-          Book a 30-Minute Call
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </a>
-    </section>
-
-    <div id="edit-calendar" style="max-width: 900px; margin: 0 auto; padding: 80px 48px 80px;">
-      <div class="tidycal-embed" data-path="vladriche/partner-ready-call"></div>
-      <script src="https://asset-tidycal.b-cdn.net/js/embed.js" async></script>
-    </div>
-
-    <div style="background: var(--off); border-top: 1px solid var(--border);">
-      <div style="max-width: 900px; margin: 0 auto; padding: 64px 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 28px;">
-        <div style="flex: 1 1 380px; min-width: 0;">
-          <p class="edit-section-label" style="margin-bottom: 14px;">Not ready for a call</p>
-          <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 2.4vw, 30px); color: var(--navy); line-height: 1.4; margin: 0;">Find out where you actually stand first.</p>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin: 14px 0 0;">Seventeen questions, three minutes. You get a score across five areas and the one costing you the most.</p>
-        </div>
-        <a href="/score" style="flex: none;"><button class="btn-secondary">Take the Score</button></a>
-      </div>
-    </div>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-    </footer>
+    <table>
+      <tr><th>Where you are</th><th>Start time</th><th>Date</th></tr>
+      <tr><td>New York (ET)</td><td>7:00 PM</td><td>Thu, Oct 22</td></tr>
+      <tr><td>Chicago (CT)</td><td>6:00 PM</td><td>Thu, Oct 22</td></tr>
+      <tr><td>Denver (MT)</td><td>5:00 PM</td><td>Thu, Oct 22</td></tr>
+      <tr><td>Los Angeles (PT)</td><td>4:00 PM</td><td>Thu, Oct 22</td></tr>
+      <tr><td>London (BST)</td><td>12:00 AM</td><td>Fri, Oct 23</td></tr>
+    </table>
   </div>
+</section>
 
-  <!-- ── FREE RESOURCES ───────────────────────────── -->
-  <div id="page-resources" class="page page-wrap">
-
-    <div class="about-hero">
-      <h1>Free Resources</h1>
-      <p>Tools and guides to get you started</p>
+<section>
+  <div class="wrap host">
+    <img src="https://vladimirriche.com/Vladimir%202.JPEG" alt="Vladimir Riché in a grey glen check suit">
+    <div>
+      <div class="eyebrow">Your host</div>
+      <h2>Vladimir Riché</h2>
+      <p>I was a rapper first. Baggy clothes, sneakers, and a firm belief that suits made you look soft.</p>
+      <p>At 30 I got a job in mortgages, sitting across from clients twice my age, looking like I was 19. So I started dressing up. I did it the GQ way, which means I did it wrong for years.</p>
+      <p>Then I found classic menswear, and I haven't bought a trend since. I've been teaching men how to dress since 2007, built a YouTube channel of 25,000 guys who care about this stuff, and spent 20 years in property management where I learned exactly how fast a room makes up its mind about you.</p>
+      <p>Now I run Chace &amp; Ryder, where I build wardrobe systems for men who'd rather think about their work than their closet.</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--gold2)">"When you dress well, you're not only showing respect for yourself, but you're also showing respect for others."</p>
     </div>
-
-    <div style="max-width: 1200px; margin: 0 auto; padding: 64px 64px 100px;">
-
-      <!-- Resource: Partner Wardrobe System Score -->
-      <div class="resource-card" style="display: grid; grid-template-columns: 480px 1fr; gap: 72px; align-items: center; padding: 56px 0; border-bottom: 1px solid var(--border);">
-        <div style="background: var(--navy); aspect-ratio: 3 / 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 32px;">
-          <p style="font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--orange);">Your score</p>
-          <div style="display: flex; gap: 40px; text-align: center;">
-            <div>
-              <p style="font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: #fff; line-height: 1;">17</p>
-              <p style="font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 8px;">Questions</p>
-            </div>
-            <div>
-              <p style="font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: #fff; line-height: 1;">5</p>
-              <p style="font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 8px;">Areas scored</p>
-            </div>
-            <div>
-              <p style="font-family: 'Cormorant Garamond', serif; font-size: 44px; font-weight: 300; color: #fff; line-height: 1;">3</p>
-              <p style="font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 8px;">Minutes</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <p style="font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">Interactive</p>
-          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;">The Partner Wardrobe System Score</h2>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px;">Most newly named partners do not look bad. They look fine by the standard of the floor they came from.</p>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">Seventeen questions. You get a score, a breakdown across five areas, and the one area costing you the most.</p>
-          <a href="/score"><button class="btn-primary">Take the Score</button></a>
-        </div>
-      </div>
-
-      <!-- Resource: 5 Associate Tells -->
-      <div class="resource-card" style="display: grid; grid-template-columns: 480px 1fr; gap: 72px; align-items: center; padding: 56px 0; border-bottom: 1px solid var(--border);">
-        <div style="background: var(--navy); overflow: hidden;">
-          <img src="/5 Associate Tells Horizontal Card.jpg" alt="5 Associate Tells" style="width: 100%; height: auto; display: block;" />
-        </div>
-        <div>
-          <p style="font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">Free Guide</p>
-          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;">5 Associate Tells</h2>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px;">You made partner. Your wardrobe might not know it yet.</p>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">Five specific signals that mark you as junior in the room, and the one fix that changes everything.</p>
-          <a href="/5signals"><button class="btn-primary">Get the Free Guide</button></a>
-        </div>
-      </div>
-
-      <!-- Resource: 5 Wardrobe Decisions -->
-      <div class="resource-card" style="display: grid; grid-template-columns: 480px 1fr; gap: 72px; align-items: center; padding: 56px 0; border-bottom: 1px solid var(--border);">
-        <div style="background: var(--navy); overflow: hidden;">
-          <img src="/5 Wardrobe Decisions Horizontal Card.jpg" alt="5 Wardrobe Decisions New Partners Get Wrong" style="width: 100%; height: auto; display: block;" />
-        </div>
-        <div>
-          <p style="font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">Free Guide</p>
-          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;">5 Wardrobe Decisions New Partners Get Wrong</h2>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px;">You don't wing your work. Why do it with your closet?</p>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">The five decisions that quietly undermine your authority, and the one that fixes everything else.</p>
-          <a href="/wardrobe-decisions"><button class="btn-primary">Get the Free Guide</button></a>
-        </div>
-      </div>
-
-      <!-- Resource: 10 Suit Mistakes -->
-      <div class="resource-card" style="display: grid; grid-template-columns: 480px 1fr; gap: 72px; align-items: center; padding: 56px 0;">
-        <div style="background: var(--navy); overflow: hidden;">
-          <img src="/10 Suit Mistakes Horizontal Card.jpg" alt="10 Suit Mistakes Killing Your Authority" style="width: 100%; height: auto; display: block;" />
-        </div>
-        <div>
-          <p style="font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange); margin-bottom: 16px;">Free Guide</p>
-          <h2 style="font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 3vw, 40px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;">10 Suit Mistakes Killing Your Authority</h2>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 12px;">Most men are making at least 3.</p>
-          <p style="font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 32px;">The specific fit, fabric, and detail errors that signal the wrong room, and how to fix them.</p>
-          <a href="/suit-mistakes"><button class="btn-primary">Get the Free Guide</button></a>
-        </div>
-      </div>
-
-    </div>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-    </footer>
   </div>
+</section>
 
-  <!-- ── CONTACT ─────────────────────────────────── -->
-  <div id="page-contact" class="page page-wrap">
-
-    <div class="contact-hero">
-      <p class="contact-hero-label">Reach Out</p>
-      <h1>Get in Touch</h1>
-      <p>Tell me about where you are. I'll take it from there.</p>
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Every month, one problem</div>
+    <h2>Dressed in the Dark runs monthly.</h2>
+    <p style="max-width:640px">A friend once told me I could get dressed in the dark. That's the goal for you too. Each month we take one problem off your plate.</p>
+    <div class="series">
+      <div class="item now"><small>October</small><h3>Everything Hangs on the Trousers</h3><p>Fit, break and the standard they set for the whole outfit.</p></div>
+      <div class="item"><small>November</small><h3>Keep, Tailor, or Burn</h3><p>Sort the closet you already have.</p></div>
+      <div class="item"><small>December</small><h3>The Holy Trinity</h3><p>Collar, lapel and tie. Where well-dressed men actually look.</p></div>
     </div>
-
-    <div class="contact-body">
-      <form id="contact-form" novalidate>
-
-        <div class="form-group">
-          <label class="form-label" for="name">Name <span>(required)</span></label>
-          <input class="form-input" type="text" id="name" name="name" required autocomplete="name" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="email">Email <span>(required)</span></label>
-          <input class="form-input" type="email" id="email" name="email" required autocomplete="email" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="linkedin">LinkedIn Profile URL <span>(required)</span></label>
-          <input class="form-input" type="url" id="linkedin" name="linkedin" required placeholder="https://linkedin.com/in/yourname" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="industry">Industry <span>(required)</span></label>
-          <div class="form-select-wrap">
-            <select class="form-select" id="industry" name="industry" required>
-              <option value="" disabled selected>Select your industry</option>
-              <option value="Finance">Finance</option>
-              <option value="Law">Law</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="challenge">When it comes to style and menswear, what is your single biggest challenge?</label>
-          <textarea class="form-textarea" id="challenge" name="challenge" rows="4"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="reason">What caused you to want to solve this problem today?</label>
-          <textarea class="form-textarea" id="reason" name="reason" rows="4"></textarea>
-        </div>
-
-        <button type="submit" class="form-submit" id="submit-btn">Send</button>
-
-        <div class="form-message" id="form-message"></div>
-      </form>
-    </div>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
-      </div>
-    </footer>
   </div>
+</section>
 
-  <!-- ── JavaScript ──────────────────────────────── -->
-
-  <!-- ── CHECKOUT ─────────────────────────────────── -->
-  <div id="page-checkout" class="page page-wrap">
-
-    <div class="edit-hero">
-      <p class="edit-hero-label">The Partner-Ready Edit</p>
-      <h1>Reserve your session.</h1>
-      <p>Two ways to do this. Pick the one we talked about.</p>
-      <p>Every Edit is done live, one on one with me, so I only set aside four hours a week for them.</p>
-    </div>
-
-    <div class="edit-body">
-      <p class="edit-lead">Same session. Same outfit build. Same shopping links.</p>
-
-      <p>The only difference between these two is what happens to the recording afterward. Everything you get on the call is identical.</p>
-
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <p class="pricing-label">Signature</p>
-          <p class="pricing-name">Partner-Ready Edit</p>
-          <p class="pricing-price">$500</p>
-          <p class="pricing-desc">The full session, the recording, your written summary, and direct links to every piece.</p>
-          <a href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o" style="text-decoration:none;">
-            <button class="btn-primary">
-              Reserve the Signature Edit
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </a>
-          <p class="pricing-terms">One payment. No subscription.</p>
-        </div>
-
-        <div class="pricing-card featured">
-          <p class="pricing-label">Private</p>
-          <p class="pricing-name">Private Edit</p>
-          <p class="pricing-price">$1,000</p>
-          <p class="pricing-desc">Everything in the Signature Edit. Nothing from your session is ever used as teaching material, in any form, anywhere.</p>
-          <a href="https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l" style="text-decoration:none;">
-            <button class="btn-primary">
-              Reserve the Private Edit
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-          </a>
-          <p class="pricing-terms">One payment. No subscription.</p>
-        </div>
-      </div>
-
-      <div class="edit-divider"></div>
-
-      <p class="edit-section-label">What happens next</p>
-      <ol class="step-list">
-        <li>You land on a page with my calendar and pick your time.</li>
-        <li>You spend ten minutes on a short prep exercise before we meet.</li>
-        <li>We do the session. Your written summary follows within two days.</li>
-      </ol>
-
-      <p class="stripe-line">Payments are processed by Stripe.</p>
-
-      <div class="testimonial testimonial-with-photo">
-        <div class="testimonial-photo">
-          <img src="jahlon-reid-testimonial.jpg" alt="Jahlon R." />
-        </div>
-        <div>
-          <p class="testimonial-text">&ldquo;It&rsquo;s wild how much money I was wasting on clothes that didn&rsquo;t work together. One session fixed that. Now every piece in my closet has a purpose.&rdquo;</p>
-          <p class="testimonial-name">Jahlon R.</p>
-        </div>
-      </div>
-
-      <div class="edit-divider"></div>
-
-      <p>Not sure which one yet? <a href="/edit" onclick="showPage('edit'); return false;" style="color: var(--blue);">Read through the Edit again</a>, or reply to my last email and I&rsquo;ll tell you which one I would pick.</p>
-
-    </div>
-
-    <footer>
-      <div class="footer-brand">Vladimir <span>Riché</span></div>
-      <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
-      <div class="footer-icons">
-        <a href="https://www.linkedin.com/in/vladimirriche" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="https://youtube.com/@v_r_" target="_blank" rel="noopener" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-      </div>
-    </footer>
+<section>
+  <div class="narrow">
+    <div class="eyebrow">Questions</div>
+    <h2>Before you ask.</h2>
+    <details><summary>I can't make it live. Should I still buy?</summary><p>Yes. The replay is yours for life. You'll miss the Tailor Talk Sheet and the chance to ask questions live, but you still get the full recording and the Trousers GPT.</p></details>
+    <details><summary>Do I need to bring my trousers?</summary><p>No. This is a teaching session. You'll learn what to look for, and the Trousers GPT gives you your own numbers to shop to or take to your tailor.</p></details>
+    <details><summary>Is this only for partners?</summary><p>No. Partners are a big part of who I work with, but this workshop is for any man who wants to dress better and stop guessing.</p></details>
+    <details><summary>Are you going to sell me something at the end?</summary><p>At the end I'll tell you about the Edit, where I go through your closet with you one on one. If you want it, great. If not, you still leave knowing exactly what a good pair of trousers looks like and the numbers to shop to.</p></details>
+    <details><summary>Do I have to be on camera?</summary><p>No. Listen in, take notes and ask questions in the chat. Camera on or off is your call.</p></details>
   </div>
+</section>
 
-  <script>
-    // ── Page Navigation ──────────────────────────
-    const pages = ['home', 'about', 'edit', 'resources', 'contact', 'checkout'];
+<section class="final">
+  <div class="narrow">
+    <h2>Come ready to rethink the bottom half.</h2>
+    <p>Ninety minutes. Nine dollars. Every detail that makes trousers work, plus the GPT that gives you your numbers.</p>
+    <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
+    <p class="meta">Thu, Oct 22 · 7:00 PM ET · Zoom</p>
+  </div>
+</section>
 
-    const urlMap = {
-      home: '/', about: '/about', edit: '/edit',
-      resources: '/resources', contact: '/contact',
-      checkout: '/checkout'
-    };
-    const pathMap = {
-      '/': 'home', '/about': 'about', '/edit': 'edit',
-      '/resources': 'resources', '/contact': 'contact',
-      '/checkout': 'checkout'
-    };
+<footer>Chace &amp; Ryder · <a href="https://vladimirriche.com">vladimirriche.com</a></footer>
 
-    function showPage(id, pushState = true) {
-      pages.forEach(p => {
-        document.getElementById('page-' + p).classList.remove('active');
-        const btn = document.getElementById('nav-' + p);
-        if (btn) btn.classList.remove('active');
-      });
-      document.getElementById('page-' + id).classList.add('active');
-      const btn = document.getElementById('nav-' + id);
-      if (btn) btn.classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      if (pushState) history.pushState({ page: id }, '', urlMap[id] || '/');
-    }
+<div class="bar"><span><b>Thu, Oct 22 · 7 PM ET</b><br>Everything Hangs on the Trousers</span><a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Seat $9</a></div>
 
-    // Handle browser back/forward buttons
-    window.addEventListener('popstate', (e) => {
-      if (e.state && e.state.page) showPage(e.state.page, false);
-    });
-
-    // On load, read the URL and show the right page
-    const initialPage = pathMap[window.location.pathname] || 'home';
-    showPage(initialPage, false);
-
-    // ── Mobile Menu ───────────────────────────────
-    function toggleMenu() {
-      document.getElementById('mobile-menu').classList.toggle('open');
-    }
-
-    function closeMenu() {
-      document.getElementById('mobile-menu').classList.remove('open');
-    }
-
-    // ── Nav shadow on scroll ──────────────────────
-    window.addEventListener('scroll', () => {
-      document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 10);
-    });
-
-    // ── Contact Form ──────────────────────────────
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const btn = document.getElementById('submit-btn');
-      const msg = document.getElementById('form-message');
-
-      const name     = document.getElementById('name').value.trim();
-      const email    = document.getElementById('email').value.trim();
-      const linkedin = document.getElementById('linkedin').value.trim();
-      const industry = document.getElementById('industry').value;
-      const challenge = document.getElementById('challenge').value.trim();
-      const reason   = document.getElementById('reason').value.trim();
-
-      if (!name || !email || !linkedin || !industry) {
-        msg.className = 'form-message error';
-        msg.textContent = 'Please fill in all required fields.';
-        return;
-      }
-
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
-      msg.className = 'form-message';
-
-      try {
-        const res = await fetch('/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, linkedin, industry, challenge, reason })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-          msg.className = 'form-message success';
-          msg.textContent = 'Thank you. I\'ll be in touch shortly.';
-          document.getElementById('contact-form').reset();
-        } else {
-          throw new Error(data.message || 'Something went wrong.');
-        }
-      } catch (err) {
-        msg.className = 'form-message error';
-        msg.textContent = err.message || 'Something went wrong. Please try again.';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Send';
-      }
-    });
-  </script>
-
+<script>
+(function(){
+  var target = Date.UTC(2026,9,22,23,0,0); // Oct 22, 2026 7:00 PM EDT
+  function pad(n){return n<10?'0'+n:''+n}
+  function tick(){
+    var t = Math.max(0, target - Date.now());
+    document.getElementById('d').textContent = pad(Math.floor(t/864e5));
+    document.getElementById('h').textContent = pad(Math.floor(t/36e5)%24);
+    document.getElementById('m').textContent = pad(Math.floor(t/6e4)%60);
+    document.getElementById('s').textContent = pad(Math.floor(t/1e3)%60);
+  }
+  tick(); setInterval(tick,1000);
+})();
+</script>
 </body>
 </html>
