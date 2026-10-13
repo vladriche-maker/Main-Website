@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Workshop Replay · Dressed in the Dark · Chace &amp; Ryder</title>
+<meta name="description" content="Your replay of Dressed in the Dark No. 01: Everything Hangs on the Trousers, plus your Trousers GPT.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1420; --bg2:#121c2b; --card:#16212f; --line:#2a3a50;
+  --text:#ece6d8; --muted:#a9b1bd; --gold:#FF7924; --gold2:#FF9A55;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.narrow{max-width:760px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;line-height:1.08;letter-spacing:-.01em}
+h1{font-size:clamp(40px,7vw,68px)}
+h2{font-size:clamp(30px,5vw,46px);margin-bottom:18px}
+h3{font-size:25px}
+em{color:var(--gold2);font-style:italic}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:600}
+section{padding:72px 0;border-top:1px solid var(--line)}
+p{margin-bottom:16px;color:#d8d3c6}
+header.top{border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.top b{color:var(--text)}
+.tag{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold2);padding:3px 10px;border-radius:20px}
+.btn{display:inline-block;background:var(--gold);color:#0c1420;text-decoration:none;font-weight:600;padding:16px 30px;border-radius:3px;font-size:16px;letter-spacing:.02em;transition:.2s;border:0;cursor:pointer}
+.btn:hover{background:var(--gold2);transform:translateY(-1px)}
+.btn.off{background:var(--card);color:var(--muted);border:1px solid var(--line);pointer-events:none}
+.hero{padding:56px 0 40px;border-top:0;text-align:center}
+.hero .sub{font-size:19px;color:var(--muted);max-width:620px;margin:18px auto 0}
+.player{max-width:900px;margin:36px auto 0;padding:0 20px}
+.frame{position:relative;aspect-ratio:16/9;background:#05090f;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.soon h3{margin-bottom:8px}
+.soon p{max-width:440px;margin:0;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:30px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:26px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.item h3{font-size:24px}
+.item p{margin:0;font-size:16px}
+.item .btn{margin-top:auto;padding:12px 22px;font-size:15px}
+.quote{display:grid;grid-template-columns:.7fr 1.3fr;gap:36px;align-items:center;margin-top:40px}
+.quote img{border-radius:4px;border:1px solid var(--line)}
+blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(24px,3.6vw,32px);line-height:1.2;font-style:italic}
+.who{margin-top:14px;color:var(--gold);font-size:14px;letter-spacing:.1em;text-transform:uppercase}
+ul.clean{list-style:none;margin:8px 0 0}
+ul.clean li{padding:10px 0 10px 28px;position:relative;border-bottom:1px solid var(--line);color:#d8d3c6}
+ul.clean li:before{content:"";position:absolute;left:0;top:19px;width:12px;height:2px;background:var(--gold)}
+.offer{background:var(--card);border:1px solid var(--gold);border-radius:6px;padding:40px 28px;text-align:center;max-width:600px;margin:36px auto 0}
+.offer h3{font-size:34px;margin:4px 0 6px}
+.price{font-family:'Cormorant Garamond',serif;font-size:76px;color:var(--gold2);line-height:1;margin:18px 0 4px}
+.price s{font-size:34px;color:var(--muted);margin-right:10px}
+.code{display:inline-flex;align-items:center;gap:10px;border:1px dashed var(--gold);border-radius:4px;padding:10px 16px;margin:14px 0 4px;font-weight:600;letter-spacing:.12em}
+.code button{background:none;border:0;color:var(--gold2);font:inherit;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.count{display:flex;gap:12px;justify-content:center;margin:22px 0 6px}
+.count div{background:var(--bg2);border:1px solid var(--line);border-radius:4px;padding:10px 8px;text-align:center;min-width:68px}
+.count strong{display:block;font-family:'Cormorant Garamond',serif;font-size:32px;line-height:1;color:var(--gold2)}
+.count span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.fine{font-size:14px;color:var(--muted);margin:14px 0 0}
+footer{padding:36px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:14px}
+footer a{color:var(--gold2)}
+@media(max-width:760px){
+  .grid2,.quote{grid-template-columns:1fr}
+  section{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap"><b>Chace &amp; Ryder · Workshop replay</b><span class="tag">Workshop buyers only</span></div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Dressed in the Dark · No. 01</div>
+    <h1>Watch the <em>replay.</em></h1>
+    <p class="sub">The full session on trousers, plus your Trousers GPT, all in one place. Everything Hangs on the Trousers.</p>
+  </div>
+  <div class="player">
+    <div class="frame" id="frame">
+      <div class="soon" id="soon">
+        <h3>Your replay is being edited.</h3>
+        <p>It will be posted right here. Check your email for the note when it's up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="eyebrow">Resources</div>
+    <h2>Everything that came with your ticket.</h2>
+    <div class="grid2">
+      <div class="item">
+        <span class="tag">Everyone</span>
+        <h3>The Trousers GPT</h3>
+        <p>Enter your height, shoe size and other details, and it tells you the measurements to go for. Take it shopping or to your tailor.</p>
+        <a class="btn off" id="gptBtn" href="#">Link coming soon</a>
+      </div>
+      <div class="item">
+        <span class="tag">Live attendees</span>
+        <h3>The Tailor Talk Sheet</h3>
+        <p>The exact words to use when you ask for trouser alterations, what a fair price looks like, and what no tailor can fix. It went out by email to everyone who joined live.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="narrow">
+    <div class="eyebrow">Keep the momentum</div>
+    <h2>The workshop covered the trousers. The Edit covers <em>everything else.</em></h2>
+    <p>The Edit is my one-on-one closet audit. Ninety minutes live on Zoom, and we go through what you own piece by piece: what stays, what a tailor can fix, and what goes. Then we build one outfit from what's left and write down exactly what's missing.</p>
+    <p>I only take four hours of Edits a week, so the spots are limited. As a thank-you for joining the workshop, you get a better price until the deadline below.</p>
+    <ul class="clean">
+      <li>A 90-minute live closet audit, just you and me</li>
+      <li>A keep, tailor or burn verdict on every piece</li>
+      <li>One complete outfit built from what you already own</li>
+      <li>A short gap list, so you only buy what's missing</li>
+    </ul>
+    <div class="quote">
+      <img src="https://vladimirriche.com/jahlon-reid-testimonial.jpg" alt="Jahlon R. in a navy double-breasted blazer, grey flannel trousers and brown suede loafers">
+      <div>
+        <blockquote>“It’s wild how much money I was wasting on clothes that didn’t work together. One session fixed that. Now every piece in my closet has a purpose.”</blockquote>
+        <div class="who">Jahlon R.</div>
+      </div>
+    </div>
+
+    <div class="offer" id="offer">
+      <div class="eyebrow" style="margin:0">Workshop buyers only</div>
+      <h3>The Edit</h3>
+      <p style="margin:0">90-minute live closet audit with Vladimir Riché</p>
+      <div class="price" id="price"><s>$500</s>$491</div>
+      <p style="margin:0" id="priceNote">Use code below at checkout.</p>
+      <div class="code" id="codeBox"><span id="codeText">WORKSHOP9</span><button type="button" id="copyBtn">Copy</button></div>
+      <div id="timer">
+        <p class="fine" style="margin-top:12px">Offer ends Sunday, October 25 at 11:59 PM ET</p>
+        <div class="count">
+          <div><strong id="d">--</strong><span>Days</span></div>
+          <div><strong id="h">--</strong><span>Hours</span></div>
+          <div><strong id="m">--</strong><span>Min</span></div>
+          <div><strong id="s">--</strong><span>Sec</span></div>
+        </div>
+      </div>
+      <p style="margin:22px 0 0"><a class="btn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
+      <p class="fine">Enter the code at checkout. Secure Stripe checkout.</p>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Chace &amp; Ryder · Dressed in the Dark · <a href="https://vladimirriche.com">vladimirriche.com</a></footer>
+
+<script>
+(function(){
+  /* ---- Fill these in, then re-upload ---- */
+  var VIMEO_ID   = "";   // e.g. "123456789"
+  var VIMEO_HASH = "";   // the h= value from the unlisted Vimeo link, if it has one
+  var GPT_URL    = "";   // link to the Trousers GPT
+  /* --------------------------------------- */
+
+  if (VIMEO_ID) {
+    var src = "https://player.vimeo.com/video/" + encodeURIComponent(VIMEO_ID) +
+      (VIMEO_HASH ? "?h=" + encodeURIComponent(VIMEO_HASH) : "");
+    var f = document.createElement("iframe");
+    f.src = src;
+    f.title = "Dressed in the Dark No. 01 replay";
+    f.allow = "autoplay; fullscreen; picture-in-picture";
+    f.setAttribute("allowfullscreen", "");
+    document.getElementById("frame").appendChild(f);
+    document.getElementById("soon").style.display = "none";
+  }
+  if (GPT_URL) {
+    var b = document.getElementById("gptBtn");
+    b.href = GPT_URL; b.textContent = "Open the Trousers GPT"; b.className = "btn"; b.target = "_blank"; b.rel = "noopener";
+  }
+
+  var copyBtn = document.getElementById("copyBtn");
+  copyBtn.addEventListener("click", function(){
+    var t = document.getElementById("codeText").textContent;
+    try { navigator.clipboard.writeText(t); copyBtn.textContent = "Copied"; setTimeout(function(){copyBtn.textContent="Copy"},1800); } catch(e) {}
+  });
+
+  var end = Date.UTC(2026,9,26,3,59,59); // Oct 25, 2026 11:59:59 PM EDT
+  function pad(n){return n<10?"0"+n:""+n}
+  function tick(){
+    var t = end - Date.now();
+    if (t <= 0) {
+      document.getElementById("price").innerHTML = "$500";
+      document.getElementById("priceNote").textContent = "The workshop offer has ended. The Edit is still open at the regular price.";
+      document.getElementById("codeBox").style.display = "none";
+      document.getElementById("timer").style.display = "none";
+      return false;
+    }
+    document.getElementById("d").textContent = pad(Math.floor(t/864e5));
+    document.getElementById("h").textContent = pad(Math.floor(t/36e5)%24);
+    document.getElementById("m").textContent = pad(Math.floor(t/6e4)%60);
+    document.getElementById("s").textContent = pad(Math.floor(t/1e3)%60);
+    return true;
+  }
+  if (tick()) { var iv = setInterval(function(){ if(!tick()) clearInterval(iv); }, 1000); }
+})();
+</script>
+</body>
+</html>
