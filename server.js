@@ -115,7 +115,7 @@ app.get('/edit/confirmed', (req, res) => {
 });
 
 app.get('/workshop', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'workshop.html'));
+  res.redirect(302, '/workshop-trousers.html');
 });
 
 app.get('/workshop/confirmed', (req, res) => {
