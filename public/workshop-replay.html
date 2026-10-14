@@ -188,7 +188,7 @@ footer a{color:var(--gold2)}
         <p style="margin:0" id="priceNote">Use the code below at checkout.</p>
         <div class="code" id="codeBox"><span id="codeText"></span><button type="button" id="copyBtn">Copy</button></div>
         <div id="timer">
-          <p class="fine" style="margin-top:12px">Offer ends Sunday, October 25 at 11:59 PM ET</p>
+          <p class="fine" style="margin-top:12px">Offer ends Sunday, November 1 at 11:59 PM ET</p>
           <div class="count">
             <div><strong id="d">--</strong><span>Days</span></div>
             <div><strong id="h">--</strong><span>Hours</span></div>
@@ -268,7 +268,7 @@ footer a{color:var(--gold2)}
   function startTimer(){
     if (timerStarted) return;
     timerStarted = true;
-    var end = Date.UTC(2026, 9, 26, 3, 59, 59); // Oct 25, 2026 11:59:59 PM EDT
+    var end = Date.UTC(2026, 10, 2, 4, 59, 59); // Nov 1, 2026 11:59:59 PM EST
     function pad(n){ return n < 10 ? "0" + n : "" + n; }
     function tick(){
       var t = end - Date.now();
