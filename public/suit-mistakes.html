@@ -420,7 +420,8 @@
     <p class="footer-copy">&copy; 2026 Vladimir Riché. All rights reserved.</p>
   </footer>
 
-  <script>
+  <script src="/form-guard.js"></script>
+<script>
     document.getElementById('suit-form').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -443,11 +444,7 @@
         const res = await fetch('/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            name,
-            groupId: '183561091552380082'
-          })
+          body: JSON.stringify(Object.assign({ email, name, groupId: '183561091552380082' }, await FormGuard.fields()))
         });
 
         const data = await res.json();
@@ -460,6 +457,7 @@
           throw new Error(data.message || 'Something went wrong.');
         }
       } catch (err) {
+        FormGuard.reset();
         msg.className = 'form-message error';
         msg.textContent = err.message || 'Something went wrong. Please try again.';
       } finally {
