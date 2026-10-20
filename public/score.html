@@ -327,6 +327,7 @@
   </section>
 
 </main>
+<script src="/form-guard.js"></script>
 <script>
 (function () {
   "use strict";
@@ -717,10 +718,14 @@
       firm_type: profile.firm || "",
       location: profile.loc || ""
     };
-    return fetch("/score-submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+    return window.FormGuard.fields().then(function (g) {
+      payload.website = g.website;
+      payload.gt = g.gt;
+      return fetch("/score-submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
     });
   }
 

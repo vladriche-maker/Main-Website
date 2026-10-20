@@ -90,6 +90,7 @@ a{color:var(--orange-soft)}
   </div>
 </div>
 
+<script src="/form-guard.js"></script>
 <script>
 document.getElementById('confirm-form').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -113,13 +114,14 @@ document.getElementById('confirm-form').addEventListener('submit', async functio
     var res = await fetch('/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, name: name, groupId: '199357504039159053' })
+      body: JSON.stringify(Object.assign({ email: email, name: name, groupId: '199357504039159053' }, await FormGuard.fields()))
     });
     var data = await res.json();
     if (!data.success) throw new Error(data.message || 'Something went wrong.');
     document.getElementById('confirm-form').hidden = true;
     document.getElementById('ws-done').hidden = false;
   } catch (err) {
+    FormGuard.reset();
     msg.className = 'msg error';
     msg.textContent = 'That didn’t go through. Try again, or reply to any of my emails and I’ll send your link by hand.';
     btn.disabled = false;
