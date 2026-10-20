@@ -1,18 +1,29 @@
 const express = require('express');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const guard = require('./signup-guard');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Hostinger sits behind a proxy. This makes req.ip the real visitor IP,
+// which the rate limits rely on.
+app.set('trust proxy', 1);
+
 // Parse incoming JSON and form data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '20kb' }));
+app.use(express.urlencoded({ extended: true, limit: '20kb' }));
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
 require('./replay-gate')(app);
+
+// Public settings the forms need: the signed timing token and, if enabled, the Turnstile site key.
+app.get('/api/form-config', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.json(guard.config());
+});
 
 // -------------------------------------------------------
 // Contact form endpoint
@@ -25,6 +36,10 @@ require('./replay-gate')(app);
 //   SMTP_PASS  → your email password
 // -------------------------------------------------------
 app.post('/contact', async (req, res) => {
+  if (!guard.takeSlot(req, 5, 40)) {
+    return res.status(429).json({ success: false, message: 'Too many messages. Please try again later.' });
+  }
+  const e = guard.escapeHtml;
   const { name, email, linkedin, industry, challenge, reason } = req.body;
 
   // Basic validation
@@ -48,7 +63,7 @@ app.post('/contact', async (req, res) => {
       from: `"Vladimir Riché Website" <${process.env.SMTP_USER}>`,
       to: 'vr@chaceandryder.com',
       replyTo: email,
-      subject: `New Inquiry — ${name} (${industry})`,
+      subject: `New Inquiry — ${String(name).replace(/[\r\n]/g, ' ').slice(0, 80)} (${String(industry).replace(/[\r\n]/g, ' ').slice(0, 40)})`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; color: #1a1a1a;">
           <div style="background: #2C4669; padding: 24px 32px;">
@@ -57,12 +72,12 @@ app.post('/contact', async (req, res) => {
           </div>
           <div style="padding: 32px; background: #f8f7f5; border: 1px solid #e8e4de;">
             <table style="width: 100%; border-collapse: collapse;">
-              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; width: 40%;">Name</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${name}</td></tr>
-              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">Email</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;"><a href="mailto:${email}" style="color: #2974B0;">${email}</a></td></tr>
-              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">LinkedIn</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;"><a href="${linkedin}" style="color: #2974B0;">${linkedin}</a></td></tr>
-              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">Industry</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${industry}</td></tr>
-              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; vertical-align: top;">Style Challenge</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${challenge || '—'}</td></tr>
-              <tr><td style="padding: 12px 0; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; vertical-align: top;">Why Now</td><td style="padding: 12px 0; font-size: 16px;">${reason || '—'}</td></tr>
+              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; width: 40%;">Name</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${e(name)}</td></tr>
+              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">Email</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;"><a href="mailto:${e(email)}" style="color: #2974B0;">${e(email)}</a></td></tr>
+              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">LinkedIn</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;"><a href="${e(linkedin)}" style="color: #2974B0;">${e(linkedin)}</a></td></tr>
+              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase;">Industry</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${e(industry)}</td></tr>
+              <tr><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; vertical-align: top;">Style Challenge</td><td style="padding: 12px 0; border-bottom: 1px solid #e8e4de; font-size: 16px;">${e(challenge) || '—'}</td></tr>
+              <tr><td style="padding: 12px 0; font-size: 13px; color: #888; letter-spacing: 1px; font-family: sans-serif; text-transform: uppercase; vertical-align: top;">Why Now</td><td style="padding: 12px 0; font-size: 16px;">${e(reason) || '—'}</td></tr>
             </table>
           </div>
         </div>
@@ -133,11 +148,21 @@ app.get('/capsule-guide', (req, res) => {
 // ── MailerLite subscribe endpoint ──────────────────
 // Add MAILERLITE_API_KEY to your Hostinger environment variables
 app.post('/subscribe', async (req, res) => {
-  const { name, email, groupId } = req.body;
+  const groupId = String((req.body && req.body.groupId) || '');
+  const rawName = (req.body && req.body.name) || '';
+  const name = typeof rawName === 'string' ? rawName.trim().slice(0, 60) : '';
 
-  if (!email || !groupId) {
-    return res.status(400).json({ success: false, message: 'Email is required.' });
+  // Only groups this site actually uses. A bot cannot pick its own.
+  if (!guard.ALLOWED_GROUPS.has(groupId)) {
+    return res.status(400).json({ success: false, message: 'Could not subscribe. Please try again.' });
   }
+
+  const check = await guard.checkSignup(req, { turnstile: false });
+  if (!check.ok) {
+    if (check.silent) return res.json({ success: true }); // honeypot: look successful, do nothing
+    return res.status(check.status).json({ success: false, message: check.message });
+  }
+  const email = check.email;
 
   try {
     const payload = {
@@ -196,12 +221,15 @@ app.post('/subscribe', async (req, res) => {
 app.post('/score-submit', async (req, res) => {
   const d = req.body || {};
 
-  if (!d.email || typeof d.email !== 'string') {
-    return res.status(400).json({ success: false, message: 'Email is required.' });
+  const check = await guard.checkSignup(req);
+  if (!check.ok) {
+    if (check.silent) return res.json({ success: true });
+    return res.status(check.status).json({ success: false, message: check.message });
   }
 
   const name = String(d.name || '').slice(0, 120);
-  const email = String(d.email).slice(0, 200);
+  const email = check.email;
+  const e = guard.escapeHtml;
   const num = (v) => {
     const n = Number(v);
     return Number.isFinite(n) ? n : 0;
@@ -253,7 +281,7 @@ app.post('/score-submit', async (req, res) => {
       from: `"Partner Wardrobe Score" <${process.env.SMTP_USER}>`,
       to: 'vr@chaceandryder.com',
       replyTo: email,
-      subject: `Score ${score.score_total}% — ${name || email}${icpMatch ? ' — ICP MATCH' : ''}`,
+      subject: `Score ${score.score_total}% — ${String(name || email).replace(/[\r\n]/g, ' ')}${icpMatch ? ' — ICP MATCH' : ''}`,
       html: `
         <div style="font-family: Georgia, serif; max-width: 620px; margin: 0 auto; color: #1a1a1a;">
           <div style="background:#2C4669;padding:24px 32px;">
@@ -263,18 +291,18 @@ app.post('/score-submit', async (req, res) => {
           <div style="padding:32px;background:#f8f7f5;border:1px solid #e8e4de;">
             ${icpMatch ? '<p style="margin:0 0 20px;padding:10px 14px;background:#FF7924;color:#fff;font-family:sans-serif;font-size:13px;letter-spacing:1px;">HARD ICP MATCH</p>' : ''}
             <table style="width:100%;border-collapse:collapse;">
-              ${row('Name', name || '&mdash;')}
-              ${row('Email', `<a href="mailto:${email}" style="color:#2974B0;">${email}</a>`)}
-              ${row('Score', `<strong>${score.score_total}%</strong> &nbsp; ${score.score_tier}`)}
-              ${row('Weakest area', score.score_weakest)}
+              ${row('Name', e(name) || '&mdash;')}
+              ${row('Email', `<a href="mailto:${e(email)}" style="color:#2974B0;">${e(email)}</a>`)}
+              ${row('Score', `<strong>${score.score_total}%</strong> &nbsp; ${e(score.score_tier)}`)}
+              ${row('Weakest area', e(score.score_weakest))}
               ${row('Foundation', score.score_foundation + ' / 12')}
               ${row('Fit', score.score_fit + ' / 12')}
               ${row('Decision', score.score_decision + ' / 12')}
               ${row('Acquisition', score.score_acquisition + ' / 12')}
               ${row('Room', score.score_room + ' / 12')}
-              ${row('Since promotion', score.promo_window || '&mdash;')}
-              ${row('Firm type', score.firm_type || '&mdash;')}
-              ${row('Location', score.location || '&mdash;')}
+              ${row('Since promotion', e(score.promo_window) || '&mdash;')}
+              ${row('Firm type', e(score.firm_type) || '&mdash;')}
+              ${row('Location', e(score.location) || '&mdash;')}
             </table>
           </div>
         </div>`,
