@@ -71,8 +71,8 @@ a{color:var(--orange-soft)}
   </form>
 
   <div class="done" id="ws-done" hidden>
-    <h2>Done. Check your inbox.</h2>
-    <p class="msg">Your Zoom link and worksheet are on the way. If you don't see them in a few minutes, check your promotions or spam folder, or reply to any of my emails.</p>
+    <h2>One more step. Check your inbox.</h2>
+    <p class="msg">Click the confirmation button in the email I just sent, and your Zoom link and worksheet follow. If you don't see it in a few minutes, check your promotions or spam folder, or reply to any of my emails.</p>
   </div>
 
   <div class="steps">
@@ -85,11 +85,12 @@ a{color:var(--orange-soft)}
       <li>Two pairs of trousers</li>
     </ol>
     <p class="meta">Worksheet: <a href="/closet-edit-worksheet.pdf" target="_blank" rel="noopener">The Closet Edit Worksheet (PDF)</a><br>
-    <b>Thursday, October 22 · 7:00 PM ET</b> · Live on Zoom</p>
+    <b>Thursday, October 29 · 7:00 PM ET</b> · Live on Zoom</p>
     <p class="meta">Peace! Vladimir</p>
   </div>
 </div>
 
+<script src="/form-guard.js"></script>
 <script>
 document.getElementById('confirm-form').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -113,13 +114,14 @@ document.getElementById('confirm-form').addEventListener('submit', async functio
     var res = await fetch('/subscribe', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, name: name, groupId: '199357439310562614' })
+      body: JSON.stringify(Object.assign({ email: email, name: name, groupId: '199357439310562614' }, await FormGuard.fields()))
     });
     var data = await res.json();
     if (!data.success) throw new Error(data.message || 'Something went wrong.');
     document.getElementById('confirm-form').hidden = true;
     document.getElementById('ws-done').hidden = false;
   } catch (err) {
+    FormGuard.reset();
     msg.className = 'msg error';
     msg.textContent = 'That didn’t go through. Try again, or reply to any of my emails and I’ll send your link by hand.';
     btn.disabled = false;
