@@ -397,7 +397,7 @@
       <div class="cover-image-wrap">
         <img src="/5 Associate Tells Vertical Card.jpg" alt="5 Associate Tells — Free Guide" />
       </div>
-      <p class="cover-caption">Instant download</p>
+      <p class="cover-caption">Sent by email</p>
     </div>
 
     <!-- Right: headline + form -->
@@ -473,7 +473,7 @@
 
         if (data.success) {
           msg.className = 'form-message success';
-          msg.textContent = 'Check your inbox. The guide is on its way.';
+          msg.textContent = 'Almost done. Check your inbox for a confirmation email and click the button inside. If you do not see it, check your spam or promotions folder.';
           document.getElementById('signals-form').reset();
         } else {
           throw new Error(data.message || 'Something went wrong.');
