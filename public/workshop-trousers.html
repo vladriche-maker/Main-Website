@@ -135,7 +135,7 @@ footer a{color:var(--gold2)}
 
 <div class="band">
 <div class="wrap">
-  <div class="top"><b>Chace &amp; Ryder</b><span>Live on Zoom · <b>Thu, Oct 29 · 7:00 PM ET</b></span></div>
+  <div class="top"><b>Chace &amp; Ryder</b><span id="topline">Live on Zoom · <b>Thu, Oct 29 · 7:00 PM ET</b></span></div>
 </div>
 
 <section class="hero">
@@ -144,9 +144,10 @@ footer a{color:var(--gold2)}
       <div class="eyebrow">Dressed in the Dark · Monthly live workshop · No. 01</div>
       <h1>Most men fix the top. <em>The problem starts at the waist.</em></h1>
       <p class="sub">Get the trousers right and the rest of the outfit gets easy.</p>
-      <p class="lead">A 90-minute live session on everything that goes into a good pair of trousers. I bring 18 years of fixing other men's wardrobes. By the end of the night, you'll know what to look for, what a tailor can fix, and why the rest of your outfit has to live up to them. You also get my Trousers GPT, which gives you the measurements to aim for.</p>
-      <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
-      <p class="meta">90 min live · Replay for life · Trousers GPT included</p>
+      <p class="lead" id="lead">A 90-minute live session on everything that goes into a good pair of trousers. I bring 18 years of fixing other men's wardrobes. By the end of the night, you'll know what to look for, what a tailor can fix, and why the rest of your outfit has to live up to them.<span id="leadgpt"> You also get my Trousers GPT, which gives you the measurements to aim for.</span></p>
+      <a class="btn buy" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
+      <p class="meta" id="herometa">90 min live · Replay for life · Trousers GPT included</p>
+      <p class="meta" id="prenote" style="margin-top:6px"><b>After the live, the replay is $39.</b> Seats are $9 until then.</p>
       <div class="count" id="count">
         <div><strong id="d">--</strong><span>Days</span></div>
         <div><strong id="h">--</strong><span>Hours</span></div>
@@ -156,7 +157,7 @@ footer a{color:var(--gold2)}
     </div>
     <div class="photo">
       <img src="https://vladimirriche.com/Vladimir.jpg" alt="Vladimir Riché in a brown double-breasted suit and green striped tie">
-      <div class="stamp">OCT<span>29</span>THU · 7 PM ET</div>
+      <div class="stamp" id="stamp">OCT<span>29</span>THU · 7 PM ET</div>
       <div class="host-line">Hosted live by Vladimir Riché</div>
     </div>
   </div>
@@ -230,23 +231,23 @@ footer a{color:var(--gold2)}
 <section id="tickets">
   <div class="wrap" style="text-align:center">
     <div class="eyebrow">Admission</div>
-    <h2>One ticket. Less than a dry cleaning bill.</h2>
+    <h2 id="tickh">One ticket. Less than a dry cleaning bill.</h2>
     <div class="ticket">
       <div class="eyebrow" style="margin:0">Dressed in the Dark · No. 01</div>
       <h3>Everything Hangs on the Trousers</h3>
-      <p style="margin:0"><b>Thursday, October 29, 2026 · 7:00 PM ET</b> · Zoom</p>
-      <ul>
+      <p style="margin:0" id="tickdate"><b>Thursday, October 29, 2026 · 7:00 PM ET</b> · Zoom</p>
+      <ul id="ticklist">
         <li>90-minute live working session</li>
         <li>Access to the Trousers GPT</li>
         <li>Lifetime replay</li>
         <li>The Tailor Talk Sheet (live attendees)</li>
       </ul>
-      <div class="price">$9</div>
+      <div class="price" id="price">$9</div>
       <p style="margin-bottom:22px">One time. No subscription.</p>
-      <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Reserve my seat</a>
-      <p style="margin:16px 0 0;font-size:14px;color:var(--muted)">Replay included if you can't make it live.</p>
+      <a class="btn buy" id="ticketbtn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Reserve my seat</a>
+      <p style="margin:16px 0 0;font-size:14px;color:var(--muted)" id="tickfoot">Replay included if you can't make it live. After the live, the replay alone is $39.</p>
     </div>
-    <table>
+    <table id="tz">
       <tr><th>Where you are</th><th>Start time</th><th>Date</th></tr>
       <tr><td>New York (ET)</td><td>7:00 PM</td><td>Thu, Oct 29</td></tr>
       <tr><td>Chicago (CT)</td><td>6:00 PM</td><td>Thu, Oct 29</td></tr>
@@ -300,15 +301,15 @@ footer a{color:var(--gold2)}
 <section class="final">
   <div class="narrow">
     <h2>Come ready to rethink the bottom half.</h2>
-    <p>Ninety minutes. Nine dollars. Every detail that makes trousers work, plus the GPT that gives you your numbers.</p>
-    <a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
-    <p class="meta">Thu, Oct 29 · 7:00 PM ET · Zoom</p>
+    <p id="finalp">Ninety minutes. Nine dollars. Every detail that makes trousers work, plus the GPT that gives you your numbers.</p>
+    <a class="btn buy" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Grab a seat for $9</a>
+    <p class="meta" id="finalmeta">Thu, Oct 29 · 7:00 PM ET · Zoom</p>
   </div>
 </section>
 
 <footer>Chace &amp; Ryder · <a href="https://vladimirriche.com">vladimirriche.com</a></footer>
 
-<div class="bar"><span><b>Thu, Oct 29 · 7 PM ET</b><br>Everything Hangs on the Trousers</span><a class="btn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Seat $9</a></div>
+<div class="bar"><span id="barl"><b>Thu, Oct 29 · 7 PM ET</b><br>Everything Hangs on the Trousers</span><a class="btn buy" id="barbtn" href="https://buy.stripe.com/00wfZgcIp1Deb9S8pgfYY0u">Seat $9</a></div>
 
 <script>
 (function(){
@@ -322,6 +323,31 @@ footer a{color:var(--gold2)}
     document.getElementById('s').textContent = pad(Math.floor(t/1e3)%60);
   }
   tick(); setInterval(tick,1000);
+  // After the live session ends (9 PM ET, Oct 29), switch the page to the $39 replay.
+  var REPLAY_URL='https://buy.stripe.com/9B6cN4cIp5Tu4LueNEfYY0v';
+  var switchAt = Date.UTC(2026,9,30,1,0,0);
+  function $(i){return document.getElementById(i)}
+  function toReplay(){
+    var b=document.querySelectorAll('a.buy');
+    for(var i=0;i<b.length;i++){b[i].href=REPLAY_URL;b[i].textContent='Get the replay for $39';}
+    $('barbtn').textContent='Replay $39'; $('ticketbtn').textContent='Get the replay';
+    $('topline').innerHTML='Recorded live <b>Oct 29, 2026</b>';
+    $('stamp').innerHTML='OCT<span>29</span>RECORDED LIVE';
+    $('count').style.display='none'; $('prenote').style.display='none';
+    $('herometa').textContent='Full 90-minute recording · Lifetime access';
+    $('leadgpt').style.display='none';
+    $('tickh').textContent='Missed it? Watch the recording.';
+    $('tickdate').innerHTML='<b>Recorded live Thursday, October 29, 2026</b>';
+    $('ticklist').innerHTML='<li>The full 90-minute workshop recording</li><li>Lifetime access</li><li>Watch it again the next time you shop</li>';
+    $('price').textContent='$39';
+    $('tickfoot').style.display='none';
+    $('tz').style.display='none';
+    $('finalp').textContent='Ninety minutes. Every detail that makes trousers work, recorded live and yours to keep.';
+    $('finalmeta').textContent='Recorded live Oct 29, 2026';
+    $('barl').innerHTML='<b>Recorded live Oct 29</b><br>Everything Hangs on the Trousers';
+  }
+  if(Date.now()>=switchAt){toReplay();}
+  else{var w=setInterval(function(){if(Date.now()>=switchAt){clearInterval(w);toReplay();}},1000);}
 })();
 </script>
 </body>
