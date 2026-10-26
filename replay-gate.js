@@ -39,7 +39,8 @@ function content() {
 
 // ---------- Payment links whose buyers get access ----------
 // $9 "Everything Hangs on the Trousers" workshop ticket
-const BASE_LINKS = ['plink_1UQCclCMFNm6WbxSr6rgw5Jk'];
+// $39 replay sold after the live session
+const BASE_LINKS = ['plink_1UQCclCMFNm6WbxSr6rgw5Jk', 'plink_1UU8UlCMFNm6WbxSRrsgwpB2'];
 
 const TOKEN_DAYS = 90;
 const MAX_ATTEMPTS = 8;            // per IP
