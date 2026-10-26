@@ -165,7 +165,7 @@ footer a{color:var(--gold2)}
       <div class="eyebrow">Keep the momentum</div>
       <h2>The workshop covered the trousers. The Edit covers <em>everything else.</em></h2>
       <p>The Edit is my one-on-one closet audit. Ninety minutes live on Zoom, and we go through what you own piece by piece: what stays, what a tailor can fix, and what goes. Then we build one outfit from what's left and write down exactly what's missing.</p>
-      <p>I only take four hours of Edits a week, so the spots are limited. As a thank-you for joining the workshop, you get a better price until the deadline below.</p>
+      <p>I only take four hours of Edits a week, so the spots are limited. Book by Sunday night and you get $100 off.</p>
       <ul class="clean">
         <li>A 90-minute live closet audit, just you and me</li>
         <li>A keep, tailor or burn verdict on every piece</li>
@@ -184,8 +184,8 @@ footer a{color:var(--gold2)}
         <div class="eyebrow" style="margin:0">Workshop buyers only</div>
         <h3>The Edit</h3>
         <p style="margin:0">90-minute live closet audit with Vladimir Riché</p>
-        <div class="price" id="price"><s>$500</s>$491</div>
-        <p style="margin:0" id="priceNote">Use the code below at checkout.</p>
+        <div class="price" id="price"><s>$500</s>$400</div>
+        <p style="margin:0" id="priceNote">$100 off when you book by Sunday night. I may use clips from the session in my content. The code is applied for you at checkout.</p>
         <div class="code" id="codeBox"><span id="codeText"></span><button type="button" id="copyBtn">Copy</button></div>
         <div id="timer">
           <p class="fine" style="margin-top:12px">Offer ends Sunday, November 1 at 11:59 PM ET</p>
@@ -196,8 +196,9 @@ footer a{color:var(--gold2)}
             <div><strong id="s">--</strong><span>Sec</span></div>
           </div>
         </div>
-        <p style="margin:22px 0 0"><a class="btn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
-        <p class="fine">Enter the code at checkout. Secure Stripe checkout.</p>
+        <p style="margin:22px 0 0"><a class="btn" id="editBtn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
+        <p style="margin:18px 0 0" id="privNote">Want the session kept off the record? <a href="https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l" id="privBtn">Book the Private Edit</a>. Same 90 minutes, and the recording never shows up anywhere. <span id="privPrice">$1,000, or $900 until Sunday night.</span></p>
+        <p class="fine" id="editFine">If the price doesn't show $400, enter the code at checkout. Secure Stripe checkout.</p>
       </div>
       <p style="text-align:center"><button type="button" class="linkbtn" id="signOut">Use a different email</button></p>
     </div>
@@ -260,6 +261,8 @@ footer a{color:var(--gold2)}
     }
     $("codeText").textContent = content.editCode || "";
     if (!content.editCode) $("codeBox").hidden = true;
+    else { $("editBtn").href = "https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o?prefilled_promo_code=" + encodeURIComponent(content.editCode);
+      $("privBtn").href = "https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l?prefilled_promo_code=" + encodeURIComponent(content.editCode); }
     startTimer();
     window.scrollTo(0, 0);
   }
@@ -277,6 +280,10 @@ footer a{color:var(--gold2)}
         $("priceNote").textContent = "The workshop offer has ended. The Edit is still open at the regular price.";
         $("codeBox").hidden = true;
         $("timer").hidden = true;
+        $("editBtn").href = "https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o";
+        $("editFine").textContent = "Secure Stripe checkout.";
+        $("privBtn").href = "https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l";
+        $("privPrice").textContent = "$1,000.";
         return false;
       }
       $("d").textContent = pad(Math.floor(t / 864e5));
