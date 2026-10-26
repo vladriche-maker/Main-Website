@@ -218,6 +218,17 @@ app.post('/subscribe', async (req, res) => {
 // ── Partner Wardrobe System Score submissions ──────
 // Emails the result to VR, then writes the subscriber into MailerLite.
 // Optional env var: MAILERLITE_SCORE_GROUP (a MailerLite group id).
+// Points available in each area of the scorecard: four per question.
+// These have to match the questions in public/score.html. Foundation, Fit and
+// Decision carry three questions each. Acquisition and Room carry four.
+const DIM_MAX = {
+  foundation: 12,
+  fit: 12,
+  decision: 12,
+  acquisition: 16,
+  room: 16,
+};
+
 app.post('/score-submit', async (req, res) => {
   const d = req.body || {};
 
@@ -295,11 +306,11 @@ app.post('/score-submit', async (req, res) => {
               ${row('Email', `<a href="mailto:${e(email)}" style="color:#2974B0;">${e(email)}</a>`)}
               ${row('Score', `<strong>${score.score_total}%</strong> &nbsp; ${e(score.score_tier)}`)}
               ${row('Weakest area', e(score.score_weakest))}
-              ${row('Foundation', score.score_foundation + ' / 12')}
-              ${row('Fit', score.score_fit + ' / 12')}
-              ${row('Decision', score.score_decision + ' / 12')}
-              ${row('Acquisition', score.score_acquisition + ' / 12')}
-              ${row('Room', score.score_room + ' / 12')}
+              ${row('Foundation', score.score_foundation + ' / ' + DIM_MAX.foundation)}
+              ${row('Fit', score.score_fit + ' / ' + DIM_MAX.fit)}
+              ${row('Decision', score.score_decision + ' / ' + DIM_MAX.decision)}
+              ${row('Acquisition', score.score_acquisition + ' / ' + DIM_MAX.acquisition)}
+              ${row('Room', score.score_room + ' / ' + DIM_MAX.room)}
               ${row('Since promotion', e(score.promo_window) || '&mdash;')}
               ${row('Firm type', e(score.firm_type) || '&mdash;')}
               ${row('Location', e(score.location) || '&mdash;')}
