@@ -335,7 +335,15 @@ app.post('/score-submit', async (req, res) => {
         'Accept': 'application/json',
       };
 
-      const payload = { email, fields: Object.assign({ name }, score) };
+      // Scorecard takers answered seventeen questions and typed their own
+      // address to see the result, so they are not asked to confirm it again.
+      // 'active' skips the MailerLite confirmation email for this path only.
+      // Every other signup on the site keeps double opt-in.
+      const payload = {
+        email,
+        fields: Object.assign({ name }, score),
+        status: 'active',
+      };
       if (group) payload.groups = [group];
 
       const r = await fetch('https://connect.mailerlite.com/api/subscribers', {
