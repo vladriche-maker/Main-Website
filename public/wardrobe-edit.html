@@ -129,6 +129,19 @@ footer a{color:var(--gold2)}
 .light .host img{border-color:#e3dccb}
 .two .ticket ul{max-width:none}
 .was{color:var(--muted);font-size:.5em;margin-right:6px}
+
+/* white sections */
+section.light{background:#ffffff;color:#0c1420;border-top:0}
+section.light h2,section.light h3{color:#0c1420}
+section.light p,section.light li{color:#2b3442}
+section.light .step,section.light .ticket{background:#f6f4ef;border-color:#e4dfd4}
+section.light .ticket{border-color:var(--gold)}
+section.light .step p{color:#3a4250}
+section.light .meta{color:#5b6472}
+section.light details{border-color:#e4dfd4}
+section.light summary{color:#0c1420}
+section.light .was{color:#8a919c}
+section:not(.light)+section:not(.light){border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -156,7 +169,7 @@ footer a{color:var(--gold2)}
   </div>
 </section>
 
-<section>
+<section class="light">
   <div class="narrow">
     <div class="eyebrow">How it works</div>
     <h2>Four steps. One session. <em>A reference you keep.</em></h2>
@@ -179,7 +192,7 @@ footer a{color:var(--gold2)}
   </div>
 </section>
 
-<section id="book">
+<section class="light" id="book">
   <div class="wrap">
     <div class="narrow" style="text-align:center">
       <div class="eyebrow">Two versions</div>
@@ -224,7 +237,7 @@ footer a{color:var(--gold2)}
   </div>
 </section>
 
-<section>
+<section class="light">
   <div class="narrow">
     <div class="eyebrow">Questions</div>
     <details><summary>Do I need to have been at the workshop?</summary><p>No. The workshop is a good start, but the Edit stands on its own. Anyone who wants his closet sorted out can book it.</p></details>
