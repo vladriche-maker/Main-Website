@@ -14,6 +14,15 @@ app.set('trust proxy', 1);
 app.use(express.json({ limit: '20kb' }));
 app.use(express.urlencoded({ extended: true, limit: '20kb' }));
 
+// Make browsers check for a fresh copy of every page (HTML) instead of
+// showing an old cached version after an update. Images and other files
+// keep normal caching.
+app.use((req, res, next) => {
+  const ext = path.extname(req.path);
+  if (!ext || ext === '.html') res.setHeader('Cache-Control', 'no-cache');
+  next();
+});
+
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
