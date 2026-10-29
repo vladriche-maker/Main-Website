@@ -125,6 +125,17 @@ app.get('/score', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'score.html'));
 });
 
+// Unlisted Wardrobe Edit page (linked from workshop emails, not in the menu)
+app.get('/wardrobe-edit', (req, res) => {
+  res.set('X-Robots-Tag', 'noindex, nofollow');
+  res.sendFile(path.join(__dirname, 'public', 'wardrobe-edit.html'));
+});
+
+app.get('/wardrobe-edit/confirmed', (req, res) => {
+  res.set('X-Robots-Tag', 'noindex, nofollow');
+  res.sendFile(path.join(__dirname, 'public', 'wardrobe-edit-confirmed.html'));
+});
+
 app.get('/edit/confirmed', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'edit-confirmed.html'));
 });
