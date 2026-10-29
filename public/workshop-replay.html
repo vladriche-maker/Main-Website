@@ -183,7 +183,7 @@ footer a{color:var(--gold2)}
 
       <div class="offer" id="offer">
         <div class="eyebrow" style="margin:0">Workshop buyers only</div>
-        <h3>The Edit</h3>
+        <h3>The Wardrobe Edit</h3>
         <p style="margin:0">90-minute live closet audit with Vladimir Riché</p>
         <div class="price" id="price"><s>$500</s>$400</div>
         <p style="margin:0" id="priceNote">$100 off when you book by Sunday night. I may use clips from the session in my content. The code is applied for you at checkout.</p>
@@ -197,8 +197,8 @@ footer a{color:var(--gold2)}
             <div><strong id="s">--</strong><span>Sec</span></div>
           </div>
         </div>
-        <p style="margin:22px 0 0"><a class="btn" id="editBtn" href="https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o">Book my Edit</a></p>
-        <p style="margin:18px 0 0" id="privNote">Want the session kept off the record? <a href="https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l" id="privBtn">Book the Private Edit</a>. Same 90 minutes, and the recording never shows up anywhere. <span id="privPrice">$1,000, or $900 until Sunday night.</span></p>
+        <p style="margin:22px 0 0"><a class="btn" id="editBtn" href="/wardrobe-edit">See the Wardrobe Edit</a></p>
+        <p style="margin:18px 0 0" id="privNote">Want the session kept off the record? <a href="/wardrobe-edit#book" id="privBtn">Book the Private Edit</a>. Same 90 minutes, and the recording never shows up anywhere. <span id="privPrice">$1,000, or $900 until Sunday night.</span></p>
         <p class="fine" id="editFine">If the price doesn't show $400, enter the code at checkout. Secure Stripe checkout.</p>
       </div>
       <p style="text-align:center"><button type="button" class="linkbtn" id="signOut">Use a different email</button></p>
@@ -262,8 +262,6 @@ footer a{color:var(--gold2)}
     }
     $("codeText").textContent = content.editCode || "";
     if (!content.editCode) $("codeBox").hidden = true;
-    else { $("editBtn").href = "https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o?prefilled_promo_code=" + encodeURIComponent(content.editCode);
-      $("privBtn").href = "https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l?prefilled_promo_code=" + encodeURIComponent(content.editCode); }
     startTimer();
     window.scrollTo(0, 0);
   }
@@ -281,9 +279,7 @@ footer a{color:var(--gold2)}
         $("priceNote").textContent = "The workshop offer has ended. The Edit is still open at the regular price.";
         $("codeBox").hidden = true;
         $("timer").hidden = true;
-        $("editBtn").href = "https://buy.stripe.com/28E14m4bT95Gb9SfRIfYY0o";
         $("editFine").textContent = "Secure Stripe checkout.";
-        $("privBtn").href = "https://buy.stripe.com/7sYeVc37P4Pq91K20SfYY0l";
         $("privPrice").textContent = "$1,000.";
         return false;
       }
