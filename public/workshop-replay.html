@@ -244,13 +244,18 @@ footer a{color:var(--gold2)}
     $("gate").hidden = true;
     $("members").hidden = false;
 
-    if (content.vimeoId && !$("frame").querySelector("iframe")) {
-      var src = "https://player.vimeo.com/video/" + encodeURIComponent(content.vimeoId) +
+    var src = "";
+    if (content.youtubeId) {
+      src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(content.youtubeId) + "?rel=0&modestbranding=1";
+    } else if (content.vimeoId) {
+      src = "https://player.vimeo.com/video/" + encodeURIComponent(content.vimeoId) +
         (content.vimeoHash ? "?h=" + encodeURIComponent(content.vimeoHash) : "");
+    }
+    if (src && !$("frame").querySelector("iframe")) {
       var f = document.createElement("iframe");
       f.src = src;
       f.title = "Dressed in the Dark No. 01 replay";
-      f.allow = "autoplay; fullscreen; picture-in-picture";
+      f.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
       f.setAttribute("allowfullscreen", "");
       $("frame").appendChild(f);
       $("soon").hidden = true;
