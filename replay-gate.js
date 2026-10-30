@@ -7,7 +7,8 @@
 // Setup (Hostinger > Node.js app > Environment variables):
 //   STRIPE_RESTRICTED_KEY   Stripe restricted key (rk_live_...) with READ access
 //                           to "Checkout Sessions" only. Nothing else.
-//   REPLAY_VIMEO_ID         the Vimeo video ID
+//   REPLAY_YOUTUBE_ID       the unlisted YouTube video (the ID or the full link both work)
+//   REPLAY_VIMEO_ID         the Vimeo video ID (used only if no YouTube video is set)
 //   REPLAY_VIMEO_HASH       the h= value from the unlisted Vimeo link, if it has one
 //   REPLAY_GPT_URL          link to the Trousers GPT
 //   REPLAY_EDIT_CODE        the Edit discount code shown to buyers
@@ -28,8 +29,18 @@ const express = require('express');
 
 // ---------- Content shown only after access is verified ----------
 // Read from environment variables on every request, never stored in the repo.
+// Accepts a bare YouTube ID or any YouTube link and returns just the ID.
+function youtubeId(value) {
+  const v = (value || '').trim();
+  if (!v) return '';
+  const m = v.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/|\/live\/)([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  return /^[A-Za-z0-9_-]{11}$/.test(v) ? v : '';
+}
+
 function content() {
   return {
+    youtubeId: youtubeId(process.env.REPLAY_YOUTUBE_ID),
     vimeoId: process.env.REPLAY_VIMEO_ID || '',
     vimeoHash: process.env.REPLAY_VIMEO_HASH || '',
     gptUrl: process.env.REPLAY_GPT_URL || '',
